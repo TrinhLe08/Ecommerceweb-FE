@@ -1,0 +1,21 @@
+.product-list {
+    div {
+        ul {
+            li {
+                display: flex;
+                align-items: center;
+                gap : 10px;
+                input {
+                    text-align: center;
+                    width: 50px;
+                    border: 1px solid rgb(232, 202, 202);
+                    border-radius: 5px;
+                    padding: 1px;
+                }
+                input:focus {
+                    outline: none;
+                  }
+            }
+        }
+    }
+}
