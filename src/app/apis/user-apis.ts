@@ -23,7 +23,7 @@ const createUser = async (newUser: UserType) => {
 
 const getDeleteUser = async (id: number) => {
   try {
-    const response = await httpRequest.delete(`/user/remove/${id}`);
+    const response = await httpRequest.delete(`/user/delete/${id}`);
     return response.data;
   } catch (err) {
     console.log(err);

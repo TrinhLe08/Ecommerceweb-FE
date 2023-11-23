@@ -11,9 +11,9 @@ const getAllOrder = async () => {
   }
 };
 
-const createOrder = async (newUser: ShoppingListType) => {
+const createOrder = async (newOrder: ShoppingListType) => {
   try {
-    const response = await httpRequest.post("/shopping-list/create", newUser);
+    const response = await httpRequest.post("/shopping-list/create", newOrder);
     return response.data;
   } catch (err) {
     console.log(err);

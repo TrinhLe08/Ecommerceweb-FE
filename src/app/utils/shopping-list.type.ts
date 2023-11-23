@@ -3,19 +3,20 @@ export type OrderDetailType = {
   quantity: number;
   nameOrder: string;
   urlOrder: string;
+  priceOrder: number;
 };
 
-export type ShoppingListType = {
+type PartialShoppingListType = {
   id: number | null;
   buyerName: string;
   price: number;
   quantity: number;
   phoneNumber: string;
-  address: string;
-  nation: string;
+  city: string;
+  country: string;
   purchasDate: string;
-  paymentMethods: string;
   email: string;
   status: boolean;
   detailOrder: OrderDetailType[];
 };
+export type ShoppingListType = Partial<PartialShoppingListType>;

@@ -94,7 +94,7 @@ const createProduct = async (newProduct: ProductType) => {
     return;
   }
 };
-// cần chỉnh sửa uplaod file
+
 const updateProduct = async (newProduct: ProductType) => {
   try {
     const convertFromData = new FormData();
@@ -104,7 +104,7 @@ const updateProduct = async (newProduct: ProductType) => {
       }
     }
     const response = await httpRequest.post(
-      "/product/remove",
+      "/product/update",
       convertFromData,
       {
         headers: {

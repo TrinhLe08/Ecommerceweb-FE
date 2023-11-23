@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { ChevronRight } from "lucide-react";
 import { ChevronLeft } from "lucide-react";
-import { AtomProductListContext } from "@/app/recoil/product-list-recoil-provider";
+import { AtomProductListContext } from "@/app/recoil/product-list-provider";
 import { AtomDetailProduct } from "@/app/recoil/detail-product-provider";
 import { ProductType } from "@/app/utils/product.type";
 import FecthDataDetailProduct from "@/app/global/fecth-data-param-detail-product-request";
@@ -24,31 +24,6 @@ const ProductList = () => {
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
-
-  useEffect(() => {
-    const ToDetailProduct = async () => {
-      try {
-        const idProduct: number | null = parseInt(
-          searchParams.get("product-detail") || "0",
-          10
-        );
-        console.log(searchParams.get("product-detail"));
-        if (idProduct) {
-          const dataDetailProduct: ProductType = await FecthDataDetailProduct(
-            idProduct
-          );
-          console.log(dataDetailProduct);
-          setDetailProductValue(dataDetailProduct);
-        } else {
-          console.log("Không thể lấy id sản phẩm từ params");
-          return;
-        }
-      } catch (error) {
-        console.error("Lỗi khi lấy dữ liệu chi tiết sản phẩm:", error);
-      }
-    };
-    ToDetailProduct();
-  }, [searchParams]);
 
   return (
     <div className="product-list h-fit">
@@ -89,7 +64,10 @@ const ProductList = () => {
               <div>
                 <img src={product.urlProduct} alt="" className="w-full" />
                 <p className="font-semibold">{product.name}</p>
-                <p>{(product.price / 100).toFixed(2)} $</p>
+                <p>
+                  {(product.price / 100).toFixed(2)} ${" "}
+                  {!product.status ? "(-30%)" : null}
+                </p>
               </div>
             </Link>
           ))}

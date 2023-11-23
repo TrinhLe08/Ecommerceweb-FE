@@ -7,18 +7,42 @@ import type { MenuProps } from "antd";
 import { Dropdown, Space } from "antd";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { AtomSidebaCheckUnderline } from "@/app/recoil/sidebar-check-provider";
+import { AtomProductListContext } from "@/app/recoil/product-list-provider";
+import { ProductType } from "@/app/utils/product.type";
 
 const FilterBar = () => {
-  const [_, setCheckSidebar] = useRecoilState(AtomSidebaCheckUnderline);
+  const [x, setCheckSidebar] = useRecoilState(AtomSidebaCheckUnderline);
   const checkSidebar = useRecoilValue(AtomSidebaCheckUnderline);
+  const productList = useRecoilValue(AtomProductListContext);
+  const [y, setProductList] = useRecoilState(AtomProductListContext);
   const [checkPropdown, setCheckPropdown] = useState(false);
   const items: MenuProps["items"] = [
     {
-      label: <button>Expensive</button>,
+      label: (
+        <button
+          onClick={() => {
+            const newList: ProductType[] = [...productList];
+            newList.sort((a: ProductType, b: ProductType) => b.price - a.price);
+            setProductList(newList);
+          }}
+        >
+          Expensive
+        </button>
+      ),
       key: "0",
     },
     {
-      label: <button>Low price</button>,
+      label: (
+        <button
+          onClick={() => {
+            const newList: ProductType[] = [...productList];
+            newList.sort((a: ProductType, b: ProductType) => a.price - b.price);
+            setProductList(newList);
+          }}
+        >
+          Low price
+        </button>
+      ),
       key: "1",
     },
     {
