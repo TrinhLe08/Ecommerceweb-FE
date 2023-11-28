@@ -17,35 +17,47 @@ const SideBar = () => {
     >
       <Link
         href="/?product-page=home-decord"
-        className={checkSidebar === 1 ? "italic underline" : "italic"}
+        className={
+          checkSidebar === 1 ? "italic underline w-[300px]" : "italic w-[300px]"
+        }
         onClick={() => setCheckSidebar(1)}
       >
         HOME DECOR
       </Link>
       <Link
         href="/?product-page=artwork"
-        className={checkSidebar === 2 ? "italic underline" : "italic"}
+        className={
+          checkSidebar === 2 ? "italic underline w-[300px]" : "italic w-[300px]"
+        }
         onClick={() => setCheckSidebar(2)}
       >
         ARTWORK
       </Link>
       <Link
         href="/?product-page=kitchen"
-        className={checkSidebar === 3 ? "italic underline" : "italic"}
+        className={
+          checkSidebar === 3 ? "italic underline w-[300px]" : "italic w-[300px]"
+        }
         onClick={() => setCheckSidebar(3)}
       >
         KITCHEN & DINING
       </Link>
       <Link
         href="/?product-page=holiday"
-        className={checkSidebar === 4 ? "italic underline" : "italic"}
+        className={
+          checkSidebar === 4 ? "italic underline w-[300px]" : "italic w-[300px]"
+        }
         onClick={() => setCheckSidebar(4)}
       >
         HOLIDAY
       </Link>
       <Link
         href="/?product-page=sale"
-        className={checkSidebar === 5 ? "italic underline" : "italic"}
+        className={
+          checkSidebar === 5
+            ? "italic underline  w-[300px]"
+            : "italic w-[300px]"
+        }
         onClick={() => setCheckSidebar(5)}
       >
         SALE

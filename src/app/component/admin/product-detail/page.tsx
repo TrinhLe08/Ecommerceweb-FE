@@ -181,7 +181,7 @@ const AdminDetailProduct = () => {
               type="checkbox"
               checked={formik.values.status ? true : false}
               onChange={() => {
-                formik.setFieldValue("status", !formik.values.status);
+                formik.setFieldValue("status", formik.values.status);
               }}
               name="status"
               className="w-full"

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -29,6 +29,11 @@ const Paymentpage = () => {
       spin
     />
   );
+  useEffect(() => {
+    if (shoppingCartValue.length <= 0) {
+      router.push("/");
+    }
+  }, []);
   const openNotification = () => {
     notification.open({
       message: "Thank you for your purchase .",

@@ -50,12 +50,22 @@ const CreateProduct = dynamic(() => import("./component/admin/create/page"), {
   ssr: false,
 });
 
+const ShoppingList = dynamic(
+  () => import("./component/admin/shopping-list/page"),
+  {
+    ssr: false,
+  }
+);
+const SummaryPage = dynamic(() => import("./component/admin/summary/page"), {
+  ssr: false,
+});
+
 export default function App() {
   const searchParams = useSearchParams();
   const [x, setValueProductList] = useRecoilState(AtomProductListContext);
   const [y, setDetailProductValue] = useRecoilState(AtomDetailProduct);
   const [z, setAllUser] = useRecoilState(AtomAllUser);
-  const [r, setAllOrder] = useRecoilState(AtomAllOrder);
+  const [_, setAllOrder] = useRecoilState(AtomAllOrder);
 
   useEffect(() => {
     const FecthData = async () => {
@@ -116,6 +126,10 @@ export default function App() {
         <MasterLayOutAdmin Component={AdminDetailProduct} />
       ) : searchParams.get("page-admin") === "create-product" ? (
         <MasterLayOutAdmin Component={CreateProduct} />
+      ) : searchParams.get("page-admin") === "shopping-cart" ? (
+        <MasterLayOutAdmin Component={ShoppingList} />
+      ) : searchParams.get("page-admin") === "summary" ? (
+        <MasterLayOutAdmin Component={SummaryPage} />
       ) : (
         <MasterLayOut Component={HomePage} />
       )}

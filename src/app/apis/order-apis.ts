@@ -31,8 +31,22 @@ const getDeleteOrder = async (id: number) => {
   }
 };
 
+const updateOrder = async (idOrder: number, newOrder: ShoppingListType) => {
+  try {
+    const response = await httpRequest.put(
+      `/shopping-list/update/${idOrder}`,
+      newOrder
+    );
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return;
+  }
+};
+
 export const orderApis = {
   getAllOrder,
   createOrder,
   getDeleteOrder,
+  updateOrder,
 };

@@ -1,10 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { DesktopOutlined, FileOutlined, UserOutlined } from "@ant-design/icons";
+import { UserOutlined, PieChartOutlined } from "@ant-design/icons";
 import { CheckCircle, PackageSearch } from "lucide-react";
 import type { MenuProps } from "antd";
-import { Breadcrumb, Layout, Menu, theme } from "antd";
+import { Layout, Menu, theme } from "antd";
 import Link from "next/link";
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -30,6 +29,13 @@ interface MasterPlayOutProps {
 }
 
 const items: MenuItem[] = [
+  getItem(
+    "Summary",
+    "sub0",
+    <Link href="/?page-admin=summary">
+      <PieChartOutlined />
+    </Link>
+  ),
   getItem(
     "User",
     "sub1",
@@ -73,13 +79,12 @@ const MasterLayOutAdmin: React.FC<MasterPlayOutProps> = ({ Component }) => {
         onCollapse={(value) => setCollapsed(value)}
       >
         <div className="demo-logo-vertical" />
-        <Menu
-          theme="dark"
-          // defaultSelectedKeys={["sub1"]}
-          mode="inline"
-          items={items}
-          className="pt-10"
+        <img
+          src="https://www.leifshop.com/cdn/shop/t/49/assets/logo_leif.png?v=22488871944701774831698078109"
+          alt=""
+          className="bg-white h-32 w-full"
         />
+        <Menu theme="dark" mode="inline" items={items} className="pt-10" />
       </Sider>
       <Layout>
         <Header style={{ padding: 0, background: colorBgContainer }} />

@@ -2,20 +2,17 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Pagination from "rc-pagination";
-import { useSearchParams } from "next/navigation";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { ChevronRight } from "lucide-react";
 import { ChevronLeft } from "lucide-react";
 import { AtomProductListContext } from "@/app/recoil/product-list-provider";
 import { AtomDetailProduct } from "@/app/recoil/detail-product-provider";
 import { ProductType } from "@/app/utils/product.type";
-import FecthDataDetailProduct from "@/app/global/fecth-data-param-detail-product-request";
 
 const ProductList = () => {
   const valueProductList = useRecoilValue(AtomProductListContext);
   const [_, setDetailProductValue] = useRecoilState(AtomDetailProduct);
   const [currentPage, setCurrentPage] = useState(1);
-  const searchParams = useSearchParams();
   const pageSize = 9;
   const totalItems = valueProductList.length;
   const startItemIndex = (currentPage - 1) * pageSize;
