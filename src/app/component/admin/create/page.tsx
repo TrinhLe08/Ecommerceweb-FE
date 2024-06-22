@@ -46,7 +46,7 @@ const CreateProduct = () => {
     onSubmit: async (values: any) => {
       setSpin(true);
       try {
-        const createProduct = await productApis.createProduct(values);
+         await productApis.createProduct(values);
         router.push("/?page-admin=product-list");
         setSpin(false);
         return;

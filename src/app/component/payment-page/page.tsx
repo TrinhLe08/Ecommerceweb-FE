@@ -6,7 +6,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { LoadingOutlined } from "@ant-design/icons";
-import { Button, notification } from "antd";
+import { notification } from "antd";
 import { Spin } from "antd";
 import { AtomShoppingCart } from "@/app/recoil/shopping-cart-provider";
 import {
@@ -14,12 +14,22 @@ import {
   ShoppingListType,
 } from "@/app/utils/shopping-list.type";
 import { orderApis } from "@/app/apis/order-apis";
+import {
+  AtomInformationUser,
+  AtomReturnInformationWhenLogin,
+} from "@/app/recoil/information-user-provider";
 
 const Paymentpage = () => {
   const router = useRouter();
   const shoppingCartValue = useRecoilValue(AtomShoppingCart);
   const [_, setShoppingCartValue] = useRecoilState(AtomShoppingCart);
   const [spin, setSpin] = useState(false);
+  const informationUser = useRecoilValue(AtomInformationUser);
+  const [point, setPoint] = useState(0);
+  const [hiddenInformationPoint, setHiddenInformationPoint] = useState(true);
+  const [___, setValueReturnLogin] = useRecoilState(
+    AtomReturnInformationWhenLogin
+  );
   const antIcon: JSX.Element = (
     <LoadingOutlined
       style={{
@@ -43,6 +53,23 @@ const Paymentpage = () => {
       },
     });
   };
+
+  const openNotificationAccumulatedPoint = () => {
+    notification.open({
+      message: "Used 10 accumulated points .",
+      onClick: () => {
+        console.log("Notification Clicked!");
+      },
+    });
+  };
+  const openNotificationAddPoint = () => {
+    notification.open({
+      message: "You have just received 5 cumulative points .",
+      onClick: () => {
+        console.log("Notification Clicked!");
+      },
+    });
+  };
   const subtotal = shoppingCartValue.reduce(
     (total: number, cart: OrderDetailType) =>
       total + cart.priceOrder * cart.quantity,
@@ -52,18 +79,20 @@ const Paymentpage = () => {
     (total: number, cart: OrderDetailType) => total + cart.quantity,
     0
   );
-
   const style = {
     input:
-      "focus:outline-none border-[1px] border-red-100 p-1 w-[200%] rounded-md",
+      "focus:outline-none border-[1px] border-red-100 p-1 w-[200%] sm:ml-[100px] ml[0px] rounded-md",
   };
   const formik = useFormik({
     initialValues: {
-      fullName: "",
-      email: "",
-      phoneNumber: "",
-      country: "America",
-      city: "New York",
+      fullName: informationUser.name ? informationUser.name : "",
+      email: informationUser.email ? informationUser.email : "",
+      phoneNumber: informationUser.phoneNumber
+        ? informationUser.phoneNumber
+        : "",
+      country: informationUser.country ? informationUser.country : "",
+      city: informationUser.city ? informationUser.city : "",
+      address: informationUser.address ? informationUser.address : "",
     },
     validationSchema: Yup.object({
       fullName: Yup.string()
@@ -76,6 +105,7 @@ const Paymentpage = () => {
       ),
     }),
     onSubmit: async (values: any) => {
+      console.log(values);
       setSpin(true);
       const today = new Date();
       const date = today.getDate();
@@ -83,23 +113,30 @@ const Paymentpage = () => {
       const year = today.getFullYear();
       const dataTocreateOrder: ShoppingListType = {
         buyerName: values.fullName,
-        price: subtotal,
+        price: subtotal - point * 100,
         quantity: allQuantity,
         phoneNumber: values.phoneNumber,
         city: values.city,
         country: values.country,
+        address: values.address,
         purchasDate: `${date}/${month}/${year}`,
         email: values.email,
         status: true,
+        point: point,
         detailOrder: shoppingCartValue,
       };
       try {
         const createOrder = await orderApis.createOrder(dataTocreateOrder);
+        console.log(createOrder);
+
         if (createOrder.data) {
           setSpin(false);
           openNotification();
           setShoppingCartValue([]);
           router.push("/");
+          setValueReturnLogin(createOrder.data);
+          setTimeout(openNotificationAddPoint, 1000);
+          return;
         }
       } catch (err) {
         console.log(err);
@@ -124,12 +161,12 @@ const Paymentpage = () => {
           className="w-[150px]"
         />
       </Link>
-      <div className="flex w-full">
+      <div className="lg:flex xl:gap-0 grid justify-center gap-10 w-full">
         <form
           onSubmit={formik.handleSubmit}
-          className="w-[50%] grid gap-5 h-fit justify-center border-r-2 border-red-100"
+          className="lg:order-1 xl:border-r-2 xl:justify-start order-2 w-[50%] grid gap-5 h-fit justify-center border-red-100"
         >
-          <div className="grid gap-5">
+          <div className="sm:ml-[40px] grid gap-5 ml-0">
             <div>
               <h1>Name :</h1>
               <input
@@ -188,25 +225,44 @@ const Paymentpage = () => {
                 <option value="America">America</option>
                 <option value="Russia">Russia</option>
                 <option value="Japan">Japan</option>
+                <option value="Brazil">Brazil</option>
+                <option value="Germany">Germany</option>
+                <option value="France">France</option>
+                <option value="China">China</option>
+                <option value="South Africa">South Africa</option>
+                <option value="India">India</option>
+                <option value="Australia">Australia</option>
               </select>
             </div>
             <div>
-              <label htmlFor="city">City : </label>
-              <select
-                id="city"
-                name="city"
-                className="focus:outline-none w-fit border-[1px] border-red-100 rounded-lg p-1"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+              <h1>City:</h1>
+              <input
+                type="city"
                 value={formik.values.city}
-              >
-                <option value="New York">New York</option>
-                <option value="Los Angeles">Los Angeles</option>
-                <option value="Moscow">Moscow</option>
-                <option value="St. Petersburg">St. Petersburg</option>
-                <option value="Tokyo">Tokyo</option>
-                <option value="Osaka">Osaka</option>
-              </select>
+                name="city"
+                onChange={formik.handleChange}
+                className={style.input}
+              />
+              <p className="text-red-500 text-xs">
+                {formik.errors.city && formik.touched.city ? (
+                  <>{formik.errors.city as string}</>
+                ) : null}
+              </p>
+            </div>
+            <div>
+              <h1>Address :</h1>
+              <input
+                type="name"
+                value={formik.values.address}
+                name="address"
+                onChange={formik.handleChange}
+                className={style.input}
+              />
+              <p className="w-fit text-red-500 text-xs">
+                {formik.errors.address && formik.touched.address ? (
+                  <>{formik.errors.address as string}</>
+                ) : null}
+              </p>
             </div>
             <button
               type="submit"
@@ -216,7 +272,7 @@ const Paymentpage = () => {
             </button>
           </div>
         </form>
-        <div className="ml-10">
+        <div className="lg:order-2 order-1 ml-10">
           <div className="grid gap-2">
             {shoppingCartValue.map((cart: OrderDetailType, index: number) => (
               <div className="flex w-fit gap-10" key={index}>
@@ -232,8 +288,36 @@ const Paymentpage = () => {
               </div>
             ))}
           </div>
-          <div className="w-full text-right text-xl border-t-2 border-red-100 mt-5 pt-5">
-            <div>Subtotal : {(subtotal / 100).toFixed(2)} $</div>
+          <div className=" w-full text-right text-xl border-t-2 border-red-100 mt-5 pt-5">
+            {hiddenInformationPoint && informationUser.point > 9 ? (
+              <div className="text-sm">
+                You have{" "}
+                <span className="text-red-700 font-bold">
+                  {informationUser.point}
+                </span>{" "}
+                accumulated points.
+                <button
+                  className="text-red-700 font-bold underline"
+                  onClick={() => {
+                    setPoint(10);
+                    setHiddenInformationPoint(false);
+                    openNotificationAccumulatedPoint();
+                  }}
+                >
+                  {" "}
+                  Click to use 10 points.
+                </button>
+              </div>
+            ) : null}
+
+            <div className="sm:mr-0 mr-[100px]">
+              Subtotal : {(subtotal / 100 - point).toFixed(2)} $
+              {!hiddenInformationPoint ? (
+                <span className="text-red-700 text-sm">
+                  (Accumulated points applied)
+                </span>
+              ) : null}
+            </div>
           </div>
         </div>
       </div>

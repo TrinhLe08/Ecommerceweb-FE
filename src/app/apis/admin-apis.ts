@@ -1,4 +1,4 @@
-import httpRequest from "./axios-hppt-request";
+import httpRequest from "./http/axios-hppt-request";
 import { AdminType } from "../utils/admin.type";
 
 const loginAdmin = async (informationAdmin: AdminType) => {

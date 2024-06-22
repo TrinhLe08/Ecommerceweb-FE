@@ -1,5 +1,5 @@
-import httpRequest from "./axios-hppt-request";
-import { ProductType } from "../utils/product.type";
+import httpRequest from "./http/axios-hppt-request";
+import { ProductType, UserComment } from "../utils/product.type";
 
 const getAllProduct = async () => {
   try {
@@ -119,6 +119,19 @@ const updateProduct = async (newProduct: ProductType) => {
   }
 };
 
+const commentProduct = async (content: {
+  idProduct: number | null;
+  data: UserComment;
+}) => {
+  try {
+    const response = await httpRequest.post(`/product/comment`, content);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return;
+  }
+};
+
 const getDeleteProduct = async (id: number) => {
   try {
     const response = await httpRequest.delete(`/product/remove/${id}`);
@@ -139,5 +152,6 @@ export const productApis = {
   getDetailProduct,
   createProduct,
   updateProduct,
+  commentProduct,
   getDeleteProduct,
 };

@@ -27,6 +27,7 @@ const ShoppingList = () => {
         <div>Country : {shoppingListValue.country}</div>
         <div>City : {shoppingListValue.city}</div>
         <div>Status : {shoppingListValue.status ? "slacking" : "done"}</div>
+        <div>Status : {shoppingListValue.point}</div>
       </div>
       <div className="mb-5">Dtail Order : </div>
       <div className="flex border-b-2 border-red-100 font-semibold">

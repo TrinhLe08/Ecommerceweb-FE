@@ -79,15 +79,17 @@ const MasterLayOutAdmin: React.FC<MasterPlayOutProps> = ({ Component }) => {
         onCollapse={(value) => setCollapsed(value)}
       >
         <div className="demo-logo-vertical" />
-        <img
-          src="https://www.leifshop.com/cdn/shop/t/49/assets/logo_leif.png?v=22488871944701774831698078109"
-          alt=""
-          className="bg-white h-32 w-full"
-        />
         <Menu theme="dark" mode="inline" items={items} className="pt-10" />
       </Sider>
       <Layout>
         <Header style={{ padding: 0, background: colorBgContainer }} />
+        <Link href="/?page-admin=summary" className="mb-4">
+          <img
+            src="https://www.leifshop.com/cdn/shop/t/49/assets/logo_leif.png?v=22488871944701774831698078109"
+            alt=""
+            className="w-[20%]"
+          />
+        </Link>
         <Content style={{ margin: "0 16px" }}>
           <div
             style={{

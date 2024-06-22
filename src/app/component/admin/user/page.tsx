@@ -28,20 +28,27 @@ const AllUserPage = () => {
   return (
     <div>
       <div className="w-full flex justify-between mb-2 border-b-[1px] border-red-100 pb-1 font-semibold">
-        Email
+        <p className="w-[200px]">Email</p>
+        <p className="w-[100px]">Name</p>
+        <p className="w-[100px]">Phone Number</p>
+        <p className="w-[100px]">Spent</p>
+        <p className="w-[100px]">Point</p>
       </div>
+
       <List
         itemLayout="vertical"
         dataSource={currentItems}
-        renderItem={(value: UserType) => (
-          <div className="w-full flex justify-between mb-2 border-b-[1px] border-red-100 pb-1">
-            <div>{value.email}</div>
-            <button
-              className="bg-red-500 p-1 text-white rounded"
-              onClick={() => DeleteUser(value.id)}
-            >
-              Delete
-            </button>
+        renderItem={(value: UserType | any) => (
+          <div className="w-full  flex justify-between mb-2 border-b-[1px] border-red-100 pb-1">
+            <div className="w-full flex justify-between mb-2 border-b-[1px] border-red-100 pb-1">
+              <p className="w-[200px]">{value.email}</p>
+              <p className="w-[100px]">{value.name}</p>
+              <p className="w-[100px]">{value.phoneNumber}</p>
+              <p className="w-[100px]">
+                {value.spent ? (value.spent / 100).toFixed(2) : "N/A"} $
+              </p>
+              <p className="w-[100px]">{value.point}</p>
+            </div>
           </div>
         )}
       />

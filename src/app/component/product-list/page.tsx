@@ -6,18 +6,25 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { ChevronRight } from "lucide-react";
 import { ChevronLeft } from "lucide-react";
 import { AtomProductListContext } from "@/app/recoil/product-list-provider";
-import { AtomDetailProduct } from "@/app/recoil/detail-product-provider";
 import { ProductType } from "@/app/utils/product.type";
+import { AtomResetLimitProductListPage } from "@/app/recoil/reset-limit-product-list-page-provider";
+import StarRatings from "react-star-ratings";
 
 const ProductList = () => {
   const valueProductList = useRecoilValue(AtomProductListContext);
-  const [_, setDetailProductValue] = useRecoilState(AtomDetailProduct);
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 9;
-  const totalItems = valueProductList.length;
+  const [currentPage, setCurrentPage] = useRecoilState(
+    AtomResetLimitProductListPage
+  );
+  const pageSize: number = 9;
+  const totalItems: number = valueProductList.length;
+  const limitPage: number = Math.ceil(totalItems / pageSize);
   const startItemIndex = (currentPage - 1) * pageSize;
   const endItemIndex = startItemIndex + pageSize;
   const currentItems = valueProductList.slice(startItemIndex, endItemIndex);
+  const [_, setRating] = useState(0);
+  const changeRating = (newRating: number) => {
+    setRating(newRating);
+  };
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
@@ -46,7 +53,7 @@ const ProductList = () => {
           <button
             className="flex item-center"
             onClick={() => {
-              if (currentPage === totalItems) return;
+              if (limitPage <= currentPage) return;
               setCurrentPage(currentPage + 1);
             }}
           >
@@ -60,8 +67,22 @@ const ProductList = () => {
             <Link href={`/?product-detail=${product.id}`} key={product.name}>
               <div>
                 <img src={product.urlProduct} alt="" className="w-full" />
+                <StarRatings
+                  rating={product.ratting}
+                  starRatedColor="yellow"
+                  changeRating={changeRating}
+                  numberOfStars={5}
+                  name="rating"
+                  starDimension="20px"
+                  starSpacing="3px"
+                />
                 <p className="font-semibold">{product.name}</p>
                 <p>
+                  <p className="line-through">
+                    {!product.status
+                      ? `${(product.price / 0.7 / 100).toFixed(2)} $`
+                      : null}
+                  </p>
                   {(product.price / 100).toFixed(2)} ${" "}
                   {!product.status ? "(-30%)" : null}
                 </p>
@@ -91,7 +112,7 @@ const ProductList = () => {
         <button
           className="flex item-center"
           onClick={() => {
-            if (currentPage === totalItems) return;
+            if (limitPage <= currentPage) return;
             setCurrentPage(currentPage + 1);
           }}
         >

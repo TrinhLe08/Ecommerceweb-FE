@@ -14,8 +14,21 @@ import { AtomDetailProduct } from "./recoil/detail-product-provider";
 import { AtomAllUser } from "./recoil/admin-request-all-user-provider";
 import { AtomAllOrder } from "./recoil/admin-request-all-order-provider";
 import FecthDataParamsAdmin from "./global/fetch-data.param-admin-request";
+
 dotenv.config();
 
+const LoginComponent = dynamic(() => import("./component/login-page/page"), {
+  ssr: false,
+});
+const RegisterComponent = dynamic(
+  () => import("./component/register-page/page"),
+  {
+    ssr: false,
+  }
+);
+const ProfilePage = dynamic(() => import("./component/profile/page"), {
+  ssr: false,
+});
 const ProductList = dynamic(() => import("./component/product-list/page"), {
   ssr: false,
 });
@@ -62,10 +75,10 @@ const SummaryPage = dynamic(() => import("./component/admin/summary/page"), {
 
 export default function App() {
   const searchParams = useSearchParams();
-  const [x, setValueProductList] = useRecoilState(AtomProductListContext);
-  const [y, setDetailProductValue] = useRecoilState(AtomDetailProduct);
-  const [z, setAllUser] = useRecoilState(AtomAllUser);
-  const [_, setAllOrder] = useRecoilState(AtomAllOrder);
+  const [_, setValueProductList] = useRecoilState(AtomProductListContext);
+  const [__, setDetailProductValue] = useRecoilState(AtomDetailProduct);
+  const [___, setAllUser] = useRecoilState(AtomAllUser);
+  const [____, setAllOrder] = useRecoilState(AtomAllOrder);
 
   useEffect(() => {
     const FecthData = async () => {
@@ -108,12 +121,18 @@ export default function App() {
   }, [searchParams]);
   return (
     <>
-      {searchParams.has("product-page") ? (
-        <MasterLayOut Component={ProductList} />
+      {searchParams.has("register-page") ? (
+        <RegisterComponent />
+      ) : searchParams.has("login-page") ? (
+        <LoginComponent />
+      ) : searchParams.has("profile-page") ? (
+        <MasterLayOut Component={ProfilePage} value={true} />
+      ) : searchParams.has("product-page") ? (
+        <MasterLayOut Component={ProductList} value={true} />
       ) : searchParams.has("product-detail") ? (
-        <MasterLayOut Component={DetailProduct} />
+        <MasterLayOut Component={DetailProduct} value={true} />
       ) : searchParams.has("shopping-cart") ? (
-        <MasterLayOut Component={ShoppingCart} />
+        <MasterLayOut Component={ShoppingCart} value={false} />
       ) : searchParams.has("payment-page") ? (
         <PagementPage />
       ) : searchParams.get("page-admin") === "all-user" ? (
@@ -131,7 +150,7 @@ export default function App() {
       ) : searchParams.get("page-admin") === "summary" ? (
         <MasterLayOutAdmin Component={SummaryPage} />
       ) : (
-        <MasterLayOut Component={HomePage} />
+        <MasterLayOut Component={HomePage} value={true} />
       )}
     </>
   );

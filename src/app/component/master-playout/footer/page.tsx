@@ -1,103 +1,57 @@
 "use client";
 import React from "react";
 import { useRef } from "react";
-import { Button, notification } from "antd";
+import { notification } from "antd";
 import footerImg from "@/app/image/footer-image.png";
 import { userApis } from "@/app/apis/user-apis";
 import { UserType } from "@/app/utils/user.type";
+import { AiFillPinterest } from "react-icons/ai";
+import { FaInstagramSquare } from "react-icons/fa";
 interface CustomNotificationProps {
   title: string;
   description: string;
 }
 
 const Footer = () => {
-  const userEmail: React.RefObject<HTMLInputElement> =
-    useRef<HTMLInputElement>(null);
-  const [api, contextHolder] = notification.useNotification();
-  const imageUrl: string = footerImg.src.toString();
-  const emailPattern: any = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-  const CustomNotification: React.FC<CustomNotificationProps> = ({
-    title,
-    description,
-  }) => {
-    return (
-      <div className="grid gap-5 italic font-serif">
-        <h1 className="text-lg font-semibold">{title}</h1>
-        <p>{description}</p>
-      </div>
-    );
-  };
-  const RegisterUser = async () => {
-    if (
-      userEmail.current &&
-      emailPattern.test(userEmail.current.value) &&
-      userEmail.current.value !== ""
-    ) {
-      const informationUser: UserType = { email: userEmail.current.value };
-      try {
-        const createUser = await userApis.createUser(informationUser);
-        userEmail.current.value = "";
-        console.log(createUser.data);
-        if (createUser.data === "Email already exists") {
-          api.open({
-            message: (
-              <CustomNotification
-                title={"Notification !"}
-                description={"This user's email already exists ."}
-              />
-            ),
-            duration: 0,
-          });
-          return;
-        }
-        api.open({
-          message: (
-            <CustomNotification
-              title={"Thank you very much !"}
-              description={
-                "From now on you will receive our latest notifications about our newest products ."
-              }
-            />
-          ),
-          duration: 0,
-        });
-      } catch (error) {
-        return;
-      }
-    }
-  };
   return (
-    <div className="footer flex">
-      <img src={imageUrl} alt="" className="w-[70%] h-full" />
-      <div className="w-full grid gap-2  h-fit">
-        <div className="flex w-full justify-center">
+    <div className="hidden md:grid footer font-serif w-screen  gap-5 text-center justify-center border-t-2 border-slate-200 p-5">
+      <div className="grid w-[900px] gap-9 justify-center">
+        <div>
+          <h1 className="font-sans font-semibold">#LEIFLIFESTYLE</h1>
+          <p className="text-xl italic">goods for living</p>
+        </div>
+
+        <div className="flex justify-center gap-9 ">
+          <div className="grid border-r-2 border-slate-200 p-5">
+            <p>WILLIAMSBURG, BROOKLYN</p>
+            <p>99 GRAND STREET</p>
+            <p>BROOKLYN, NY 11249</p>
+          </div>
+
           <img
-            src="https://www.leifshop.com/cdn/shop/t/49/assets/stay-in-touch.png?v=170400074073272105691645745967"
+            className="w-[20%]"
+            src="https://www.leifshop.com/cdn/shop/t/49/assets/leif_stamp2.svg?v=119490858498548638031643027686"
             alt=""
-            className="w-[70%] h-full"
           />
+
+          <div className="grid border-l-2 border-slate-200 p-5">
+            <h1>SAY HI :</h1>
+            <p>FOLLOW US @LEIFSHOP</p>
+            <p>HELLO@LEIFSHOP.COM</p>
+          </div>
         </div>
-        <div className="w-full flex justify-center text-center italic font-serif">
-          <span className="w-[80%]">
-            Let's be friends — sign up to be the first to hear about new
-            arrivals, sales & more
-          </span>
-        </div>
-        <div className="grid w-full justify-center gap-2">
-          <input
-            type="email"
-            placeholder="Enter email"
-            ref={userEmail}
-            className="italic w-full h-fit focus:outline-none font-serif font-thin border-[1px] border-red-200 p-2 text-center"
-          />
-          <button
-            className="w-full h-fit bg-emerald-200 p-2 hover:bg-neutral-300"
-            onClick={() => RegisterUser()}
-          >
-            SUBSCRIBE
-          </button>
-          {contextHolder}
+      </div>
+
+      <div className="flex gap-5 justify-center">
+        <div>© 2024 LEIF, ALL RIGHTS RESERVED</div>
+        <div className="flex gap-2 italic">
+          follow us
+          <a href="http://pinterest.com/leifshop/">
+            <AiFillPinterest size={30} style={{ color: "lightcoral" }} />
+          </a>
+          <a href="http://www.instagram.com/leifshop">
+            <FaInstagramSquare size={30} style={{ color: "lightcoral" }} />
+          </a>
         </div>
       </div>
     </div>

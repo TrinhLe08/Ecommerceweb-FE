@@ -8,6 +8,7 @@ const LoginAdmin = () => {
   const name = useRef<HTMLInputElement | null>(null);
   const password = useRef<HTMLInputElement | null>(null);
   const router = useRouter();
+
   const style = {
     input: "focus:outline-none border-2 border-red-200 p-1",
   };

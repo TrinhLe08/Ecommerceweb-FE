@@ -35,11 +35,11 @@ const ShoppingCart = () => {
     setShoppingCartValue(newCartValue);
   };
   return (
-    <div className="shopping-cart w-full ">
+    <div className="transform shopping-cart w-full ">
       <div className="w-full text-center font-semibold mb-5">SHOPPING CART</div>
       <div className="grid gap-5">
-        <div className="grid gap-5">
-          <div className="w-full flex justify-between border-b-2 border-red mb-4 px-5 font-semibold">
+        <div className="grid justify-center gap-5">
+          <div className="sm:flex w-full hidden justify-between border-b-2 border-red mb-4 px-5 font-semibold">
             <p className="xl:w-80 lg:w-60 w-40">ITEM</p>
             <p className="xl:w-40 lg:w-30 lg:w-30 w-20">PRICE</p>
             <p className="xl:w-40 lg:w-30 w-20">QUANTITY</p>
@@ -48,7 +48,7 @@ const ShoppingCart = () => {
           {shoppingCartValue
             ? shoppingCartValue.map((cart: OrderDetailType, index: number) => (
                 <div
-                  className="flex items-center justify-between italic font-serif font-thin"
+                  className="md:flex grid justify-center items-center justify-between italic font-serif font-thin"
                   key={index}
                 >
                   <Link

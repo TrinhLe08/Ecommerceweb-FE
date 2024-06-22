@@ -3,19 +3,30 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { ChevronUp } from "lucide-react";
+import { AlignJustify } from "lucide-react";
+import { X } from "lucide-react";
 import type { MenuProps } from "antd";
 import { Dropdown, Space } from "antd";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { AtomSidebaCheckUnderline } from "@/app/recoil/sidebar-check-provider";
 import { AtomProductListContext } from "@/app/recoil/product-list-provider";
 import { ProductType } from "@/app/utils/product.type";
+import { AtomMenuBar } from "@/app/recoil/menu-bar-provider";
+import { AtomResetLimitProductListPage } from "@/app/recoil/reset-limit-product-list-page-provider";
+import { AtomInformationUser } from "@/app/recoil/information-user-provider";
 
 const FilterBar = () => {
-  const [x, setCheckSidebar] = useRecoilState(AtomSidebaCheckUnderline);
+  const [_, setCheckSidebar] = useRecoilState(AtomSidebaCheckUnderline);
   const checkSidebar = useRecoilValue(AtomSidebaCheckUnderline);
   const productList = useRecoilValue(AtomProductListContext);
-  const [y, setProductList] = useRecoilState(AtomProductListContext);
+  const [__, setProductList] = useRecoilState(AtomProductListContext);
   const [checkPropdown, setCheckPropdown] = useState(false);
+  const checkMenuBar: boolean = useRecoilValue(AtomMenuBar);
+  const [___, setMenuBar] = useRecoilState(AtomMenuBar);
+  const [____, setResetLimitProductListPage] = useRecoilState(
+    AtomResetLimitProductListPage
+  );
+
   const items: MenuProps["items"] = [
     {
       label: (
@@ -51,9 +62,18 @@ const FilterBar = () => {
   ];
   return (
     <div className="w-full flex justify-between text-2xl px-10 mb-10 mt-5">
+      <button
+        className="lg:hidden flex transition-all duration-500 ease-in-out"
+        onClick={() => setMenuBar(!checkMenuBar)}
+      >
+        {checkMenuBar ? <AlignJustify /> : <X />}
+      </button>
       <Link
         href="/?product-page=all-product"
-        onClick={() => setCheckSidebar(6)}
+        onClick={() => {
+          setCheckSidebar(6);
+          setResetLimitProductListPage(1);
+        }}
         className={
           checkSidebar === 6
             ? "text-gray-500 italic font-serif font-thin underline"

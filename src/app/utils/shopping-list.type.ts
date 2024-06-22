@@ -14,9 +14,12 @@ type PartialShoppingListType = {
   phoneNumber: string;
   city: string;
   country: string;
+  address: string;
+  point: number;
   purchasDate: string;
   email: string;
   status: boolean;
   detailOrder: OrderDetailType[];
 };
+
 export type ShoppingListType = Partial<PartialShoppingListType>;

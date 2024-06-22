@@ -1,4 +1,4 @@
-import httpRequest from "./axios-hppt-request";
+import httpRequest from "./http/axios-hppt-request";
 import { ShoppingListType } from "../utils/shopping-list.type";
 
 const getAllOrder = async () => {

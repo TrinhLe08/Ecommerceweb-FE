@@ -63,7 +63,8 @@ const ProductListAdmin = () => {
         <div className="w-[150px]">Country</div>
         <div className="w-[150px]">Quantity</div>
         <div className="w-[150px]">Total order</div>
-        <div className="w-[150px]">Status</div>
+        <div className="w-[80px]">Status</div>
+        <div className="w-[50px]">Points</div>
       </div>
       <List
         itemLayout="vertical"
@@ -83,9 +84,10 @@ const ProductListAdmin = () => {
               <div className="w-[150px]">
                 {value.price ? (value.price / 100).toFixed(2) : "N/A"} $
               </div>
-              <div className="w-[50px]">
+              <div className="w-[80px]">
                 {value.status ? "slacking" : "done"}
               </div>
+              <div className="w-[50px]">{value.point}</div>
             </Link>
             <div className="flex gap-5 px-1 mb-5">
               <button
