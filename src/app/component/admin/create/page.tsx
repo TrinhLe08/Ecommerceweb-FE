@@ -46,12 +46,13 @@ const CreateProduct = () => {
     onSubmit: async (values: any) => {
       setSpin(true);
       try {
-         await productApis.createProduct(values);
+        await productApis.createProduct(values);
         router.push("/?page-admin=product-list");
         setSpin(false);
         return;
       } catch (err) {
-        console.log(err);
+        localStorage.clear();
+        router.push("/?login-page=true");
         return;
       }
     },

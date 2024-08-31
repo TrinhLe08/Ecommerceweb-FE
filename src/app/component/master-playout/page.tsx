@@ -2,7 +2,7 @@
 import dynamic from "next/dynamic";
 import dotenv from "dotenv";
 import Footer from "./footer/page";
-import React, { ReactElement } from "react";
+import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { AtomMenuBar } from "@/app/recoil/menu-bar-provider";
 dotenv.config();
@@ -28,12 +28,23 @@ const MasterLayOut: React.FC<MasterPlayOutProps & { value: boolean }> = ({
   Component,
   value,
 }) => {
-  const [checkMenuBar, setCheckMenuBar] = useRecoilState(AtomMenuBar);
-  if (window.innerWidth > 1000 && value === false) {
-    setCheckMenuBar(true);
-  } else if (window.innerWidth > 1000 && value === true) {
-    setCheckMenuBar(false);
-  }
+  const [_, setCheckMenuBar] = useRecoilState(AtomMenuBar);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 1000 && value === false) {
+        setCheckMenuBar(true);
+      } else if (window.innerWidth > 1000 && value === true) {
+        setCheckMenuBar(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [value, setCheckMenuBar]);
 
   return (
     <div className="master-playout relative grid justify-between w-full h-full ">

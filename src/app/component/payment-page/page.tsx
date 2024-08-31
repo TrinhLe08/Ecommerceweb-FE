@@ -30,6 +30,7 @@ const Paymentpage = () => {
   const [___, setValueReturnLogin] = useRecoilState(
     AtomReturnInformationWhenLogin
   );
+
   const antIcon: JSX.Element = (
     <LoadingOutlined
       style={{
@@ -53,7 +54,6 @@ const Paymentpage = () => {
       },
     });
   };
-
   const openNotificationAccumulatedPoint = () => {
     notification.open({
       message: "Used 10 accumulated points .",
@@ -83,6 +83,7 @@ const Paymentpage = () => {
     input:
       "focus:outline-none border-[1px] border-red-100 p-1 w-[200%] sm:ml-[100px] ml[0px] rounded-md",
   };
+
   const formik = useFormik({
     initialValues: {
       fullName: informationUser.name ? informationUser.name : "",
@@ -105,7 +106,6 @@ const Paymentpage = () => {
       ),
     }),
     onSubmit: async (values: any) => {
-      console.log(values);
       setSpin(true);
       const today = new Date();
       const date = today.getDate();
@@ -127,9 +127,8 @@ const Paymentpage = () => {
       };
       try {
         const createOrder = await orderApis.createOrder(dataTocreateOrder);
-        console.log(createOrder);
 
-        if (createOrder.data) {
+        if (createOrder.data && localStorage.getItem("accessToken")) {
           setSpin(false);
           openNotification();
           setShoppingCartValue([]);
@@ -138,8 +137,15 @@ const Paymentpage = () => {
           setTimeout(openNotificationAddPoint, 1000);
           return;
         }
+        setSpin(false);
+        openNotification();
+        setShoppingCartValue([]);
+        router.push("/");
+        return;
       } catch (err) {
-        console.log(err);
+        localStorage.clear();
+        setValueReturnLogin({});
+        router.push("/?login-page=true");
         return;
       }
     },

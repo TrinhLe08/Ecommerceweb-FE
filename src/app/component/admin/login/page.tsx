@@ -21,7 +21,7 @@ const LoginAdmin = () => {
       name.current.value !== ""
     ) {
       const informationAdmin: AdminType = {
-        name: name.current.value,
+        email: name.current.value,
         password: password.current.value,
       };
       try {
@@ -33,6 +33,8 @@ const LoginAdmin = () => {
           window.location.href = "about:blank";
         }
       } catch (e) {
+        localStorage.clear();
+        router.push("/?login-page=true");
         return;
       }
     }

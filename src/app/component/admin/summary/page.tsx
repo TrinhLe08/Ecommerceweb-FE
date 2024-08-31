@@ -21,7 +21,6 @@ const SummatyPage = () => {
         cart.quantity && total + cart.quantity,
       0
     );
-  console.log({ subtotal, AllOrder });
 
   return (
     <div className="grid grid-cols-2 gap-4">

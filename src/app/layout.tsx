@@ -1,6 +1,7 @@
 "use client";
 import { Inter } from "next/font/google";
 import Head from "next/head";
+import { Metadata } from "next";
 import { RecoilRoot } from "recoil";
 import "./globals.css";
 import "./style.scss";
@@ -13,13 +14,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <RecoilRoot>
-      <html lang="en">
-        <Head>
-          <link rel="shortcut icon" href="https://www.leifshop.com/cdn/shop/t/49/assets/logo_leif.png?v=22488871944701774831698078109" />
-        </Head>
+    <html lang="en">
+      <head>
+        <title>LEIF SHOP</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+      </head>
+      <RecoilRoot>
         <body className={inter.className}>{children}</body>
-      </html>
-    </RecoilRoot>
+      </RecoilRoot>
+    </html>
   );
 }

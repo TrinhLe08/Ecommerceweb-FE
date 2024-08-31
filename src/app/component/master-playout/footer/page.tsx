@@ -1,10 +1,5 @@
 "use client";
 import React from "react";
-import { useRef } from "react";
-import { notification } from "antd";
-import footerImg from "@/app/image/footer-image.png";
-import { userApis } from "@/app/apis/user-apis";
-import { UserType } from "@/app/utils/user.type";
 import { AiFillPinterest } from "react-icons/ai";
 import { FaInstagramSquare } from "react-icons/fa";
 interface CustomNotificationProps {

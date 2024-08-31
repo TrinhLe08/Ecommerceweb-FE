@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Pagination } from "antd";
 import { productApis } from "@/app/apis/product-apis";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -8,6 +9,7 @@ import { AtomProductListContext } from "@/app/recoil/product-list-provider";
 import { ProductType } from "@/app/utils/product.type";
 
 const ProductListAdmin = () => {
+  const router = useRouter();
   const productList = useRecoilValue(AtomProductListContext);
   const [_, setProductPage] = useRecoilState(AtomProductListContext);
   const [underline, setUnderline] = useState(0);
@@ -40,7 +42,8 @@ const ProductListAdmin = () => {
         return setProductPage(allKitchen.data);
       }
     } catch (err) {
-      console.log(err);
+      localStorage.clear();
+      router.push("/?login-page=true");
       return;
     }
     return null;
@@ -93,7 +96,9 @@ const ProductListAdmin = () => {
               <div className=" grid justify-center text-center">
                 <img src={product.urlProduct} alt="" className="w-full" />
                 <p className="font-semibold">{product.name}</p>
-                <p>{(product.price / 100).toFixed(2)} $</p>
+                <p>
+                  {product.price ? (product.price / 100).toFixed(2) : null} $
+                </p>
               </div>
               <div className="flex justify-around">
                 <Link

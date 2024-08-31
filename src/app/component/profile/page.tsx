@@ -7,6 +7,7 @@ import { Sparkles } from "lucide-react";
 import { PencilLine } from "lucide-react";
 import { X } from "lucide-react";
 import { LogOut } from "lucide-react";
+import { notification } from "antd";
 import {
   AtomInformationUser,
   AtomReturnInformationWhenLogin,
@@ -33,6 +34,30 @@ const ProfilePage = () => {
   const [inputCity, setInputCity] = useState(dataUser.city);
   const [inputAddress, setInputAddress] = useState(dataUser.address);
 
+  const openNotificationWait = () => {
+    notification.open({
+      message: "Please wait a second .",
+      onClick: () => {
+        console.log("Notification Clicked!");
+      },
+    });
+  };
+  const openNotificationSuccess = () => {
+    notification.open({
+      message: "The information update is complete .",
+      onClick: () => {
+        console.log("Notification Clicked!");
+      },
+    });
+  };
+  const openNotificationError = () => {
+    notification.open({
+      message: "Something went wrong, please try again !",
+      onClick: () => {
+        console.log("Notification Clicked!");
+      },
+    });
+  };
   const handlePencilClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -60,33 +85,42 @@ const ProfilePage = () => {
     setInputCity(e.target.value);
   };
   const ChangeInformationUser = async () => {
-    setChangeInfor(!changeInfor);
-    if (changeDone) {
-      setChangeDone(false);
+    try {
+      setChangeInfor(!changeInfor);
+      if (changeDone) {
+        setChangeDone(false);
+        return;
+      }
+      const dataToUpdate = {
+        id: dataUser.id,
+        urlAvatar: selectedFile,
+        name: inputName ? inputName : "",
+        phoneNumber: inputPhoneNumber ? inputPhoneNumber : "",
+        country: inputCountry ? inputCountry : "",
+        address: inputAddress ? inputAddress : "",
+        city: inputCity ? inputCity : "",
+      };
+      openNotificationWait();
+      const update = await userApis.updateUser(dataToUpdate);
+      if (update.data) {
+        setDataUserUpdate(update.data);
+        setValueReturnLogin({
+          id: update.data.id,
+          urlAvatar: update.data.urlAvatar,
+          email: update.data.email,
+          bought: update.data.bought,
+        });
+        setChangeDone(true);
+        setCheckUpload(false);
+        openNotificationSuccess();
+      }
+    } catch (err) {
+      openNotificationError();
       return;
     }
-    const dataToUpdate = {
-      id: dataUser.id,
-      urlAvatar: selectedFile,
-      name: inputName ? inputName : "",
-      phoneNumber: inputPhoneNumber ? inputPhoneNumber : "",
-      country: inputCountry ? inputCountry : "",
-      address: inputAddress ? inputAddress : "",
-      city: inputCity ? inputCity : "",
-    };
-    const update = await userApis.updateUser(dataToUpdate);
-    setDataUserUpdate(update.data);
-    setValueReturnLogin({
-      id: update.data.id,
-      urlAvatar: update.data.urlAvatar,
-      email: update.data.email,
-      bought: update.data.bought,
-    });
-    setChangeDone(true);
-    setCheckUpload(false);
   };
   const LogOutUser = () => {
-    localStorage.removeItem("accessToken");
+    localStorage.clear();
     setValueReturnLogin({});
     router.push("/");
     return;
@@ -151,7 +185,7 @@ const ProfilePage = () => {
           <p>Name : {inputName}.</p>
         )}
 
-        <p>Email : {"trinhle@gmail.com"}.</p>
+        <p>Email : {dataUser.email}.</p>
         {changeInfor ? (
           <div className="flex">
             <label htmlFor="">Phone Number : </label>

@@ -6,7 +6,6 @@ import * as Yup from "yup";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
 import { AtomDetailProduct } from "@/app/recoil/detail-product-provider";
-import { AtomShoppingCart } from "@/app/recoil/shopping-cart-provider";
 import { ProductType } from "@/app/utils/product.type";
 import { productApis } from "@/app/apis/product-apis";
 

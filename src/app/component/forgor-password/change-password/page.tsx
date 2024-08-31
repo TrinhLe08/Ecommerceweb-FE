@@ -2,110 +2,62 @@
 import React, { useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useRecoilState } from "recoil";
-import { FaGoogle } from "react-icons/fa";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { AtomSidebaCheckUnderline } from "@/app/recoil/sidebar-check-provider";
 import { notification } from "antd";
-import { Popover, Space } from "antd";
 import { MoveLeft } from "lucide-react";
+import { AtomSaveMail } from "@/app/recoil/save-mail-provider";
 import { userApis } from "@/app/apis/user-apis";
-import { UserType } from "@/app/utils/user.type";
 
-const RegisterComponent = () => {
+const ChangePassword = () => {
   const router = useRouter();
-  const nameValue = useRef<HTMLInputElement>(null);
   const passwordValue = useRef<HTMLInputElement>(null);
   const confirmPasswordValue = useRef<HTMLInputElement>(null);
   const checkBoxValue = useRef<HTMLInputElement>(null);
+  const emailUser = useRecoilValue(AtomSaveMail);
   const [showPassword, setShowPassword] = useState(false);
-  const [rightnessOfInforMation, setRightness] = useState(true);
   const [_, setCheckSidebar] = useRecoilState(AtomSidebaCheckUnderline);
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const [rightnessOfInforMation, setRightness] = useState(true);
 
-  const openNotificationSuccess = () => {
+  const openNotificationChangeSuccess = () => {
     notification.open({
-      message: "Registered successfully .",
+      message: "Change password is success .",
       onClick: () => {
         console.log("Notification Clicked!");
       },
     });
   };
 
-  const openNotificationFail = () => {
-    notification.open({
-      message: "Your email already exists .",
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
-    });
-  };
-
-  const openNotificationWaiting = () => {
-    notification.open({
-      message: "Please wait a second moment.",
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
-    });
-  };
-
-  const content = (
-    <div>
-      <p>
-        Please use your correct email address as we will send important
-        notifications to this address .
-      </p>
-    </div>
-  );
-
-  const GetInformation = async () => {
-    openNotificationWaiting();
+  const Change = async () => {
     try {
       if (
-        nameValue.current !== null &&
-        passwordValue.current !== null &&
-        confirmPasswordValue.current !== null
+        passwordValue.current != null &&
+        confirmPasswordValue.current != null
       ) {
         if (
-          nameValue.current.value == "" ||
-          passwordValue.current.value == "" ||
-          confirmPasswordValue.current.value == "" ||
-          passwordValue.current.value.length < 7 ||
-          confirmPasswordValue.current.value !== passwordValue.current.value ||
-          !emailRegex.test(nameValue.current.value)
+          passwordValue.current.value === "" ||
+          confirmPasswordValue.current.value === "" ||
+          passwordValue.current.value !== confirmPasswordValue.current.value
         ) {
+          console.log(12);
           setRightness(false);
           return;
         }
         setRightness(true);
-        const value: UserType = {
-          email: nameValue.current.value,
-          password: passwordValue.current.value,
-          urlAvatar: "",
-          name: "",
-          phoneNumber: "",
-          country: "",
-          city: "",
-          address: "",
-          spent: 0,
-          point: 0,
-          bought: [],
-          role: "user",
-        };
-        const createUser: any = await userApis.registerUser(value);
-        if (createUser.statusCode === 200) {
-          openNotificationSuccess();
-          setTimeout(() => {
-            router.push("/?login-page=true");
-          }, 500);
-        } else {
-          openNotificationFail();
+        const newPassword = passwordValue.current.value;
+        const change = await userApis.changePassword(emailUser, newPassword);
+        if (change.data) {
+          openNotificationChangeSuccess();
+          router.push("/?login-page=true");
           return;
         }
+        setRightness(false);
+        return;
       } else {
-        return 0;
+        return;
       }
-    } catch (error) {
+    } catch (err) {
+      console.log(err);
       return;
     }
   };
@@ -113,7 +65,7 @@ const RegisterComponent = () => {
   const handleKeyPress = (event: any) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      GetInformation();
+      Change();
     }
   };
   return (
@@ -144,38 +96,7 @@ const RegisterComponent = () => {
             <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
               <form>
                 <div className="grid justify-center text-2xl font-bold mb-5 text-red-400">
-                  CREATE YOUR ACCOUT
-                </div>
-
-                <div className="grid mb-4">
-                  <label
-                    className="form-label font-bold"
-                    htmlFor="form3Example3"
-                  >
-                    Email :
-                  </label>
-                  <div className="grid justify-center">
-                    <Space wrap>
-                      <Popover
-                        content={content}
-                        title="Noted : "
-                        trigger="hover"
-                      >
-                        <input
-                          ref={nameValue}
-                          type="email"
-                          className=" w-[250px] focus:outline-none bg-orange-100 p-2"
-                          placeholder="Enter a valid email address"
-                          onKeyPress={handleKeyPress}
-                        />
-                      </Popover>
-                    </Space>
-                  </div>
-                  {rightnessOfInforMation ? null : (
-                    <p className="text-red-700 text-sm">
-                      Wrong format or email already exists
-                    </p>
-                  )}
+                  CREATE NEW PASSWORD
                 </div>
 
                 <div className="grid  mb-3">
@@ -183,7 +104,7 @@ const RegisterComponent = () => {
                     className="form-label font-bold"
                     htmlFor="form3Example4"
                   >
-                    Password :
+                    New password :
                   </label>
                   <div className="grid justify-center">
                     <input
@@ -244,9 +165,9 @@ const RegisterComponent = () => {
                   <button
                     type="button"
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg"
-                    onClick={GetInformation}
+                    onClick={Change}
                   >
-                    Complete registration
+                    Confirm
                   </button>
                 </div>
               </form>
@@ -258,4 +179,4 @@ const RegisterComponent = () => {
   );
 };
 
-export default React.memo(RegisterComponent);
+export default React.memo(ChangePassword);

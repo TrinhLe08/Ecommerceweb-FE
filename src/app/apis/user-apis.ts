@@ -1,5 +1,5 @@
 import httpRequest from "./http/axios-hppt-request";
-import { UserType } from "../utils/user.type";
+import { UserType } from "../util/user.type";
 
 const getAllUser = async () => {
   try {
@@ -14,6 +14,39 @@ const getAllUser = async () => {
 const registerUser = async (newUser: UserType) => {
   try {
     const response = await httpRequest.post("/user/create", newUser);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return;
+  }
+};
+
+const confirmMail = async (mail: string) => {
+  try {
+    const response = await httpRequest.post("user/confirm-mail", { mail });
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return;
+  }
+};
+
+const confirmCode = async (code: string) => {
+  try {
+    const response = await httpRequest.post("user/confirm-code", { code });
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return;
+  }
+};
+
+const changePassword = async (email: string, newPassword: string) => {
+  try {
+    const response = await httpRequest.post("user/change-password", {
+      email,
+      newPassword,
+    });
     return response.data;
   } catch (err) {
     console.log(err);
@@ -74,6 +107,9 @@ const updateUser = async (informationUser: UserType) => {
 export const userApis = {
   getAllUser,
   registerUser,
+  confirmMail,
+  confirmCode,
+  changePassword,
   loginUser,
   getDeleteUser,
   getDetailUser,

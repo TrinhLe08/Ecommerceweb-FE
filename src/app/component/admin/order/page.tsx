@@ -1,18 +1,17 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Pagination } from "antd";
 import { List } from "antd";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { AtomAllOrder } from "@/app/recoil/admin-request-all-order-provider";
 import { AtomShoppingListDetail } from "@/app/recoil/admin-request-shopping-list-detail";
 import Link from "next/link";
-import {
-  OrderDetailType,
-  ShoppingListType,
-} from "@/app/utils/shopping-list.type";
+import { ShoppingListType } from "@/app/utils/shopping-list.type";
 import { orderApis } from "@/app/apis/order-apis";
 
 const ProductListAdmin = () => {
+  const router = useRouter();
   const allOrder = useRecoilValue(AtomAllOrder);
   const [x, setAllOrder] = useRecoilState(AtomAllOrder);
   const [y, setShoppingCartAdmin] = useRecoilState(AtomShoppingListDetail);
@@ -49,7 +48,8 @@ const ProductListAdmin = () => {
         return;
       }
     } catch (err) {
-      console.log(err);
+      localStorage.clear();
+      router.push("/?login-page=true");
       return;
     }
   };

@@ -1,5 +1,5 @@
 import httpRequest from "./http/axios-hppt-request";
-import { ProductType, UserComment } from "../utils/product.type";
+import { ProductType, UserComment } from "../util/product.type";
 
 const getAllProduct = async () => {
   try {
@@ -120,7 +120,7 @@ const updateProduct = async (newProduct: ProductType) => {
 };
 
 const commentProduct = async (content: {
-  idProduct: number | null;
+  idProduct: number | null | undefined;
   data: UserComment;
 }) => {
   try {

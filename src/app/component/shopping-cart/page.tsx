@@ -1,14 +1,24 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { InputNumber } from "antd";
 import { AtomShoppingCart } from "@/app/recoil/shopping-cart-provider";
 import { OrderDetailType } from "@/app/utils/shopping-list.type";
+import { userApis } from "@/app/apis/user-apis";
+import {
+  AtomInformationUser,
+  AtomReturnInformationWhenLogin,
+} from "@/app/recoil/information-user-provider";
 const ShoppingCart = () => {
+  const router = useRouter();
   const shoppingCartValue = useRecoilValue(AtomShoppingCart);
+  const informationUserWhenLogin = useRecoilValue(
+    AtomReturnInformationWhenLogin
+  );
   const [_, setShoppingCartValue] = useRecoilState(AtomShoppingCart);
-  const [numberInput, setNumberInput] = useState(1);
+  const [__, setInfor] = useRecoilState(AtomInformationUser);
 
   const subtotal = shoppingCartValue.reduce(
     (total: number, cart: OrderDetailType) =>
@@ -93,12 +103,34 @@ const ShoppingCart = () => {
           Subtotal: {(subtotal / 100).toFixed(2)} $
         </div>
         <div className="text-right mb-10">
-          <Link
-            href={shoppingCartValue.length > 0 ? "/?payment-page=true" : "/"}
+          <div
+            // href={shoppingCartValue.length > 0 ? "/?payment-page=true" : "/"}
             className="bg-red-200 w-fit p-2 mr-10 hover:text-white hover:bg-red-500"
+            onClick={async () => {
+              try {
+                if (localStorage.getItem("accessToken")) {
+                  console.log(12);
+
+                  const dataUser = await userApis.getDetailUser(
+                    informationUserWhenLogin.id
+                  );
+                  setInfor(dataUser.data);
+                  router.push("/?payment-page=true");
+                  return;
+                }
+                setInfor({});
+                router.push("/?payment-page=true");
+
+                return;
+              } catch (err) {
+                localStorage.clear();
+                router.push("/?login-page=true");
+                return;
+              }
+            }}
           >
             PROCEED TO CHECKOUT
-          </Link>
+          </div>
         </div>
       </div>
     </div>

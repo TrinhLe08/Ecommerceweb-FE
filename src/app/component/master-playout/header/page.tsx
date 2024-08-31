@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 import { ShoppingCart } from "lucide-react";
+import { notification } from "antd";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { AtomSidebaCheckUnderline } from "@/app/recoil/sidebar-check-provider";
 import { AtomShoppingCart } from "@/app/recoil/shopping-cart-provider";
@@ -19,15 +20,25 @@ const Header = () => {
   const router = useRouter();
   const [valueSearch, setValueSearch] = useState([]);
   const [allProduct, setValueAllProdcut] = useState([]);
-  const [_, setCheckSidebar] = useRecoilState(AtomSidebaCheckUnderline);
-  const shoppingCartValue = useRecoilValue(AtomShoppingCart);
   const informationUserWhenLogin = useRecoilValue(
     AtomReturnInformationWhenLogin
   );
-  const [__, setInfor] = useRecoilState(AtomInformationUser);
-  const [___, setValueReturnLogin] = useRecoilState(
+  const shoppingCartValue = useRecoilValue(AtomShoppingCart);
+  const [_, setCheckSidebar] = useRecoilState(AtomSidebaCheckUnderline);
+  const [__, setValueReturnLogin] = useRecoilState(
     AtomReturnInformationWhenLogin
   );
+  const [___, setInfor] = useRecoilState(AtomInformationUser);
+  const openNotificationAutomaticLogout = () => {
+    notification.open({
+      message: "Login session expired, please log in again .",
+      description: "Your order is being processed .",
+      onClick: () => {
+        console.log("Notification Clicked!");
+      },
+      duration: null,
+    });
+  };
   useEffect(() => {
     const getAllProduct = async () => {
       try {
@@ -35,11 +46,24 @@ const Header = () => {
         setValueAllProdcut(allProduct.data);
         return;
       } catch (err) {
-        console.log(err);
+        localStorage.clear();
+        router.push("/?login-page=true");
         return;
       }
     };
     getAllProduct();
+  }, []);
+  useEffect(() => {
+    const automaticLogout = () => {
+      localStorage.clear();
+      setValueReturnLogin({});
+      openNotificationAutomaticLogout();
+      router.push("/?login-page=true");
+    };
+
+    const timeout = setTimeout(automaticLogout, 24 * 60 * 60 * 1000);
+
+    return () => clearTimeout(timeout);
   }, []);
   const SearchProduct = (value: string) => {
     const convertValueInput = value.toUpperCase();
@@ -60,8 +84,7 @@ const Header = () => {
       router.push("/?profile-page=my-profile-page");
       return;
     } catch (err) {
-      localStorage.removeItem("accsessToken");
-      setValueReturnLogin({});
+      localStorage.clear();
       router.push("/?login-page=true");
       return;
     }

@@ -3,9 +3,9 @@ import React, { useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRecoilState } from "recoil";
-import { Facebook } from "lucide-react";
 import { AtomSidebaCheckUnderline } from "@/app/recoil/sidebar-check-provider";
 import { MoveLeft } from "lucide-react";
+import { notification } from "antd";
 import { userApis } from "@/app/apis/user-apis";
 import { AtomReturnInformationWhenLogin } from "@/app/recoil/information-user-provider";
 import { adminApis } from "@/app/apis/admin-apis";
@@ -15,12 +15,21 @@ const LoginComponent = () => {
   const emailValue = useRef<HTMLInputElement>(null);
   const passwordValue = useRef<HTMLInputElement>(null);
   const checkBoxValue = useRef<HTMLInputElement>(null);
+  const [showPassword, setShowPassword] = useState(false);
   const [rightnessOfInforMation, setRightness] = useState(true);
   const [_, setCheckSidebar] = useRecoilState(AtomSidebaCheckUnderline);
   const [__, setReturnInformation] = useRecoilState(
     AtomReturnInformationWhenLogin
   );
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const openNotificationWelcome = () => {
+    notification.open({
+      message: "Welcome back .",
+      onClick: () => {
+        console.log("Notification Clicked!");
+      },
+    });
+  };
 
   const GetInformation = async () => {
     try {
@@ -59,6 +68,7 @@ const LoginComponent = () => {
           setReturnInformation(login.data);
           localStorage.setItem("accessToken", login.data.token);
           router.push("/");
+          openNotificationWelcome();
         } else {
           setRightness(false);
         }
@@ -68,6 +78,13 @@ const LoginComponent = () => {
     } catch (error) {
       console.log(error, "from login user");
       return;
+    }
+  };
+
+  const handleKeyPress = (event: any) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      GetInformation();
     }
   };
   return (
@@ -82,33 +99,30 @@ const LoginComponent = () => {
         </div>
       </Link>
 
-      <button onClick={() => window.history.back()}>
+      <button className="my-3" onClick={() => window.history.back()}>
         <MoveLeft />
       </button>
 
-      <div className="w-[500px] grid justify-center">
+      <div
+        className="w-[400px] h-[500px] grid justify-center items-center drop-shadow-2xl"
+        style={{
+          backgroundImage:
+            'url("https://global.discourse-cdn.com/elastic/original/3X/9/0/90df22ab443662d632838fd82f6ea38b2cba025a.png")',
+        }}
+      >
         <div className="container-fluid h-custom">
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
               <form>
-                <div className="grid justify-center ">
-                  <p className="w-fit">Sign in with</p>
-                  <div className="grid justify-center">
-                    <button
-                      type="button"
-                      className="w-fit rounded-full bg-blue-500 p-2 center"
-                    >
-                      <Facebook style={{ color: "white" }} />
-                    </button>
-                  </div>
-                </div>
-
-                <div className="divider d-flex align-items-center my-4">
-                  <p className="text-center fw-bold mx-3 mb-0">Or</p>
+                <div className="grid justify-center text-2xl font-bold mb-5 text-red-400">
+                  LOGIN
                 </div>
 
                 <div className="grid  mb-4">
-                  <label className="form-label" htmlFor="form3Example3">
+                  <label
+                    className="form-label font-bold"
+                    htmlFor="form3Example3"
+                  >
                     Email :
                   </label>
                   <input
@@ -116,6 +130,7 @@ const LoginComponent = () => {
                     type="email"
                     className=" w-[250px] focus:outline-none bg-orange-100 p-2"
                     placeholder="Enter a valid email address"
+                    onKeyPress={handleKeyPress}
                   />
                   {rightnessOfInforMation ? null : (
                     <p className="text-red-700 text-sm">
@@ -125,20 +140,32 @@ const LoginComponent = () => {
                 </div>
 
                 <div className="grid  mb-3">
-                  <label className="form-label" htmlFor="form3Example4">
+                  <label
+                    className="form-label font-bold"
+                    htmlFor="form3Example4"
+                  >
                     Password :
                   </label>
                   <input
                     ref={passwordValue}
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     className=" w-[250px] focus:outline-none bg-orange-100 p-2"
                     placeholder="Enter password"
+                    onKeyPress={handleKeyPress}
                   />
                   {rightnessOfInforMation ? null : (
                     <p className="text-red-700 text-sm">
                       Email or password is incorrect
                     </p>
                   )}
+                  <div>
+                    <Link
+                      href="/?confirm-email-page=true"
+                      className="underline text-red-700 text-xs"
+                    >
+                      Forgot password ?
+                    </Link>
+                  </div>
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center">
@@ -149,9 +176,10 @@ const LoginComponent = () => {
                       type="checkbox"
                       value=""
                       id="form2Example3"
+                      onClick={() => setShowPassword(!showPassword)}
                     />
                     <label className="form-check-label" htmlFor="form2Example3">
-                      Remember me
+                      Show password
                     </label>
                   </div>
                 </div>

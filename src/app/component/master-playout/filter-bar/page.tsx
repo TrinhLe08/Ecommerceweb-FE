@@ -13,7 +13,6 @@ import { AtomProductListContext } from "@/app/recoil/product-list-provider";
 import { ProductType } from "@/app/utils/product.type";
 import { AtomMenuBar } from "@/app/recoil/menu-bar-provider";
 import { AtomResetLimitProductListPage } from "@/app/recoil/reset-limit-product-list-page-provider";
-import { AtomInformationUser } from "@/app/recoil/information-user-provider";
 
 const FilterBar = () => {
   const [_, setCheckSidebar] = useRecoilState(AtomSidebaCheckUnderline);
@@ -33,7 +32,12 @@ const FilterBar = () => {
         <button
           onClick={() => {
             const newList: ProductType[] = [...productList];
-            newList.sort((a: ProductType, b: ProductType) => b.price - a.price);
+            newList.sort((a, b) => {
+              if (a.price && b.price) {
+                return b.price - a.price;
+              }
+              return 0;
+            });
             setProductList(newList);
           }}
         >
@@ -47,7 +51,10 @@ const FilterBar = () => {
         <button
           onClick={() => {
             const newList: ProductType[] = [...productList];
-            newList.sort((a: ProductType, b: ProductType) => a.price - b.price);
+            newList.sort(
+              (a: ProductType, b: ProductType) =>
+                (a.price || 0) - (b.price || 0)
+            );
             setProductList(newList);
           }}
         >
@@ -55,9 +62,6 @@ const FilterBar = () => {
         </button>
       ),
       key: "1",
-    },
-    {
-      type: "divider",
     },
   ];
   return (

@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { ShoppingCart } from "lucide-react";
 import { Facebook } from "lucide-react";
@@ -11,13 +12,11 @@ import { ProductType } from "@/app/utils/product.type";
 import { OrderDetailType } from "@/app/utils/shopping-list.type";
 import StarRatings from "react-star-ratings";
 import { notification } from "antd";
-import {
-  AtomInformationUser,
-  AtomReturnInformationWhenLogin,
-} from "@/app/recoil/information-user-provider";
+import { AtomReturnInformationWhenLogin } from "@/app/recoil/information-user-provider";
 import { productApis } from "@/app/apis/product-apis";
 
 const DetailProduct = () => {
+  const router = useRouter();
   const [shoppingCart, setShoppingCart] = useRecoilState(AtomShoppingCart);
   const [_, setProduct] = useRecoilState(AtomDetailProduct);
   const detailProductValue: ProductType = useRecoilValue(AtomDetailProduct);
@@ -25,6 +24,7 @@ const DetailProduct = () => {
   const [content, setContent] = useState("");
   const [ratting, setRating] = useState(0);
   const [checkRatting, setCheckRatting] = useState(false);
+
   const handleInput = (e: any) => {
     setContent(e.target.value);
   };
@@ -88,12 +88,19 @@ const DetailProduct = () => {
         setProduct(commentProduct.data);
         setRating(0);
         setContent(" ");
-        console.log(content);
       }
       return;
     } catch (err) {
-      console.log(err);
+      localStorage.clear();
+      router.push("/?login-page=true");
       return;
+    }
+  };
+
+  const handleKeyPress = (event: any) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      commentProduct();
     }
   };
   return (
@@ -119,14 +126,17 @@ const DetailProduct = () => {
               starDimension="20px"
               starSpacing="3px"
             />
-            <p className="flex gap-3">
-              {(detailProductValue.price / 100).toFixed(2)} ${" "}
-              <p className="line-through">
-                {!detailProductValue.status
-                  ? `${(detailProductValue.price / 0.7 / 100).toFixed(2)} $`
-                  : null}
-              </p>
-            </p>
+            {detailProductValue.price ? (
+              <div className="flex gap-3">
+                {(detailProductValue.price / 100).toFixed(2)} ${" "}
+                <p className="line-through">
+                  {!detailProductValue.status
+                    ? `${(detailProductValue.price / 0.7 / 100).toFixed(2)} $`
+                    : null}
+                </p>
+              </div>
+            ) : null}
+
             <button
               className="flex sm:justify-start justify-center font-serif italic hover:underline text-xl text-amber-900 "
               onClick={() => handleAddToCart()}
@@ -194,6 +204,7 @@ const DetailProduct = () => {
                 onChange={handleInput}
                 className="focus:outline-none border-red-400 border-b-2 w-[500px]"
                 placeholder="Write a comment..."
+                onKeyPress={handleKeyPress}
               />
               <button
                 className="flex bg-red-600 text-white w-fit p-4 h-9 items-center"
@@ -202,6 +213,11 @@ const DetailProduct = () => {
                 Comment
               </button>
             </div>
+          </div>
+        ) : localStorage.getItem("accessToken") &&
+          !informationUser.bought.includes(detailProductValue.id) ? (
+          <div className="order-red-400 border-b-2 text-red-700">
+            Buy this product to comment .
           </div>
         ) : (
           <Link
@@ -212,34 +228,39 @@ const DetailProduct = () => {
           </Link>
         )}
         <div>
-          {detailProductValue.comment
-            ? detailProductValue.comment.map((comment) => (
-                <div className="w-[80%] border-b-2 border-red">
-                  <div className="flex items-center gap-2">
-                    <img
-                      src={
-                        comment.urlAvatarUser !== ""
-                          ? comment.urlAvatarUser
-                          : "https://nhadepso.com/wp-content/uploads/2023/03/cap-nhat-50-hinh-anh-dai-dien-facebook-mac-dinh-dep-doc-la_2.jpg"
-                      }
-                      alt=""
-                      className="w-10 h-10 r rounded-full"
-                    />
-                    <p className="text-red-400">{comment.email}</p>
-                    <StarRatings
-                      rating={comment.ratting}
-                      starRatedColor="yellow"
-                      changeRating={changeRating}
-                      numberOfStars={5}
-                      name="rating"
-                      starDimension="20px"
-                      starSpacing="3px"
-                    />
-                  </div>
-                  <h1 className="ml-3">{comment.content}</h1>
+          {detailProductValue.comment &&
+          detailProductValue.comment.length > 0 ? (
+            detailProductValue.comment.map((comment, index) => (
+              <div className="w-[80%] border-b-2 border-red" key={index}>
+                <div className="flex items-center gap-2">
+                  <img
+                    src={
+                      comment.urlAvatarUser !== ""
+                        ? comment.urlAvatarUser
+                        : "https://nhadepso.com/wp-content/uploads/2023/03/cap-nhat-50-hinh-anh-dai-dien-facebook-mac-dinh-dep-doc-la_2.jpg"
+                    }
+                    alt=""
+                    className="w-10 h-10 r rounded-full"
+                  />
+                  <p className="text-red-400">{comment.email}</p>
+                  <StarRatings
+                    rating={comment.ratting}
+                    starRatedColor="yellow"
+                    changeRating={changeRating}
+                    numberOfStars={5}
+                    name="rating"
+                    starDimension="20px"
+                    starSpacing="3px"
+                  />
                 </div>
-              ))
-            : null}
+                <h1 className="ml-3">{comment.content}</h1>
+              </div>
+            ))
+          ) : (
+            <div className=" text-sm text-center my-5">
+              There are no comments here .
+            </div>
+          )}
         </div>
       </div>
     </div>
