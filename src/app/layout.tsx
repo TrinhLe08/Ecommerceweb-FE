@@ -1,7 +1,5 @@
 "use client";
 import { Inter } from "next/font/google";
-import Head from "next/head";
-import { Metadata } from "next";
 import { RecoilRoot } from "recoil";
 import "./globals.css";
 import "./style.scss";
