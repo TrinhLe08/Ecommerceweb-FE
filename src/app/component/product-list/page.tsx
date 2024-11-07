@@ -2,26 +2,48 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Pagination from "rc-pagination";
+import { useSearchParams } from "next/navigation";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { ChevronRight } from "lucide-react";
 import { ChevronLeft } from "lucide-react";
 import { AtomProductListContext } from "@/app/recoil/product-list-provider";
-import { ProductType } from "@/app/utils/product.type";
+import { ProductType } from "@/app/util/product.type";
 import { AtomResetLimitProductListPage } from "@/app/recoil/reset-limit-product-list-page-provider";
+import FecthDataParams from "@/app/global/fecth-data-param-product-list-request";
 import StarRatings from "react-star-ratings";
 
 const ProductList = () => {
+  const searchParams = useSearchParams();
+  const [_, setValueProductList] = useRecoilState(AtomProductListContext);
   const valueProductList = useRecoilValue(AtomProductListContext);
   const [currentPage, setCurrentPage] = useRecoilState(
     AtomResetLimitProductListPage
   );
-  const pageSize: number = 9;
+  const pageSize: number = 8;
   const totalItems: number = valueProductList.length;
   const limitPage: number = Math.ceil(totalItems / pageSize);
   const startItemIndex = (currentPage - 1) * pageSize;
   const endItemIndex = startItemIndex + pageSize;
   const currentItems = valueProductList.slice(startItemIndex, endItemIndex);
-  const [_, setRating] = useState(0);
+  const [__, setRating] = useState(0);
+
+  useEffect(() => {
+    const FecthData = async () => {
+      const valueParams: string | null = searchParams.get("product-page");
+      try {
+        if (valueParams) {
+          const productData = await FecthDataParams(valueParams);
+          setValueProductList(productData);
+          return;
+        }
+      } catch (err) {
+        console.log(err);
+        return;
+      }
+    };
+    FecthData();
+  }, [searchParams]);
+
   const changeRating = (newRating: number) => {
     setRating(newRating);
   };
@@ -131,4 +153,4 @@ const ProductList = () => {
   );
 };
 
-export default React.memo(ProductList);
+export default ProductList;

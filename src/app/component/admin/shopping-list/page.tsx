@@ -4,7 +4,7 @@ import { AtomShoppingListDetail } from "@/app/recoil/admin-request-shopping-list
 import {
   OrderDetailType,
   ShoppingListType,
-} from "@/app/utils/shopping-list.type";
+} from "@/app/util/shopping-list.type";
 
 const ShoppingList = () => {
   const shoppingListValue: ShoppingListType = useRecoilValue(
@@ -24,10 +24,17 @@ const ShoppingList = () => {
         <div>Buyer name : {shoppingListValue.buyerName}</div>
         <div>Eamil : {shoppingListValue.email}</div>
         <div>Phone Number : {shoppingListValue.phoneNumber}</div>
-        <div>Country : {shoppingListValue.country}</div>
+        <div>
+          Country :
+          {shoppingListValue.country === ""
+            ? "America"
+            : shoppingListValue.country}
+        </div>
         <div>City : {shoppingListValue.city}</div>
-        <div>Status : {shoppingListValue.status ? "slacking" : "done"}</div>
-        <div>Status : {shoppingListValue.point}</div>
+        <div>
+          Status : {shoppingListValue.status ? "not approved" : "approved"}
+        </div>
+        <div>Point : {shoppingListValue.point}</div>
       </div>
       <div className="mb-5">Dtail Order : </div>
       <div className="flex border-b-2 border-red-100 font-semibold">

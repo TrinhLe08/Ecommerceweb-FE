@@ -7,20 +7,21 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { AtomAllOrder } from "@/app/recoil/admin-request-all-order-provider";
 import { AtomShoppingListDetail } from "@/app/recoil/admin-request-shopping-list-detail";
 import Link from "next/link";
-import { ShoppingListType } from "@/app/utils/shopping-list.type";
+import { ShoppingListType } from "@/app/util/shopping-list.type";
 import { orderApis } from "@/app/apis/order-apis";
 
-const ProductListAdmin = () => {
+const OrderListAdmin = () => {
   const router = useRouter();
   const allOrder = useRecoilValue(AtomAllOrder);
-  const [x, setAllOrder] = useRecoilState(AtomAllOrder);
-  const [y, setShoppingCartAdmin] = useRecoilState(AtomShoppingListDetail);
+  const [_, setAllOrder] = useRecoilState(AtomAllOrder);
+  const [__, setShoppingCartAdmin] = useRecoilState(AtomShoppingListDetail);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
   const totalItems = allOrder.length;
   const startItemIndex = (currentPage - 1) * pageSize;
   const endItemIndex = startItemIndex + pageSize;
   const currentItems = allOrder.slice(startItemIndex, endItemIndex);
+
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
@@ -79,13 +80,15 @@ const ProductListAdmin = () => {
               <div className="w-[150px]">{value.buyerName}</div>
               <div className="w-[250px]">{value.email}</div>
               <div className="w-[150px]">{value.phoneNumber}</div>
-              <div className="w-[150px]">{value.country}</div>
+              <div className="w-[150px]">
+                {value.country === "" ? "America" : value.country}
+              </div>
               <div className="w-[150px]">{value.quantity}</div>
               <div className="w-[150px]">
                 {value.price ? (value.price / 100).toFixed(2) : "N/A"} $
               </div>
               <div className="w-[80px]">
-                {value.status ? "slacking" : "done"}
+                {value.status ? "not approved" : "approved"}
               </div>
               <div className="w-[50px]">{value.point}</div>
             </Link>
@@ -119,4 +122,4 @@ const ProductListAdmin = () => {
   );
 };
 
-export default React.memo(ProductListAdmin);
+export default React.memo(OrderListAdmin);

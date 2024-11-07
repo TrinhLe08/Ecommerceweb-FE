@@ -1,15 +1,17 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { Pagination } from "antd";
 import { productApis } from "@/app/apis/product-apis";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { AtomProductListContext } from "@/app/recoil/product-list-provider";
-import { ProductType } from "@/app/utils/product.type";
+import { ProductType } from "@/app/util/product.type";
 
 const ProductListAdmin = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const productList = useRecoilValue(AtomProductListContext);
   const [_, setProductPage] = useRecoilState(AtomProductListContext);
   const [underline, setUnderline] = useState(0);
@@ -22,6 +24,23 @@ const ProductListAdmin = () => {
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
+  useEffect(() => {
+    const FecthDataAllProduct = async () => {
+      const valueParams: string | null = searchParams.get("page-admin");
+      try {
+        if (valueParams === "product-list") {
+          const allProdcut = await productApis.getAllProduct();
+          setProductPage(allProdcut.data);
+          return;
+        }
+      } catch (err) {
+        console.log(err);
+        return;
+      }
+    };
+    FecthDataAllProduct();
+    return;
+  }, [searchParams]);
   const FecthDataProductList = async (valueToFecthData: string) => {
     try {
       if (valueToFecthData === "home-decord") {
@@ -94,7 +113,7 @@ const ProductListAdmin = () => {
           {currentItems.map((product: ProductType) => (
             <div key={product.id}>
               <div className=" grid justify-center text-center">
-                <img src={product.urlProduct} alt="" className="w-full" />
+                <img src={product.urlProduct} alt="" className="w-[200px]" />
                 <p className="font-semibold">{product.name}</p>
                 <p>
                   {product.price ? (product.price / 100).toFixed(2) : null} $

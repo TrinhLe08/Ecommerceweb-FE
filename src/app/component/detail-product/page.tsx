@@ -1,6 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { ShoppingCart } from "lucide-react";
@@ -12,18 +13,41 @@ import { ProductType } from "@/app/util/product.type";
 import { OrderDetailType } from "@/app/util/shopping-list.type";
 import StarRatings from "react-star-ratings";
 import { notification } from "antd";
+import FecthDataDetailProduct from "@/app/global/fecth-data-param-detail-product-request";
 import { AtomReturnInformationWhenLogin } from "@/app/recoil/information-user-provider";
 import { productApis } from "@/app/apis/product-apis";
 
 const DetailProduct = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [shoppingCart, setShoppingCart] = useRecoilState(AtomShoppingCart);
-  const [_, setProduct] = useRecoilState(AtomDetailProduct);
+  const [_, setDetailProductValue] = useRecoilState(AtomDetailProduct);
   const detailProductValue: ProductType = useRecoilValue(AtomDetailProduct);
   const informationUser = useRecoilValue(AtomReturnInformationWhenLogin);
   const [content, setContent] = useState("");
   const [ratting, setRating] = useState(0);
   const [checkRatting, setCheckRatting] = useState(false);
+
+  useEffect(() => {
+    const FecthData = async () => {
+      const idProduct: number | null = parseInt(
+        searchParams.get("product-detail") || "0",
+        10
+      );
+      try {
+        if (idProduct) {
+          const dataDetailProduct = await FecthDataDetailProduct(idProduct);
+          setDetailProductValue(dataDetailProduct);
+          return;
+        }
+        return;
+      } catch (err) {
+        console.log(err);
+        return;
+      }
+    };
+    FecthData();
+  }, [searchParams]);
 
   const handleInput = (e: any) => {
     setContent(e.target.value);
@@ -85,7 +109,7 @@ const DetailProduct = () => {
       };
       const commentProduct = await productApis.commentProduct(dataComment);
       if (commentProduct) {
-        setProduct(commentProduct.data);
+        setDetailProductValue(commentProduct.data);
         setRating(0);
         setContent(" ");
       }
@@ -110,7 +134,7 @@ const DetailProduct = () => {
           <img
             src={detailProductValue.urlProduct}
             alt=""
-            className="w-[500px] h-[700px]"
+            className="w-[600px] h-auto"
           />
         </div>
         <div>
@@ -199,23 +223,24 @@ const DetailProduct = () => {
               ) : null}
             </div>
             <div className="flex gap-4 mb-4">
-              <input
-                type="text"
-                onChange={handleInput}
-                className="focus:outline-none border-red-400 border-b-2 w-[500px]"
-                placeholder="Write a comment..."
-                onKeyPress={handleKeyPress}
-              />
-              <button
-                className="flex bg-red-600 text-white w-fit p-4 h-9 items-center"
-                onClick={commentProduct}
-              >
-                Comment
-              </button>
+              <div className="flex gap-4 mb-4">
+                <input
+                  type="text"
+                  onChange={handleInput}
+                  className="focus:outline-none border-red-400 border-b-2 md:w-[500px] w-[300px] "
+                  placeholder="Write a comment..."
+                  onKeyPress={handleKeyPress}
+                />
+                <button
+                  className="flex bg-red-600 text-white w-fit p-4 h-9 items-center"
+                  onClick={commentProduct}
+                >
+                  Comment
+                </button>
+              </div>
             </div>
           </div>
-        ) : localStorage.getItem("accessToken") &&
-          !informationUser.bought.includes(detailProductValue.id) ? (
+        ) : localStorage.getItem("accessToken") ? (
           <div className="order-red-400 border-b-2 text-red-700">
             Buy this product to comment .
           </div>

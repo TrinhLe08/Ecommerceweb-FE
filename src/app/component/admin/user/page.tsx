@@ -4,7 +4,7 @@ import { Pagination } from "antd";
 import { List } from "antd";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { AtomAllUser } from "@/app/recoil/admin-request-all-user-provider";
-import { UserType } from "@/app/utils/user.type";
+import { UserType } from "@/app/util/user.type";
 import { userApis } from "@/app/apis/user-apis";
 
 const AllUserPage = () => {
@@ -28,6 +28,7 @@ const AllUserPage = () => {
   return (
     <div>
       <div className="w-full flex justify-between mb-2 border-b-[1px] border-red-100 pb-1 font-semibold">
+        <p className="w-[30px]">Id</p>
         <p className="w-[200px]">Email</p>
         <p className="w-[100px]">Name</p>
         <p className="w-[100px]">Phone Number</p>
@@ -41,6 +42,7 @@ const AllUserPage = () => {
         renderItem={(value: UserType | any) => (
           <div className="w-full  flex justify-between mb-2 border-b-[1px] border-red-100 pb-1">
             <div className="w-full flex justify-between mb-2 border-b-[1px] border-red-100 pb-1">
+              <p className="w-[30px]">{value.id}</p>
               <p className="w-[200px]">{value.email}</p>
               <p className="w-[100px]">{value.name}</p>
               <p className="w-[100px]">{value.phoneNumber}</p>

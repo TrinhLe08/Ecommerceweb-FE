@@ -5,6 +5,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { AtomSidebaCheckUnderline } from "@/app/recoil/sidebar-check-provider";
 import { AtomMenuBar } from "@/app/recoil/menu-bar-provider";
 import { AtomResetLimitProductListPage } from "@/app/recoil/reset-limit-product-list-page-provider";
+import { AtomProductListContext } from "@/app/recoil/product-list-provider";
 
 const SideBar = () => {
   const [_, setCheckSidebar] = useRecoilState(AtomSidebaCheckUnderline);

@@ -1,18 +1,62 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useFormik } from "formik";
+import { useRouter } from "next/navigation";
+import { notification } from "antd";
 import * as Yup from "yup";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
 import { AtomDetailProduct } from "@/app/recoil/detail-product-provider";
-import { ProductType } from "@/app/utils/product.type";
+import { ProductType } from "@/app/util/product.type";
 import { productApis } from "@/app/apis/product-apis";
+import FecthDataDetailProduct from "@/app/global/fecth-data-param-detail-product-request";
 
 const AdminDetailProduct = () => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const [spin, setSpin] = useState(false);
   const [_, setDetailProduct] = useRecoilState(AtomDetailProduct);
   const detailProductValue: ProductType = useRecoilValue(AtomDetailProduct);
+
+  const openNotification = () => {
+    notification.open({
+      message: "The product has been updated .",
+      onClick: () => {
+        console.log("Notification Clicked!");
+      },
+    });
+  };
+  const openNotificationFalse = () => {
+    notification.open({
+      message: "Failure has occurred !",
+      onClick: () => {
+        console.log("Notification Clicked!");
+      },
+    });
+  };
+  useEffect(() => {
+    const FecthData = async () => {
+      const idProduct: number | null = parseInt(
+        searchParams.get("page-admin-detail-product") || "0",
+        10
+      );
+      try {
+        if (idProduct) {
+          const dataDetailProduct = await FecthDataDetailProduct(idProduct);
+          setDetailProduct(dataDetailProduct);
+          return;
+        }
+        return;
+      } catch (err) {
+        console.log(err);
+        return;
+      }
+    };
+    FecthData();
+    return;
+  }, [searchParams]);
   const antIcon: JSX.Element = (
     <LoadingOutlined
       style={{
@@ -32,6 +76,8 @@ const AdminDetailProduct = () => {
       size: `${detailProductValue.size}`,
       detail: `${detailProductValue.detail}`,
       origin: `${detailProductValue.origin}`,
+      ratting: detailProductValue.ratting,
+      comment: detailProductValue.comment,
     },
     validationSchema: Yup.object({
       name: Yup.string().required("Cannot be left blank !"),
@@ -43,10 +89,31 @@ const AdminDetailProduct = () => {
     }),
     onSubmit: async (values: any) => {
       setSpin(true);
-      if (values.urlProduct === null) {
+      try {
+        if (values.urlProduct === null) {
+          const dataToUpdateProduct: ProductType = {
+            id: detailProductValue.id,
+            urlProduct: detailProductValue.urlProduct,
+            name: values.name,
+            price: values.price,
+            status: values.status,
+            material: values.material,
+            size: values.size,
+            detail: values.detail,
+            origin: values.origin,
+            item: detailProductValue.item,
+          };
+          const updateProduct = await productApis.updateProduct(
+            dataToUpdateProduct
+          );
+          setDetailProduct(updateProduct.data);
+          setSpin(false);
+          openNotification();
+          return;
+        }
         const dataToUpdateProduct: ProductType = {
           id: detailProductValue.id,
-          urlProduct: detailProductValue.urlProduct,
+          urlProduct: values.urlProduct,
           name: values.name,
           price: values.price,
           status: values.status,
@@ -62,26 +129,13 @@ const AdminDetailProduct = () => {
         setDetailProduct(updateProduct.data);
         setSpin(false);
         return;
+      } catch (err) {
+        console.log(err);
+        openNotificationFalse();
+        return;
       }
-      const dataToUpdateProduct: ProductType = {
-        id: detailProductValue.id,
-        urlProduct: values.urlProduct,
-        name: values.name,
-        price: values.price,
-        status: values.status,
-        material: values.material,
-        size: values.size,
-        detail: values.detail,
-        origin: values.origin,
-        item: detailProductValue.item,
-      };
-      const updateProduct = await productApis.updateProduct(
-        dataToUpdateProduct
-      );
-      setDetailProduct(updateProduct.data);
-      setSpin(false);
-      return;
     },
+    enableReinitialize: true,
   });
 
   return (
@@ -90,7 +144,7 @@ const AdminDetailProduct = () => {
       className="detail-product grid w-full justify-center gap-5 w-full italic font-serif"
     >
       {spin ? (
-        <div className="w-full absolute top-0 left-0 h-[200%] flex justify-center items-center z-999 bg-gray-300 bg-opacity-50">
+        <div className="w-full absolute top-0 left-0 h-[230%] flex justify-center items-center z-999 bg-gray-300 bg-opacity-50">
           <Spin indicator={antIcon} className="relative" />
         </div>
       ) : null}
@@ -188,9 +242,17 @@ const AdminDetailProduct = () => {
           </p>
         </div>
       </div>
-      <button type="submit">Update</button>
+      <button
+        type="submit"
+        onClick={() => {
+          router.push("/?page-admin=product-list");
+          return;
+        }}
+      >
+        Update
+      </button>
     </form>
   );
 };
 
-export default React.memo(AdminDetailProduct);
+export default AdminDetailProduct;

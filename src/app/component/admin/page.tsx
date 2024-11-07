@@ -1,9 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { UserOutlined, PieChartOutlined } from "@ant-design/icons";
 import { CheckCircle, PackageSearch } from "lucide-react";
+import { adminApis } from "@/app/apis/admin-apis";
 import type { MenuProps } from "antd";
 import { Layout, Menu, theme } from "antd";
+import { LogOut } from "lucide-react";
 import Link from "next/link";
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -60,11 +63,35 @@ const items: MenuItem[] = [
 ];
 
 const MasterLayOutAdmin: React.FC<MasterPlayOutProps> = ({ Component }) => {
+  const router = useRouter();
+  const LogOutAdmin = () => {
+    localStorage.clear();
+    router.push("/");
+    return;
+  };
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    if (!token) {
-      window.location.href = "about:blank";
-    }
+    const token: string | null = localStorage.getItem("accessToken");
+    const CheckToken = async () => {
+      try {
+        if (token) {
+          const check = await adminApis.checkTokenAdmin(token);
+          if (check.data) {
+            return;
+          } else {
+            LogOutAdmin();
+            return;
+          }
+        } else {
+          LogOutAdmin();
+          return;
+        }
+      } catch (err) {
+        console.log(err);
+        LogOutAdmin();
+        return;
+      }
+    };
+    CheckToken();
   }, []);
   const [collapsed, setCollapsed] = useState(false);
   const {
@@ -101,9 +128,14 @@ const MasterLayOutAdmin: React.FC<MasterPlayOutProps> = ({ Component }) => {
             <Component />
           </div>
         </Content>
-        <Footer style={{ textAlign: "center" }}>
-          Ant Design ©2023 Created by Ant UED
-        </Footer>
+        <div className="flex justify-end">
+          <button
+            className="flex border-red-600 border-b-2"
+            onClick={() => LogOutAdmin()}
+          >
+            Log Out <LogOut />
+          </button>
+        </div>
       </Layout>
     </Layout>
   );

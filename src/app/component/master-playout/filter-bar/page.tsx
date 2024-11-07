@@ -10,21 +10,21 @@ import { Dropdown, Space } from "antd";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { AtomSidebaCheckUnderline } from "@/app/recoil/sidebar-check-provider";
 import { AtomProductListContext } from "@/app/recoil/product-list-provider";
-import { ProductType } from "@/app/utils/product.type";
+import { ProductType } from "@/app/util/product.type";
 import { AtomMenuBar } from "@/app/recoil/menu-bar-provider";
 import { AtomResetLimitProductListPage } from "@/app/recoil/reset-limit-product-list-page-provider";
 
 const FilterBar = () => {
   const [_, setCheckSidebar] = useRecoilState(AtomSidebaCheckUnderline);
-  const checkSidebar = useRecoilValue(AtomSidebaCheckUnderline);
-  const productList = useRecoilValue(AtomProductListContext);
   const [__, setProductList] = useRecoilState(AtomProductListContext);
-  const [checkPropdown, setCheckPropdown] = useState(false);
-  const checkMenuBar: boolean = useRecoilValue(AtomMenuBar);
   const [___, setMenuBar] = useRecoilState(AtomMenuBar);
   const [____, setResetLimitProductListPage] = useRecoilState(
     AtomResetLimitProductListPage
   );
+  const checkSidebar = useRecoilValue(AtomSidebaCheckUnderline);
+  const productList = useRecoilValue(AtomProductListContext);
+  const [checkPropdown, setCheckPropdown] = useState(false);
+  const checkMenuBar: boolean = useRecoilValue(AtomMenuBar);
 
   const items: MenuProps["items"] = [
     {

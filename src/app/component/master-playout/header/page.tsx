@@ -9,7 +9,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { AtomSidebaCheckUnderline } from "@/app/recoil/sidebar-check-provider";
 import { AtomShoppingCart } from "@/app/recoil/shopping-cart-provider";
 import { productApis } from "@/app/apis/product-apis";
-import { ProductType } from "@/app/utils/product.type";
+import { ProductType } from "@/app/util/product.type";
 import {
   AtomInformationUser,
   AtomReturnInformationWhenLogin,
@@ -20,15 +20,16 @@ const Header = () => {
   const router = useRouter();
   const [valueSearch, setValueSearch] = useState([]);
   const [allProduct, setValueAllProdcut] = useState([]);
-  const informationUserWhenLogin = useRecoilValue(
-    AtomReturnInformationWhenLogin
-  );
-  const shoppingCartValue = useRecoilValue(AtomShoppingCart);
   const [_, setCheckSidebar] = useRecoilState(AtomSidebaCheckUnderline);
   const [__, setValueReturnLogin] = useRecoilState(
     AtomReturnInformationWhenLogin
   );
   const [___, setInfor] = useRecoilState(AtomInformationUser);
+
+  const informationUserWhenLogin = useRecoilValue(
+    AtomReturnInformationWhenLogin
+  );
+  const shoppingCartValue = useRecoilValue(AtomShoppingCart);
   const openNotificationAutomaticLogout = () => {
     notification.open({
       message: "Login session expired, please log in again .",
@@ -96,7 +97,7 @@ const Header = () => {
         WELCOME TO
         <span className="font-semibold text-center">LEIF SHOP</span>
       </div>
-      <div className="w-full flex justify-between items-center px-5">
+      <div className="w-full sm:flex grid justify-between text-center items-center px-5">
         <div>
           <div className="flex gap-2 h-fit lg:w-fit w-[80px]">
             <Search strokeWidth={1} />
@@ -105,7 +106,7 @@ const Header = () => {
               placeholder="Search"
               onChange={(e) => SearchProduct(e.target.value)}
               onBlur={() => setTimeout(() => setValueSearch([]), 500)}
-              className="italic focus:outline-none font-serif font-thin lg:w-full w-[80px]"
+              className="italic focus:outline-none font-serif font-thin w-[200px]"
             />
           </div>
 
@@ -123,7 +124,11 @@ const Header = () => {
             </div>
           ) : null}
         </div>
-        <Link href="/" onClick={() => setCheckSidebar(0)}>
+        <Link
+          href="/"
+          onClick={() => setCheckSidebar(0)}
+          className="flex justify-center"
+        >
           <img
             src="https://www.leifshop.com/cdn/shop/t/49/assets/logo_leif.png?v=22488871944701774831698078109"
             alt=""
@@ -131,7 +136,7 @@ const Header = () => {
           />
         </Link>
 
-        <div className="grid gap-2 font-serif font-thin">
+        <div className="grid justify-center gap-2 font-serif font-thin">
           <div className="text-yellow-600 border-b border-black-600 p-3">
             {informationUserWhenLogin.hasOwnProperty("email") &&
             informationUserWhenLogin.hasOwnProperty("urlAvatar") ? (

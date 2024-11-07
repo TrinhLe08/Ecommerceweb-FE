@@ -2,8 +2,7 @@
 import React, { useRef } from "react";
 import { useRouter } from "next/navigation";
 import { adminApis } from "@/app/apis/admin-apis";
-import { AdminType } from "@/app/utils/admin.type";
-
+import { AdminType } from "@/app/util/admin.type";
 const LoginAdmin = () => {
   const name = useRef<HTMLInputElement | null>(null);
   const password = useRef<HTMLInputElement | null>(null);

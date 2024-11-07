@@ -9,7 +9,7 @@ import { notification } from "antd";
 import { Popover, Space } from "antd";
 import { MoveLeft } from "lucide-react";
 import { userApis } from "@/app/apis/user-apis";
-import { UserType } from "@/app/utils/user.type";
+import { UserType } from "@/app/util/user.type";
 
 const RegisterComponent = () => {
   const router = useRouter();

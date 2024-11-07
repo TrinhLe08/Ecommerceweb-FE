@@ -16,9 +16,7 @@ const SideBar = dynamic(() => import("./sidebar/page"), {
 const FilterBar = dynamic(() => import("./filter-bar/page"), {
   ssr: false,
 });
-const ShoppingList = dynamic(() => import("../admin/shopping-list/page"), {
-  ssr: false,
-});
+
 interface MasterPlayOutProps {
   Component: React.ComponentType<any>;
   value: boolean;

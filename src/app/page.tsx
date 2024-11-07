@@ -1,13 +1,10 @@
 "use client";
 import dynamic from "next/dynamic";
 import dotenv from "dotenv";
-import Head from "next/head";
 import RootLayout from "./layout";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { useSearchParams } from "next/navigation";
-import { AtomProductListContext } from "./recoil/product-list-provider";
-import FecthDataParams from "./global/fecth-data-param-product-list-request";
 import FecthDataDetailProduct from "./global/fecth-data-param-detail-product-request";
 import MasterLayOut from "./component/master-playout/page";
 import MasterLayOutAdmin from "./component/admin/page";
@@ -94,32 +91,19 @@ const SummaryPage = dynamic(() => import("./component/admin/summary/page"), {
 
 export default function App() {
   const searchParams = useSearchParams();
-  const [_, setValueProductList] = useRecoilState(AtomProductListContext);
   const [__, setDetailProductValue] = useRecoilState(AtomDetailProduct);
   const [___, setAllUser] = useRecoilState(AtomAllUser);
   const [____, setAllOrder] = useRecoilState(AtomAllOrder);
 
   useEffect(() => {
     const FecthData = async () => {
-      const valueParams: string | null = searchParams.get("product-page");
-      const idProduct: number | null = parseInt(
-        searchParams.get("product-detail") || "0",
-        10
-      );
       const idProductAdmin: number | null = parseInt(
         searchParams.get("page-admin-detail-product") || "0",
         10
       );
       const valueParamsAdmin: string | null = searchParams.get("page-admin");
       try {
-        if (valueParams) {
-          const productData = await FecthDataParams(valueParams);
-          setValueProductList(productData);
-        } else if (idProduct) {
-          const dataDetailProduct = await FecthDataDetailProduct(idProduct);
-          setDetailProductValue(dataDetailProduct);
-          return;
-        } else if (valueParamsAdmin && valueParamsAdmin === "all-user") {
+        if (valueParamsAdmin && valueParamsAdmin === "all-user") {
           const adminRequest = await FecthDataParamsAdmin(valueParamsAdmin);
           setAllUser(adminRequest);
         } else if (valueParamsAdmin && valueParamsAdmin === "order-list") {
@@ -132,53 +116,53 @@ export default function App() {
           setDetailProductValue(dataDetailProduct);
           return;
         }
+        return;
       } catch (err) {
+        console.log(err);
         return;
       }
     };
     FecthData();
   }, [searchParams]);
   return (
-    <>
-      <RootLayout>
-        {searchParams.has("register-page") ? (
-          <RegisterComponent />
-        ) : searchParams.has("login-page") ? (
-          <LoginComponent />
-        ) : searchParams.has("confirm-email-page") ? (
-          <ConfirmEmail />
-        ) : searchParams.has("confirm-code-page") ? (
-          <ConfirmCode />
-        ) : searchParams.has("change-password-page") ? (
-          <ChangePassword />
-        ) : searchParams.has("profile-page") ? (
-          <MasterLayOut Component={ProfilePage} value={true} />
-        ) : searchParams.has("product-page") ? (
-          <MasterLayOut Component={ProductList} value={true} />
-        ) : searchParams.has("product-detail") ? (
-          <MasterLayOut Component={DetailProduct} value={true} />
-        ) : searchParams.has("shopping-cart") ? (
-          <MasterLayOut Component={ShoppingCart} value={false} />
-        ) : searchParams.has("payment-page") ? (
-          <PagementPage />
-        ) : searchParams.get("page-admin") === "all-user" ? (
-          <MasterLayOutAdmin Component={AllUserPage} />
-        ) : searchParams.get("page-admin") === "order-list" ? (
-          <MasterLayOutAdmin Component={OrderList} />
-        ) : searchParams.get("page-admin") === "product-list" ? (
-          <MasterLayOutAdmin Component={ProductListAdmin} />
-        ) : searchParams.get("page-admin-detail-product") ? (
-          <MasterLayOutAdmin Component={AdminDetailProduct} />
-        ) : searchParams.get("page-admin") === "create-product" ? (
-          <MasterLayOutAdmin Component={CreateProduct} />
-        ) : searchParams.get("page-admin") === "shopping-cart" ? (
-          <MasterLayOutAdmin Component={ShoppingList} />
-        ) : searchParams.get("page-admin") === "summary" ? (
-          <MasterLayOutAdmin Component={SummaryPage} />
-        ) : (
-          <MasterLayOut Component={HomePage} value={true} />
-        )}
-      </RootLayout>
-    </>
+    <RootLayout>
+      {searchParams.has("register-page") ? (
+        <RegisterComponent />
+      ) : searchParams.has("login-page") ? (
+        <LoginComponent />
+      ) : searchParams.has("confirm-email-page") ? (
+        <ConfirmEmail />
+      ) : searchParams.has("confirm-code-page") ? (
+        <ConfirmCode />
+      ) : searchParams.has("change-password-page") ? (
+        <ChangePassword />
+      ) : searchParams.has("profile-page") ? (
+        <MasterLayOut Component={ProfilePage} value={true} />
+      ) : searchParams.has("product-page") ? (
+        <MasterLayOut Component={ProductList} value={true} />
+      ) : searchParams.has("product-detail") ? (
+        <MasterLayOut Component={DetailProduct} value={true} />
+      ) : searchParams.has("shopping-cart") ? (
+        <MasterLayOut Component={ShoppingCart} value={false} />
+      ) : searchParams.has("payment-page") ? (
+        <PagementPage />
+      ) : searchParams.get("page-admin") === "all-user" ? (
+        <MasterLayOutAdmin Component={AllUserPage} />
+      ) : searchParams.get("page-admin") === "order-list" ? (
+        <MasterLayOutAdmin Component={OrderList} />
+      ) : searchParams.get("page-admin") === "product-list" ? (
+        <MasterLayOutAdmin Component={ProductListAdmin} />
+      ) : searchParams.get("page-admin-detail-product") ? (
+        <MasterLayOutAdmin Component={AdminDetailProduct} />
+      ) : searchParams.get("page-admin") === "create-product" ? (
+        <MasterLayOutAdmin Component={CreateProduct} />
+      ) : searchParams.get("page-admin") === "shopping-cart" ? (
+        <MasterLayOutAdmin Component={ShoppingList} />
+      ) : searchParams.get("page-admin") === "summary" ? (
+        <MasterLayOutAdmin Component={SummaryPage} />
+      ) : (
+        <MasterLayOut Component={HomePage} value={true} />
+      )}
+    </RootLayout>
   );
 }

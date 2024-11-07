@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { InputNumber } from "antd";
 import { AtomShoppingCart } from "@/app/recoil/shopping-cart-provider";
-import { OrderDetailType } from "@/app/utils/shopping-list.type";
+import { OrderDetailType } from "@/app/util/shopping-list.type";
 import { userApis } from "@/app/apis/user-apis";
 import {
   AtomInformationUser,
@@ -109,8 +109,6 @@ const ShoppingCart = () => {
             onClick={async () => {
               try {
                 if (localStorage.getItem("accessToken")) {
-                  console.log(12);
-
                   const dataUser = await userApis.getDetailUser(
                     informationUserWhenLogin.id
                   );

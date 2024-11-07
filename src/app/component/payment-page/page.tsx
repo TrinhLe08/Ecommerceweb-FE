@@ -12,7 +12,7 @@ import { AtomShoppingCart } from "@/app/recoil/shopping-cart-provider";
 import {
   OrderDetailType,
   ShoppingListType,
-} from "@/app/utils/shopping-list.type";
+} from "@/app/util/shopping-list.type";
 import { orderApis } from "@/app/apis/order-apis";
 import {
   AtomInformationUser,
@@ -24,7 +24,8 @@ const Paymentpage = () => {
   const shoppingCartValue = useRecoilValue(AtomShoppingCart);
   const [_, setShoppingCartValue] = useRecoilState(AtomShoppingCart);
   const [spin, setSpin] = useState(false);
-  const informationUser = useRecoilValue(AtomInformationUser);
+  const user: any = useRecoilValue(AtomInformationUser);
+  const informationUser = user || {};
   const [point, setPoint] = useState(0);
   const [hiddenInformationPoint, setHiddenInformationPoint] = useState(true);
   const [___, setValueReturnLogin] = useRecoilState(
@@ -238,6 +239,7 @@ const Paymentpage = () => {
                 <option value="South Africa">South Africa</option>
                 <option value="India">India</option>
                 <option value="Australia">Australia</option>
+                <option value="Viet Nam">Viet Nam</option>
               </select>
             </div>
             <div>

@@ -127,9 +127,9 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="grid sm:text-left text-center italic font-serif w-full">
+    <div className="grid lg:text-left text-center italic font-serif w-full">
       <div className="grid sm:flex items-center gap-3  text-xl">
-        <div className="grid sm:justify-start justify-center border-r-2 border-red-300 p-2 ">
+        <div className="grid xl:justify-start justify-center border-r-2 border-red-300 p-2 ">
           <img
             src={
               dataUser.urlAvatar !== ""
@@ -170,7 +170,7 @@ const ProfilePage = () => {
           <Sparkles strokeWidth={1} color="red" />
         </p>
       </div>
-      <div className="grid gap-4 mt-4">
+      <div className="grid gap-4 mt-4 ">
         {changeInfor ? (
           <div className="flex">
             <label htmlFor="">Name : </label>
@@ -219,6 +219,7 @@ const ProfilePage = () => {
               <option value="South Africa">South Africa</option>
               <option value="India">India</option>
               <option value="Australia">Australia</option>
+              <option value="Viet Nam">Viet Nam</option>
             </select>
           </div>
         ) : (
@@ -253,7 +254,7 @@ const ProfilePage = () => {
 
         <p>Role : {"client"}.</p>
       </div>
-      <div className="grid gap-4 justify-end mb-2 w-full font-bold pr-[200px]">
+      <div className="grid gap-4 justify-end mb-2 w-full font-bold lg:pr-[200px] pr-0">
         <div className="flex gap-4">
           {changeInfor ? (
             <button

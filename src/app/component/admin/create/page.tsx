@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
+import { notification } from "antd";
 import * as Yup from "yup";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
@@ -22,6 +23,22 @@ const CreateProduct = () => {
   const style = {
     input: "focus:outline-none bg-blue-100 p-1",
   };
+  const openNotification = () => {
+    notification.open({
+      message: "Create successful new products .",
+      onClick: () => {
+        console.log("Notification Clicked!");
+      },
+    });
+  };
+  const openNotificationFalse = () => {
+    notification.open({
+      message: "Failure has occurred !",
+      onClick: () => {
+        console.log("Notification Clicked!");
+      },
+    });
+  };
   const formik = useFormik({
     initialValues: {
       urlProduct: null,
@@ -33,6 +50,8 @@ const CreateProduct = () => {
       detail: "",
       origin: "",
       items: "artwork",
+      ratting: 0,
+      comment: [],
     },
     validationSchema: Yup.object({
       urlProduct: Yup.string().required("Cannot be left blank !"),
@@ -49,8 +68,10 @@ const CreateProduct = () => {
         await productApis.createProduct(values);
         router.push("/?page-admin=product-list");
         setSpin(false);
+        openNotification();
         return;
       } catch (err) {
+        openNotificationFalse();
         localStorage.clear();
         router.push("/?login-page=true");
         return;
@@ -60,7 +81,7 @@ const CreateProduct = () => {
   return (
     <div>
       {spin ? (
-        <div className="w-full absolute top-0 left-0 h-[200%] flex justify-center items-center z-999 bg-gray-300 bg-opacity-50">
+        <div className="w-full absolute top-0 left-0 h-[100%] flex justify-center items-center z-999 bg-gray-300 bg-opacity-50">
           <Spin indicator={antIcon} className="relative" />
         </div>
       ) : null}

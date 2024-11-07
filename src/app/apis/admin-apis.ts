@@ -21,7 +21,20 @@ const createAdmin = async (newAdmin: AdminType) => {
   }
 };
 
+const checkTokenAdmin = async (tokenCheck: string) => {
+  try {
+    const response = await httpRequest.post("/admin/check-token-admin", {
+      tokenCheck,
+    });
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return;
+  }
+};
+
 export const adminApis = {
   loginAdmin,
   createAdmin,
+  checkTokenAdmin,
 };
