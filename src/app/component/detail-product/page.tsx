@@ -206,7 +206,7 @@ const DetailProduct = () => {
       <div className="sm:ml-0 ml-10 mt-5 h-fit">
         <h1 className="text-lg font-semibold">Evaluate :</h1>
         {localStorage.getItem("accessToken") &&
-        informationUser.bought.includes(detailProductValue.id) ? (
+        informationUser?.bought?.includes(detailProductValue.id) ? (
           <div>
             <div>
               <StarRatings
