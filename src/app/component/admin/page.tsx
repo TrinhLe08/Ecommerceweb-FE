@@ -13,6 +13,10 @@ const { Header, Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>["items"][number];
 
+interface MasterPlayOutAmdinProps {
+  Component: React.ComponentType<any>;
+}
+
 const getItem = (
   label: React.ReactNode,
   key: React.Key,
@@ -58,11 +62,9 @@ const items: MenuItem[] = [
   ),
 ];
 
-interface MasterPlayOutProps {
-  Component: React.ComponentType<any>;
-}
-
-const MasterLayOutAdmin: React.FC<MasterPlayOutProps> = ({ Component }) => {
+const MasterLayOutAdmin: React.FC<MasterPlayOutAmdinProps> = ({
+  Component,
+}) => {
   const router = useRouter();
   const LogOutAdmin = () => {
     localStorage.clear();
