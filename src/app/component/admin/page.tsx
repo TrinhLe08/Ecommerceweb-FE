@@ -27,10 +27,6 @@ const getItem = (
   } as MenuItem;
 };
 
-interface MasterPlayOutProps {
-  Component: React.ComponentType<any>;
-}
-
 const items: MenuItem[] = [
   getItem(
     "Summary",
@@ -61,6 +57,10 @@ const items: MenuItem[] = [
     </Link>
   ),
 ];
+
+interface MasterPlayOutProps {
+  Component: React.ComponentType<any>;
+}
 
 const MasterLayOutAdmin: React.FC<MasterPlayOutProps> = ({ Component }) => {
   const router = useRouter();
