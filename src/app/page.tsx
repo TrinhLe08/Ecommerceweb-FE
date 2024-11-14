@@ -7,7 +7,6 @@ import { useRecoilState } from "recoil";
 import { useSearchParams } from "next/navigation";
 import FecthDataDetailProduct from "./global/fecth-data-param-detail-product-request";
 import MasterLayOut from "./component/master-playout/page";
-import MasterLayOutAdmin from "./component/admin/page";
 import HomePage from "./component/home-page/page";
 import { AtomDetailProduct } from "./recoil/detail-product-provider";
 import { AtomAllUser } from "./recoil/admin-request-all-user-provider";
@@ -86,6 +85,9 @@ const ShoppingList = dynamic(
   }
 );
 const SummaryPage = dynamic(() => import("./component/admin/summary/page"), {
+  ssr: false,
+});
+const MasterLayOutAdmin = dynamic(() => import("./component/admin/page"), {
   ssr: false,
 });
 

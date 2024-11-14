@@ -9,7 +9,7 @@ import { Layout, Menu, theme } from "antd";
 import { LogOut } from "lucide-react";
 import Link from "next/link";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -143,4 +143,4 @@ const MasterLayOutAdmin: React.FC<MasterPlayOutAmdinProps> = ({
   );
 };
 
-export default MasterLayOutAdmin;
+export default React.memo(MasterLayOutAdmin);
