@@ -13,7 +13,12 @@ const { Header, Content, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>["items"][number];
 
-interface MasterPlayOutAmdinProps {
+interface ExampleComponentProps {
+  title: string;
+  onClick: () => void;
+}
+
+interface MasterLayOutAdminProps {
   Component: React.ComponentType<any>;
 }
 
@@ -62,9 +67,9 @@ const items: MenuItem[] = [
   ),
 ];
 
-const MasterLayOutAdmin: React.FC<MasterPlayOutAmdinProps> = ({
-  Component,
-}) => {
+// React.FC<MasterPlayOutAmdinProps>
+
+const MasterLayOutAdmin: React.FC<MasterLayOutAdminProps> = ({ Component }) => {
   const router = useRouter();
   const LogOutAdmin = () => {
     localStorage.clear();
