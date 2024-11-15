@@ -61,9 +61,7 @@ const Header = () => {
       openNotificationAutomaticLogout();
       router.push("/?login-page=true");
     };
-
     const timeout = setTimeout(automaticLogout, 24 * 60 * 60 * 1000);
-
     return () => clearTimeout(timeout);
   }, []);
   const SearchProduct = (value: string) => {
@@ -73,9 +71,19 @@ const Header = () => {
     );
     setValueSearch(searchValue);
   };
-  window.addEventListener("scroll", function () {
-    setValueSearch([]);
-  });
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setValueSearch([]);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   const profileUser = async () => {
     try {
       const dataUser = await userApis.getDetailUser(
