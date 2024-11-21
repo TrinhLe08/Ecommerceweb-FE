@@ -128,7 +128,7 @@ const RegisterComponent = () => {
         </div>
       </Link>
 
-      <button className="my-3" onClick={() => window.history.back()}>
+      <button className="my-3 ml-10" onClick={() => window.history.back()}>
         <MoveLeft />
       </button>
 

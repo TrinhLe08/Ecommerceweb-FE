@@ -99,10 +99,6 @@ const LoginComponent = () => {
         </div>
       </Link>
 
-      <button className="my-3" onClick={() => window.history.back()}>
-        <MoveLeft />
-      </button>
-
       <div
         className="w-[400px] h-[500px] grid justify-center items-center drop-shadow-2xl"
         style={{

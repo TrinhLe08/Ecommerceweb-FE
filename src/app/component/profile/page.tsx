@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useRecoilState } from "recoil";
 import { useRecoilValue } from "recoil";
@@ -13,6 +13,12 @@ import {
   AtomReturnInformationWhenLogin,
 } from "@/app/recoil/information-user-provider";
 import { userApis } from "@/app/apis/user-apis";
+import { AtomSidebaCheckUnderline } from "@/app/recoil/sidebar-check-provider";
+import { orderApis } from "@/app/apis/order-apis";
+import {
+  OrderDetailType,
+  ShoppingListType,
+} from "@/app/util/shopping-list.type";
 
 const ProfilePage = () => {
   const router = useRouter();
@@ -21,6 +27,7 @@ const ProfilePage = () => {
   );
   const dataUser = useRecoilValue(AtomInformationUser);
   const [__, setDataUserUpdate] = useRecoilState(AtomInformationUser);
+  const [___, setCheckSidebar] = useRecoilState(AtomSidebaCheckUnderline);
   const [changeInfor, setChangeInfor] = useState(false);
   const [changeDone, setChangeDone] = useState(true);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -31,8 +38,24 @@ const ProfilePage = () => {
     dataUser.phoneNumber
   );
   const [inputCountry, setInputCountry] = useState(dataUser.country);
+  const [dataAllOrder, setDataAllOrder] = useState([]);
   const [inputCity, setInputCity] = useState(dataUser.city);
   const [inputAddress, setInputAddress] = useState(dataUser.address);
+  setCheckSidebar(0);
+
+  useEffect(() => {
+    const fecthDataAllOrder = async () => {
+      try {
+        const dataAllOrder = await orderApis.getAllUserOrder(dataUser.email);
+        setDataAllOrder(dataAllOrder.data);
+        return;
+      } catch (err) {
+        console.log(err);
+        return;
+      }
+    };
+    fecthDataAllOrder();
+  }, []);
 
   const openNotificationWait = () => {
     notification.open({
@@ -127,7 +150,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="grid lg:text-left text-center italic font-serif w-full">
+    <div className="grid lg:text-left text-center italic font-serif w-full ">
       <div className="grid sm:flex items-center gap-3  text-xl">
         <div className="grid xl:justify-start justify-center border-r-2 border-red-300 p-2 ">
           <img
@@ -165,10 +188,18 @@ const ProfilePage = () => {
         <p className="border-r-2 border-red-300 p-2">
           Amount spent: {(dataUser.spent / 100).toFixed(2)}$
         </p>
-        <p className="flex  sm:justify-start justify-center">
+        <p className="flex  sm:justify-start justify-center border-r-2 border-red-300 p-2">
           Accumulated points: {dataUser.point}{" "}
           <Sparkles strokeWidth={1} color="red" />
         </p>
+        <div className="flex justify-center">
+          <button
+            className="flex border-red-600 border-b-2"
+            onClick={() => LogOutUser()}
+          >
+            Log Out <LogOut />
+          </button>
+        </div>
       </div>
       <div className="grid gap-4 mt-4 ">
         {changeInfor ? (
@@ -254,7 +285,7 @@ const ProfilePage = () => {
 
         <p>Role : {"client"}.</p>
       </div>
-      <div className="grid gap-4 justify-end mb-2 w-full font-bold lg:pr-[200px] pr-0">
+      <div className="grid gap-4 justify-end mb-2 w-full font-bold lg:pr-[200px] pr-0 border-b border-red-500 pb-2">
         <div className="flex gap-4">
           {changeInfor ? (
             <button
@@ -280,13 +311,46 @@ const ProfilePage = () => {
             <PencilLine />
           </button>
         </div>
-        <div className="flex justify-end">
-          <button
-            className="flex border-red-600 border-b-2"
-            onClick={() => LogOutUser()}
-          >
-            Log Out <LogOut />
-          </button>
+      </div>
+
+      <div>
+        <h1 className="font-bold mb-5 text-xl">Purchase history : </h1>
+        <div className="max-w-[1000px]">
+          {dataAllOrder.map((item: ShoppingListType, index) => (
+            <div
+              key={index}
+              className="md:flex grid justify-center gap-5 mb-4 border p-4"
+            >
+              <p className="flex font-semibold w-1/5">
+                Quantity: <span className="font-thin">{item.quantity}</span>
+              </p>
+              <p className="flex font-semibold w-1/5">
+                Total:{" "}
+                <span className="font-thin">
+                  {item.price
+                    ? `${(item.price / 0.7 / 100).toFixed(2)} $`
+                    : null}
+                </span>
+              </p>
+              <p className="flex font-semibold w-1/5">
+                Points Used: <span className="font-thin">{item.point}</span>
+              </p>
+              <p className="flex font-semibold w-1/5">
+                Date: <span className="font-thin">{item.purchasDate}</span>
+              </p>
+              <p className="flex font-semibold w-1/5">Order Details: </p>
+              <p className="grid gap-1 w-[200px] h-auto">
+                {item.detailOrder?.map((order, orderIndex) => (
+                  <span
+                    key={orderIndex}
+                    className="flex border-b border-red-600"
+                  >
+                    {order.nameOrder} x {order.quantity}
+                  </span>
+                ))}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </div>

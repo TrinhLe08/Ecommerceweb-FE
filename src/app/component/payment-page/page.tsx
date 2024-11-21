@@ -7,7 +7,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { LoadingOutlined } from "@ant-design/icons";
 import { notification } from "antd";
-import { Spin } from "antd";
 import { AtomShoppingCart } from "@/app/recoil/shopping-cart-provider";
 import {
   OrderDetailType,
@@ -23,7 +22,6 @@ const Paymentpage = () => {
   const router = useRouter();
   const shoppingCartValue = useRecoilValue(AtomShoppingCart);
   const [_, setShoppingCartValue] = useRecoilState(AtomShoppingCart);
-  const [spin, setSpin] = useState(false);
   const user: any = useRecoilValue(AtomInformationUser);
   const informationUser = user || {};
   const [point, setPoint] = useState(0);
@@ -46,6 +44,14 @@ const Paymentpage = () => {
       router.push("/");
     }
   }, []);
+  const openNotificationLoading = () => {
+    notification.open({
+      message: "Please wait a moment .",
+      onClick: () => {
+        console.log("Notification Clicked!");
+      },
+    });
+  };
   const openNotification = () => {
     notification.open({
       message: "Thank you for your purchase .",
@@ -107,7 +113,7 @@ const Paymentpage = () => {
       ),
     }),
     onSubmit: async (values: any) => {
-      setSpin(true);
+      openNotificationLoading();
       const today = new Date();
       const date = today.getDate();
       const month = today.getMonth() + 1;
@@ -130,7 +136,6 @@ const Paymentpage = () => {
         const createOrder = await orderApis.createOrder(dataTocreateOrder);
 
         if (createOrder.data && localStorage.getItem("accessToken")) {
-          setSpin(false);
           openNotification();
           setShoppingCartValue([]);
           router.push("/");
@@ -138,7 +143,6 @@ const Paymentpage = () => {
           setTimeout(openNotificationAddPoint, 1000);
           return;
         }
-        setSpin(false);
         openNotification();
         setShoppingCartValue([]);
         router.push("/");
@@ -153,11 +157,6 @@ const Paymentpage = () => {
   });
   return (
     <div className="payment-page italic font-serif font-thin">
-      {spin ? (
-        <div className="w-full h-screen flex justify-center items-center z-999 absolute bg-gray-300 bg-opacity-50 top-0">
-          <Spin indicator={antIcon} className="relative" />
-        </div>
-      ) : null}
       <Link
         href="/"
         className="w-full h-fit flex justify-center my-5 pb-5 border-b-2 border-red-100"
