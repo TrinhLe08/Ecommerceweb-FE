@@ -26,10 +26,11 @@ const ProductList = () => {
   const endItemIndex = startItemIndex + pageSize;
   const currentItems = valueProductList.slice(startItemIndex, endItemIndex);
   const [__, setRating] = useState(0);
+  const valueParams: string | null = searchParams.get("product-page");
 
   useEffect(() => {
     const FecthData = async () => {
-      const valueParams: string | null = searchParams.get("product-page");
+      // const valueParams: string | null = searchParams.get("product-page");
       try {
         if (valueParams) {
           const productData = await FecthDataParams(valueParams);
@@ -47,12 +48,19 @@ const ProductList = () => {
   const changeRating = (newRating: number) => {
     setRating(newRating);
   };
-  const handlePageChange = (page: number) => {
+  const handlePageChange = (page: number) => {1212
     setCurrentPage(page);
   };
 
   return (
-    <div className="product-list h-fit">
+    <div className="w-full">
+      <h1 className="italic font-serif font-thin text-2xl text-center">{valueParams == 'home-decord' ? "HOME DECOR" :
+       valueParams == 'artwork' ? "ARTWORK": 
+       valueParams == 'kitchen' ? "KITCHEN": 
+       valueParams == 'holiday' ? "HOLIDAY": 
+       valueParams == 'sale' ? "SALE": "" }</h1>
+    <div className="product-list w-fit h-fit">
+
       <div className="w-full flex justify-center">
         <div className="flex items-center my-2 gap-3">
           <p className="mr-2">PAGE</p>
@@ -149,6 +157,7 @@ const ProductList = () => {
           <ChevronRight strokeWidth={1} />
         </button>
       </div>
+    </div>
     </div>
   );
 };

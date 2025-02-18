@@ -15,7 +15,7 @@ const SideBar = () => {
   const checkMenuBar: boolean = useRecoilValue(AtomMenuBar);
   const checkSidebar = useRecoilValue(AtomSidebaCheckUnderline);
   return (
-    <div>
+    <div className="italic font-serif font-normal">
       <div
         className={
           checkMenuBar

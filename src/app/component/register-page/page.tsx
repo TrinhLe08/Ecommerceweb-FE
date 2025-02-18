@@ -3,7 +3,6 @@ import React, { useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRecoilState } from "recoil";
-import { FaGoogle } from "react-icons/fa";
 import { AtomSidebaCheckUnderline } from "@/app/recoil/sidebar-check-provider";
 import { notification } from "antd";
 import { Popover, Space } from "antd";
