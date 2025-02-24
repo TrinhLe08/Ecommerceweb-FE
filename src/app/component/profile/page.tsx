@@ -150,7 +150,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="grid lg:text-left text-center italic font-serif w-full ">
+    <div className="grid lg:text-left text-center italic font-serif w-[50%] border-t border-gray-300 p-4">
       <div className="grid sm:flex items-center gap-3  text-xl">
         <div className="grid xl:justify-start justify-center border-r-2 border-red-300 p-2 ">
           <img

@@ -53,14 +53,13 @@ const ProductList = () => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-[80%] border-t border-gray-300 p-4">
       <h1 className="italic font-serif font-thin text-2xl text-center">{valueParams == 'home-decord' ? "HOME DECOR" :
        valueParams == 'artwork' ? "ARTWORK": 
        valueParams == 'kitchen' ? "KITCHEN": 
        valueParams == 'holiday' ? "HOLIDAY": 
        valueParams == 'sale' ? "SALE": "" }</h1>
     <div className="product-list w-fit h-fit">
-
       <div className="w-full flex justify-center">
         <div className="flex items-center my-2 gap-3">
           <p className="mr-2">PAGE</p>

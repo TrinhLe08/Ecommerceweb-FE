@@ -4,7 +4,8 @@
             li {
                 display: flex;
                 align-items: center;
-                gap : 10px;
+                gap: 10px;
+
                 input {
                     text-align: center;
                     width: 50px;
@@ -12,9 +13,28 @@
                     border-radius: 5px;
                     padding: 1px;
                 }
+
                 input:focus {
                     outline: none;
-                  }
+                }
+            }
+        }
+    }
+}
+
+.home-page {
+    div {
+        div {
+            div {
+                img {
+                    transition: opacity 0.5s ease;
+                    /* Thay đổi opacity trong 0.5 giây */
+                }
+
+                img.mountEnter {
+                    opacity: 0.5;
+                    /* Hoặc bất kỳ giá trị nào bạn muốn khi hover */
+                }
             }
         }
     }

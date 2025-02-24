@@ -86,6 +86,79 @@ const FilterBar = () => {
       >
         All product
       </Link>
+
+          <Link
+            href="/?product-page=home-decord"
+            className={
+              checkSidebar === 1
+                ? "lg:flex hidden italic underline w-fit font-serif font-normal text-lg"
+                : "lg:flex hidden italic w-fit font-serif font-normal text-lg"
+            }
+            onClick={() => {
+              setCheckSidebar(1);
+              setResetLimitProductListPage(1);
+            }}
+          >
+            HOME DECOR
+          </Link>
+          <Link
+            href="/?product-page=artwork"
+            className={
+              checkSidebar === 2
+                ? "lg:flex hidden italic underline w-fit font-serif font-normal text-lg"
+                : "lg:flex hidden italic w-fit font-serif font-normal text-lg"
+            }
+            onClick={() => {
+              setCheckSidebar(2);
+              setResetLimitProductListPage(1);
+            }}
+          >
+            ARTWORK
+          </Link>
+          <Link
+            href="/?product-page=kitchen"
+            className={
+              checkSidebar === 3
+                ? "lg:flex hiddenitalic underline w-fit font-serif font-normal text-lg"
+                : "lg:flex hidden italic w-fit font-serif font-normal text-lg"
+            }
+            onClick={() => {
+              setCheckSidebar(3);
+              setResetLimitProductListPage(1);
+            }}
+          >
+            KITCHEN & DINING
+          </Link>
+          <Link
+            href="/?product-page=holiday"
+            className={
+              checkSidebar === 4
+                ? "lg:flex hiddenitalic underline w-fit font-serif font-normal text-lg"
+                : "lg:flex hidden italic w-fit font-serif font-normal text-lg"
+            }
+            onClick={() => {
+              setCheckSidebar(4);
+              setResetLimitProductListPage(1);
+            }}
+          >
+            HOLIDAY
+          </Link>
+          <Link
+            href="/?product-page=sale"
+            className={
+              checkSidebar === 5
+                ? "lg:flex hiddenitalic underline w-fit font-serif font-normal text-lg"
+                : "lg:flex hidden italic w-fit font-serif font-normal text-lg"
+            }
+            onClick={() => {
+              setCheckSidebar(5);
+              setResetLimitProductListPage(1);
+            }}
+          >
+            SALE
+          </Link>
+
+
       <Dropdown menu={{ items }} trigger={["click"]}>
         <a
           onClick={(e) => {

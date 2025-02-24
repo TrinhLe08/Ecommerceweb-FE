@@ -48,7 +48,7 @@ const MasterLayOut: React.FC<MasterPlayOutProps & { value: boolean }> = ({
     <div className="master-playout relative grid justify-between w-full h-full ">
       <Header />
       <FilterBar />
-      <div className="flex">
+      <div className="flex justify-center">
         <SideBar />
         <Component />
       </div>
