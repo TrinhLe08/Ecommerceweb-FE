@@ -23,7 +23,7 @@ const HomePage = () => {
       checkSidebar: 1,
     },
   ];
-  const [imgSrcList, setImgSrcList] = useState(firstMenu.map(menu => menu.url1));
+
   const secondMenu = [
     {
       url1: "https://www.tillyliving.com/cdn/shop/products/2_686e478c-e9d1-4fa0-a10c-fa208df2a077.jpg?v=1655774105",
@@ -51,21 +51,21 @@ const HomePage = () => {
     <div className="home-page grid gap-5 h-fit w-[70%] border-t border-gray-300 p-4">
       <div className="w-full h-full first-menu lg:flex grid gap-5 justify-around">
       {
-  firstMenu.map((menu) => (
+         firstMenu.map((menu) => (
     <div
       key={menu.title}
-      className="grid relative  group" // Thêm class group
+      className="grid relative group"
     >
-      <div   className="xl:w-[500px] xl:h-[700px] lg:w-[500px] lg:h-[700px] md:w-[500px] md:h-[600px] w-[300px] h-[400px]">
+      <div className=" xl:w-[500px] xl:h-[700px] lg:w-[500px] lg:h-[700px] md:w-[500px] md:h-[600px] w-[300px] h-[400px]">
       <img
         src={menu.url1}
         alt=""
-        className="xl:w-[500px] xl:h-[700px] lg:w-[500px] lg:h-[700px] md:w-[500px] md:h-[600px] w-[300px] h-[400px] absolute top-0 left-0 transition-opacity duration-500 group-hover:opacity-0"
+        className="xl:ml-0 xl:w-[500px] xl:h-[700px] lg:ml-0 lg:w-[500px] lg:h-[700px] md:ml-0 md:w-[500px] md:h-[600px] ml-[-50px] w-[300px] h-[400px] absolute top-0 left-0 transition-opacity duration-500 group-hover:opacity-0"
       />
       <img
         src={menu.url2}
         alt=""
-        className="xl:w-[500px] xl:h-[700px] lg:w-[500px] lg:h-[700px] md:w-[500px] md:h-[600px] w-[300px] h-[400px] absolute top-0 left-0 transition-opacity duration-500 opacity-0 group-hover:opacity-100"
+        className="xl:ml-0 xl:w-[500px] xl:h-[700px] lg:ml-0 lg:w-[500px] lg:h-[700px] md:ml-0 md:w-[500px] md:h-[600px] ml-[-50px] w-[300px] h-[400px] absolute top-0 left-0 transition-opacity duration-500 opacity-0 group-hover:opacity-100"
       />
       </div>
       <Link
@@ -80,40 +80,24 @@ const HomePage = () => {
 }
       </div>
       <div className="second-menu lg:flex grid justify-around">
-        {/* {secondMenu.map((menu) => (
-          <div key={menu.title}>
-            <img src={menu.url1} alt="" className="w-[330px] h-[450px]" />
-            <Link
-              href={menu.link}
-              onClick={() => setCheckSidebar(menu.checkSidebar)}
-              className="flex w-full text-xl justify-center mt-1 underline"
-            >
-              {menu.title}
-            </Link>
-          </div>
-        ))} */}
         {
   secondMenu.map((menu) => (
     <div
       key={menu.title}
-      className="grid relative group" // Thêm class group
+      className="grid relative group" 
     >
-      {/* Container hình ảnh */}
       <div className="w-[330px] h-[450px]">
-        {/* Hình ảnh ban đầu */}
         <img
           src={menu.url1}
-          alt={`Hình ảnh ${menu.title}`} // Thêm alt để cải thiện accessibility
+          alt={`Hình ảnh ${menu.title}`}
           className="w-[330px] h-[450px] absolute top-0 left-0 transition-opacity duration-500 group-hover:opacity-0"
         />
-        {/* Hình ảnh khi hover */}
         <img
           src={menu.url2}
-          alt={`Hình ảnh hover ${menu.title}`} // Thêm alt để cải thiện accessibility
+          alt={`Hình ảnh hover ${menu.title}`}
           className="w-[330px] h-[450px] absolute top-0 left-0 transition-opacity duration-500 opacity-0 group-hover:opacity-100"
         />
       </div>
-      {/* Liên kết (title) */}
       <Link
         href={menu.link}
         onClick={() => setCheckSidebar(menu.checkSidebar)}

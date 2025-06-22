@@ -15,12 +15,12 @@ const SideBar = () => {
   const checkMenuBar: boolean = useRecoilValue(AtomMenuBar);
   const checkSidebar = useRecoilValue(AtomSidebaCheckUnderline);
   return (
-    <div className="lg:hidden italic font-serif font-normal text-base">
+    <div className="lg:hidden italic font-serif font-normal text-base ">
       <div
         className={
           checkMenuBar
-            ? "md:grid md:static md:inset-0 md:z-0 md:w-[400px] absolute ml-[-400px] w-[300px] h-[80%] bg-white drop-shadow-r-3xl transition-all duration-300 ease-in-out"
-            : "md:grid md:static md:inset-0 md:z-0 md:w-[400px] absolute ml-[0px] w-[300px] h-[80%] bg-white drop-shadow-r-3xl transition-all duration-300 ease-in-out"
+            ? "md:grid md:static md:inset-0 md:z-0 md:w-[400px] absolute ml-[-400px] grid justify-center w-full h-[80%] bg-white drop-shadow-r-3xl transition-all duration-300 ease-in-out"
+            : "md:grid md:static md:inset-0 md:z-0 md:w-[400px] absolute sm:ml-[-10px] ml-[-19px] grid justify-center w-full h-[80%] bg-white drop-shadow-r-3xl transition-all duration-300 ease-in-out"
         }
       >
         <div
