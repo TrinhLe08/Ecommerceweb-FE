@@ -146,7 +146,7 @@ const Header = () => {
 
         <div className="grid justify-center gap-2 font-serif font-thin">
           <div className="text-yellow-600 border-b border-black-600 p-3">
-            {informationUserWhenLogin.hasOwnProperty("email") &&
+            {informationUserWhenLogin?.hasOwnProperty("email") &&
             informationUserWhenLogin.hasOwnProperty("urlAvatar") ? (
               <button className="grid text-center" onClick={profileUser}>
                 <div className="flex justify-center">

@@ -71,7 +71,7 @@ const AdminDetailProduct = () => {
       urlProduct: null,
       name: `${detailProductValue.name}`,
       price: detailProductValue.price,
-      status: !detailProductValue.status,
+      status: detailProductValue.status,
       material: `${detailProductValue.material}`,
       size: `${detailProductValue.size}`,
       detail: `${detailProductValue.detail}`,
@@ -90,19 +90,20 @@ const AdminDetailProduct = () => {
     onSubmit: async (values: any) => {
       setSpin(true);
       try {
-        if (values.urlProduct === null) {
+        if (values.urlProduct === null) {  
           const dataToUpdateProduct: ProductType = {
             id: detailProductValue.id,
             urlProduct: detailProductValue.urlProduct,
             name: values.name,
             price: values.price,
-            status: values.status,
+            status: Boolean(values.status),
             material: values.material,
             size: values.size,
             detail: values.detail,
             origin: values.origin,
             item: detailProductValue.item,
           };
+                  console.log(dataToUpdateProduct, 126);
           const updateProduct = await productApis.updateProduct(
             dataToUpdateProduct
           );
@@ -116,13 +117,15 @@ const AdminDetailProduct = () => {
           urlProduct: values.urlProduct,
           name: values.name,
           price: values.price,
-          status: values.status,
+          status: Boolean(values.status),
           material: values.material,
           size: values.size,
           detail: values.detail,
           origin: values.origin,
           item: detailProductValue.item,
         };
+
+        
         const updateProduct = await productApis.updateProduct(
           dataToUpdateProduct
         );
@@ -230,15 +233,17 @@ const AdminDetailProduct = () => {
           </p>
           <p className="flex w-fit gap-5">
             <span className="font-semibold">Sale</span> :
-            <input
+           <input
               type="checkbox"
-              checked={formik.values.status ? true : false}
+              checked={formik.values.status || false} 
               onChange={() => {
-                formik.setFieldValue("status", formik.values.status);
-              }}
+              formik.setFieldValue("status", !formik.values.status); 
+              console.log(formik.values.status);
+              
+            }}
               name="status"
               className="w-full"
-            />
+             />
           </p>
         </div>
       </div>

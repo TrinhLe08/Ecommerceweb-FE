@@ -154,7 +154,7 @@ const DetailProduct = () => {
               <div className="flex gap-3">
                 {(detailProductValue.price / 100).toFixed(2)} ${" "}
                 <p className="line-through">
-                  {!detailProductValue.status
+                  {detailProductValue.status
                     ? `${(detailProductValue.price / 0.7 / 100).toFixed(2)} $`
                     : null}
                 </p>

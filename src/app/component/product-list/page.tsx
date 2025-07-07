@@ -30,7 +30,6 @@ const ProductList = () => {
 
   useEffect(() => {
     const FecthData = async () => {
-      // const valueParams: string | null = searchParams.get("product-page");
       try {
         if (valueParams) {
           const productData = await FecthDataParams(valueParams);
@@ -58,7 +57,7 @@ const ProductList = () => {
        valueParams == 'artwork' ? "ARTWORK": 
        valueParams == 'kitchen' ? "KITCHEN": 
        valueParams == 'holiday' ? "HOLIDAY": 
-       valueParams == 'sale' ? "SALE": "" }</h1>
+       valueParams == 'sale'    ? "SALE"   : "" }</h1>
     <div className="product-list w-fit h-fit">
       <div className="w-full flex justify-center">
         <div className="flex items-center my-2 gap-3">
@@ -110,7 +109,7 @@ const ProductList = () => {
                   {product.price ? (
                     <div>
                       <p className="line-through">
-                        {!product.status
+                        {product.status
                           ? `${(product.price / 0.7 / 100).toFixed(2)} $`
                           : null}
                       </p>
@@ -118,7 +117,7 @@ const ProductList = () => {
                         {product.price
                           ? (product.price / 100).toFixed(2)
                           : null}{" "}
-                        ${!product.status ? "(-30%)" : null}
+                        ${product.status ? "(-30%)" : null}
                       </p>
                     </div>
                   ) : null}

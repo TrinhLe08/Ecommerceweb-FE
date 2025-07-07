@@ -13,7 +13,6 @@ const ProductListAdmin = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const productList = useRecoilValue(AtomProductListContext);
-  console.log(productList);
 
   const [_, setProductPage] = useRecoilState(AtomProductListContext);
   const [underline, setUnderline] = useState(0);
