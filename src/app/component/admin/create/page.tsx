@@ -50,6 +50,7 @@ const CreateProduct = () => {
       detail: "",
       origin: "",
       ratting: 0,
+      item: "artwork",
       comment: [],
     },
     validationSchema: Yup.object({
