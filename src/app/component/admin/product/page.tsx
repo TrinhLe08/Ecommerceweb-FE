@@ -60,6 +60,10 @@ const ProductListAdmin = () => {
         setUnderline(3);
         const allKitchen = await productApis.getAllKitchen();
         return setProductPage(allKitchen.data);
+      } else if (valueToFecthData === "sale") {
+        setUnderline(5);
+        const allKitchen = await productApis.getAllSale();
+        return setProductPage(allKitchen.data);
       }
     } catch (err) {
       localStorage.clear();
@@ -100,6 +104,12 @@ const ProductListAdmin = () => {
             className={underline === 4 ? "underline" : ""}
           >
             Holiday
+          </button>
+           <button
+            onClick={() => FecthDataProductList("sale")}
+            className={underline === 5 ? "underline" : ""}
+          >
+            Sale
           </button>
         </div>
         <Link

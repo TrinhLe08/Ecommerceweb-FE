@@ -67,10 +67,10 @@ const items: MenuItem[] = [
   ),
 ];
 
-// React.FC<MasterPlayOutAmdinProps>
 
 const MasterLayOutAdmin: React.FC<MasterLayOutAdminProps> = ({ Component }) => {
   const router = useRouter();
+  const [selectedKey, setSelectedKey] = useState('1');
   const LogOutAdmin = () => {
     localStorage.clear();
     router.push("/");
@@ -113,11 +113,11 @@ const MasterLayOutAdmin: React.FC<MasterLayOutAdminProps> = ({ Component }) => {
         onCollapse={(value) => setCollapsed(value)}
       >
         <div className="demo-logo-vertical" />
-        <Menu theme="dark" mode="inline" items={items} className="pt-10" />
+        <Menu theme="dark" mode="inline" items={items} className="pt-10" selectedKeys={[selectedKey]} onClick={({ key }) => setSelectedKey(key)}/>
       </Sider>
       <Layout>
         <Header style={{ padding: 0, background: colorBgContainer }} />
-        <Link href="/?page-admin=summary" className="mb-4">
+        <Link href="/?page-admin=summary" className="mb-4" onClick={() => setSelectedKey('1')}>
           <img
             src="https://www.leifshop.com/cdn/shop/t/49/assets/logo_leif.png?v=22488871944701774831698078109"
             alt=""

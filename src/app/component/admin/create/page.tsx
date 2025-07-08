@@ -105,6 +105,11 @@ const CreateProduct = () => {
           }}
           className="mb-2"
         />
+         <p className="w-fit text-red-500 text-xs">
+                {formik.errors.urlProduct && formik.touched.urlProduct ? (
+                  <>{formik.errors.urlProduct as string}</>
+                ) : null}
+         </p>
         <label htmlFor="name">Name Product : </label>
         <input
           type="name"
@@ -114,6 +119,11 @@ const CreateProduct = () => {
           onChange={formik.handleChange}
           className={style.input}
         />
+        <p className="w-fit text-red-500 text-xs">
+                {formik.errors.name && formik.touched.name ? (
+                  <>{formik.errors.name as string}</>
+                ) : null}
+         </p>
         <label htmlFor="price">Price Product : </label>
         <input
           type="number"
@@ -123,6 +133,11 @@ const CreateProduct = () => {
           onChange={formik.handleChange}
           className={style.input}
         />
+        <p className="w-fit text-red-500 text-xs">
+                {formik.errors.price && formik.touched.price ? (
+                  <>{formik.errors.price as string}</>
+                ) : null}
+         </p>
         <label htmlFor="price">Status Sale Product : </label>
         <input
           type="checkbox"
@@ -133,6 +148,11 @@ const CreateProduct = () => {
           name="status"
           className={style.input}
         />
+        <p className="w-fit text-red-500 text-xs">
+                {formik.errors.status && formik.touched.status ? (
+                  <>{formik.errors.status as string}</>
+                ) : null}
+         </p>
         <label htmlFor="price">Material Product : </label>
         <input
           type="text"
@@ -142,6 +162,11 @@ const CreateProduct = () => {
           onChange={formik.handleChange}
           className={style.input}
         />
+        <p className="w-fit text-red-500 text-xs">
+                {formik.errors.material && formik.touched.material ? (
+                  <>{formik.errors.material as string}</>
+                ) : null}
+         </p>
         <label htmlFor="size">Size Product : </label>
         <input
           type="text"
@@ -151,6 +176,11 @@ const CreateProduct = () => {
           onChange={formik.handleChange}
           className={style.input}
         />
+        <p className="w-fit text-red-500 text-xs">
+                {formik.errors.size && formik.touched.size ? (
+                  <>{formik.errors.size as string}</>
+                ) : null}
+         </p>
         <label htmlFor="detail">Detail Product : </label>
         <input
           type="text"
@@ -160,6 +190,11 @@ const CreateProduct = () => {
           onChange={formik.handleChange}
           className={style.input}
         />
+        <p className="w-fit text-red-500 text-xs">
+                {formik.errors.detail && formik.touched.detail ? (
+                  <>{formik.errors.detail as string}</>
+                ) : null}
+         </p>
         <label htmlFor="origin">Origin Product : </label>
         <input
           type="text"
@@ -169,6 +204,11 @@ const CreateProduct = () => {
           onChange={formik.handleChange}
           className={style.input}
         />
+        <p className="w-fit text-red-500 text-xs">
+                {formik.errors.origin && formik.touched.origin ? (
+                  <>{formik.errors.origin as string}</>
+                ) : null}
+         </p>
         <label htmlFor="item">Item : </label>
         <select
           id="item"

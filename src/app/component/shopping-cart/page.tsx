@@ -99,12 +99,13 @@ const ShoppingCart = () => {
               ))
             : null}
         </div>
-        <div className="w-full text-right pr-20 border-t-2 border-red-100 mt-10 pt-10 italic font-serif font-thin font-semibold text-xl">
+        <div className="w-full flex justify-center text-center">
+          <div className="w-[70%] ">
+        <div className="text-right pr-20 border-t-2 border-red-100 mt-10 pt-10 italic font-serif font-thin font-semibold text-xl">
           Subtotal: {(subtotal / 100).toFixed(2)} $
         </div>
-        <div className="text-right mb-10">
+        <div className=" text-right mb-10 ">
           <div
-            // href={shoppingCartValue.length > 0 ? "/?payment-page=true" : "/"}
             className="bg-red-200 w-fit p-2 mr-10 hover:text-white hover:bg-red-500"
             onClick={async () => {
               try {
@@ -115,6 +116,7 @@ const ShoppingCart = () => {
                   setInfor(dataUser.data);
                   router.push("/?payment-page=true");
                   return;
+                  
                 }
                 setInfor({});
                 router.push("/?payment-page=true");
@@ -128,6 +130,8 @@ const ShoppingCart = () => {
             }}
           >
             PROCEED TO CHECKOUT
+          </div>
+        </div>
           </div>
         </div>
       </div>
