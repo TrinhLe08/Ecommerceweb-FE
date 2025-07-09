@@ -19,7 +19,7 @@ const ProductList = () => {
   const [currentPage, setCurrentPage] = useRecoilState(
     AtomResetLimitProductListPage
   );
-  const pageSize: number = 8;
+  const pageSize: number = 9;
   const totalItems: number = valueProductList.length;
   const limitPage: number = Math.ceil(totalItems / pageSize);
   const startItemIndex = (currentPage - 1) * pageSize;
