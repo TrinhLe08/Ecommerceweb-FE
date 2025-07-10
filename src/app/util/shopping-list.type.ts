@@ -4,6 +4,7 @@ export type OrderDetailType = {
   nameOrder: string;
   urlOrder: string;
   priceOrder: number;
+  statusProduct: Boolean;
 };
 
 type PartialShoppingListType = {

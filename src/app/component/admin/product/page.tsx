@@ -126,9 +126,21 @@ const ProductListAdmin = () => {
               <div className=" grid justify-center text-center">
                 <img src={product.urlProduct} alt="" className="w-[200px]" />
                 <p className="font-semibold">{product.name}</p>
-                <p>
-                  {product.price ? (product.price / 100).toFixed(2) : null} $
-                </p>
+               {product.price ? (
+                    <div>
+                      <p className="line-through">
+                        {product.status
+                          ? `${(product.price / 0.7 / 100).toFixed(2)} $`
+                          : null}
+                      </p>
+                      <p>
+                        {product.price
+                          ? (product.price / 100).toFixed(2)
+                          : null}{" "}
+                        ${product.status ? "(-30%)" : null}
+                      </p>
+                    </div>
+                  ) : null}
               </div>
               <div className="flex justify-around">
                 <Link

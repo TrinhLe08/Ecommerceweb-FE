@@ -72,6 +72,7 @@ const DetailProduct = () => {
         nameOrder: detailProductValue.name,
         urlOrder: detailProductValue.urlProduct,
         priceOrder: detailProductValue.price,
+        statusProduct: detailProductValue.status
       },
     ];
 

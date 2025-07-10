@@ -289,9 +289,14 @@ const Paymentpage = () => {
                   className="w-[100px] h-[150px]"
                 />
                 <p className="w-[200px] font-semibold">{cart.nameOrder}</p>
-                <p>
+                <div className="xl:w-40 lg:w-30 w-20">
+                   {!cart.statusProduct ? `${(cart.priceOrder / 100).toFixed(2)} $` : (<span className="line-through mr-1">{(cart.priceOrder / 0.7 / 100).toFixed(2)}</span>)}
+                   {cart.statusProduct ? <span className="text-red-700">(-30%)</span> : null}
+                   {cart.statusProduct ? <p>{(cart.priceOrder / 100).toFixed(2)}</p> : null}
+                </div>
+                {/* <div className="grid">
                   $ {(cart.priceOrder / 100).toFixed(2)} x {cart.quantity}
-                </p>
+                </div> */}
               </div>
             ))}
           </div>

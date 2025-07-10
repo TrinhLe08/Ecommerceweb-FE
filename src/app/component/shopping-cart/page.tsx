@@ -17,9 +17,10 @@ const ShoppingCart = () => {
   const informationUserWhenLogin = useRecoilValue(
     AtomReturnInformationWhenLogin
   );
-  const [_, setShoppingCartValue] = useRecoilState(AtomShoppingCart);
+  const [values, setShoppingCartValue] = useRecoilState(AtomShoppingCart);
   const [__, setInfor] = useRecoilState(AtomInformationUser);
-
+  console.log(values, 22);
+  
   const subtotal = shoppingCartValue.reduce(
     (total: number, cart: OrderDetailType) =>
       total + cart.priceOrder * cart.quantity,
@@ -73,7 +74,8 @@ const ShoppingCart = () => {
                     <div className="w-[100px]">{cart.nameOrder}</div>
                   </Link>
                   <div className="xl:w-40 lg:w-30 w-20">
-                    {(cart.priceOrder / 100).toFixed(2)} $
+                   {!cart.statusProduct ? `${(cart.priceOrder / 100).toFixed(2)} $` : `${(cart.priceOrder / 0.7 / 100).toFixed(2)} $`}
+                   {cart.statusProduct ? <span className="text-red-700">(-30%)</span> : null}
                   </div>
                   <div className="xl:w-40 lg:w-30 w-20">
                     <InputNumber
@@ -87,7 +89,7 @@ const ShoppingCart = () => {
                     />
                   </div>
                   <div className=" flex gap-5 xl:w-40 lg:w-30 w-20">
-                    {((cart.priceOrder * cart.quantity) / 100).toFixed(2)} $
+                    {((cart.priceOrder * cart.quantity) / 100).toFixed(2)} $ 
                     <button
                       onClick={() => RemoveCart(cart.idOrder)}
                       className="underline italic font-serif font-thin"
