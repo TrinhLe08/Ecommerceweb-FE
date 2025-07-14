@@ -17,9 +17,8 @@ const ShoppingCart = () => {
   const informationUserWhenLogin = useRecoilValue(
     AtomReturnInformationWhenLogin
   );
-  const [values, setShoppingCartValue] = useRecoilState(AtomShoppingCart);
+  const [_, setShoppingCartValue] = useRecoilState(AtomShoppingCart);
   const [__, setInfor] = useRecoilState(AtomInformationUser);
-  console.log(values, 22);
   
   const subtotal = shoppingCartValue.reduce(
     (total: number, cart: OrderDetailType) =>

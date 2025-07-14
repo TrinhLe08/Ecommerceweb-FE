@@ -26,9 +26,6 @@ const Paymentpage = () => {
   const informationUser = user || {};
   const [point, setPoint] = useState(0);
   const [hiddenInformationPoint, setHiddenInformationPoint] = useState(true);
-  const [___, setValueReturnLogin] = useRecoilState(
-    AtomReturnInformationWhenLogin
-  );
 
   const antIcon: JSX.Element = (
     <LoadingOutlined
@@ -135,11 +132,10 @@ const Paymentpage = () => {
       try {
         const createOrder = await orderApis.createOrder(dataTocreateOrder);
 
-        if (createOrder.data && localStorage.getItem("accessToken")) {
+        if (createOrder.data && localStorage.getItem("accessToken")) {          
           openNotification();
           setShoppingCartValue([]);
           router.push("/");
-          setValueReturnLogin(createOrder.data);
           setTimeout(openNotificationAddPoint, 1000);
           return;
         }
@@ -149,7 +145,6 @@ const Paymentpage = () => {
         return;
       } catch (err) {
         localStorage.clear();
-        setValueReturnLogin({});
         router.push("/?login-page=true");
         return;
       }
