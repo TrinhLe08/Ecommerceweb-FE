@@ -209,7 +209,7 @@ const ProfilePage = () => {
               type="text"
               value={inputName}
               onChange={handleInputChangeName}
-              className="focus:outline-none border-red-400 border-b-2 min-w-24"
+              className="focus:outline-none border-red-400 border-b-2 min-w-24 bg-transparent dark:bg-gray-900"
             />
           </div>
         ) : (
@@ -224,7 +224,7 @@ const ProfilePage = () => {
               type="text"
               value={inputPhoneNumber}
               onChange={handleInputChangePhoneNumber}
-              className="focus:outline-none border-red-400 border-b-2 min-w-24"
+              className="focus:outline-none border-red-400 border-b-2 min-w-24 bg-transparent dark:bg-gray-900"
             />
           </div>
         ) : (
@@ -236,7 +236,7 @@ const ProfilePage = () => {
             <select
               id="country"
               name="country"
-              className="focus:outline-none border-[1px] border-red-100 rounded-lg p-1"
+              className="focus:outline-none border-[1px] border-red-100 rounded-lg p-1 bg-transparent dark:bg-gray-900"
               onChange={handleInputChangeCountry}
               value={!inputCountry ? inputCountry === "America" : inputCountry}
             >
@@ -263,7 +263,7 @@ const ProfilePage = () => {
               type="text"
               value={inputCity}
               onChange={handleInputChangeCity}
-              className="focus:outline-none border-red-400 border-b-2 min-w-24"
+              className="focus:outline-none border-red-400 border-b-2 min-w-24 bg-transparent dark:bg-gray-900"
             />
           </div>
         ) : (
@@ -276,7 +276,7 @@ const ProfilePage = () => {
               type="text"
               value={inputAddress}
               onChange={handleInputChangeAddress}
-              className="focus:outline-none border-red-400 border-b-2 min-w-24"
+              className="focus:outline-none border-red-400 border-b-2 min-w-24 bg-transparent dark:bg-gray-900"
             />
           </div>
         ) : (

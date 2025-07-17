@@ -45,15 +45,15 @@ const MasterLayOut: React.FC<MasterPlayOutProps & { value: boolean }> = ({
   }, [value, setCheckMenuBar]);
 
   return (
-    <div className="master-playout relative grid justify-between w-full h-full ">
-      <Header />
-      <FilterBar />
-      <div className="flex justify-center">
-        <SideBar />
-        <Component />
-      </div>
-      <Footer />
-    </div>
+<div className="master-playout relative grid justify-between w-full h-full bg-white dark:bg-gray-900 dark:text-white">
+  <Header />
+  <FilterBar />
+  <div className="flex justify-center bg-white dark:bg-gray-900">
+    <SideBar />
+    <Component />
+  </div>
+  <Footer />
+</div>
   );
 };
 
