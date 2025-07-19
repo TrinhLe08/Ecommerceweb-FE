@@ -142,7 +142,7 @@ const RegisterComponent = () => {
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
               <form>
-                <div className="grid justify-center text-2xl font-bold mb-5 text-red-400">
+                <div className="grid justify-center text-2xl font-bold mb-5 text-amber-900">
                   CREATE YOUR ACCOUT
                 </div>
 
@@ -163,7 +163,7 @@ const RegisterComponent = () => {
                         <input
                           ref={nameValue}
                           type="email"
-                          className=" w-[250px] focus:outline-none bg-orange-100 p-2"
+                          className="focus:outline-none w-[300px] h-[40px] border-red-400 border-b-2 min-w-24 bg-transparent"
                           placeholder="Enter a valid email address"
                           onKeyPress={handleKeyPress}
                         />
@@ -188,7 +188,7 @@ const RegisterComponent = () => {
                     <input
                       ref={passwordValue}
                       type={showPassword ? "text" : "password"}
-                      className=" w-[250px] focus:outline-none bg-orange-100 p-2"
+                      className="focus:outline-none w-[300px] h-[40px] border-red-400 border-b-2 min-w-24 bg-transparent"
                       placeholder="Enter password"
                       onKeyPress={handleKeyPress}
                     />
@@ -212,7 +212,7 @@ const RegisterComponent = () => {
                     <input
                       ref={confirmPasswordValue}
                       type={showPassword ? "text" : "password"}
-                      className=" w-[250px] focus:outline-none bg-orange-100 p-2"
+                      className="focus:outline-none w-[300px] h-[40px] border-red-400 border-b-2 min-w-24 bg-transparent"
                       placeholder="Enter confirm password"
                       onKeyPress={handleKeyPress}
                     />
@@ -242,7 +242,7 @@ const RegisterComponent = () => {
                 <div className="text-center text-lg-start mt-4 pt-2 underline">
                   <button
                     type="button"
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg"
+                    className="w-full bg-amber-900 hover:bg-amber-700 text-white font-bold py-2 px-4"
                     onClick={GetInformation}
                   >
                     Complete registration
