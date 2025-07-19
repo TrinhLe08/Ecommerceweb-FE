@@ -15,11 +15,11 @@ import {
   AtomReturnInformationWhenLogin,
 } from "@/app/recoil/information-user-provider";
 import { userApis } from "@/app/apis/user-apis";
+
 const DarkModeToggle = () => {
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
-    // Check for saved preference or system preference
     const savedTheme = localStorage.getItem('theme');
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
@@ -81,8 +81,6 @@ const Header = () => {
     AtomReturnInformationWhenLogin
   );
   const [___, setInfor] = useRecoilState(AtomInformationUser);
-
-
 
   const informationUserWhenLogin = useRecoilValue(
     AtomReturnInformationWhenLogin
@@ -171,7 +169,7 @@ const Header = () => {
             </div>
 
             <div className="flex gap-2 h-fit lg:w-fit w-[80px] ">
-              <Search strokeWidth={1} />
+              <Search strokeWidth={1} /> 
               <input
                 type="text"
                 placeholder="Search"

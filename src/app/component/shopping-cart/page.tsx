@@ -107,12 +107,10 @@ const ShoppingCart = () => {
             </div>
             <div className=" text-right mb-10 ">
               <div
-                className="
-  bg-red-200 dark:bg-orange-400 
-  w-fit p-2 mr-10 
-  hover:text-white hover:bg-red-500 dark:hover:bg-orange-800
-  transition-colors duration-200
-"
+                className=" bg-red-200 dark:bg-orange-400 
+                            w-fit p-2 mr-10 
+                            hover:text-white hover:bg-red-500 dark:hover:bg-orange-800
+                            transition-colors duration-200"
                 onClick={async () => {
                   try {
                     if (localStorage.getItem("accessToken")) {
@@ -125,7 +123,7 @@ const ShoppingCart = () => {
 
                     }
                     setInfor({});
-
+                    router.push("/?payment-page=true");
                     return;
                   } catch (err) {
                     localStorage.clear();
