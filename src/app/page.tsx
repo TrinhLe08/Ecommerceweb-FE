@@ -14,7 +14,7 @@ import FecthDataParamsAdmin from "./global/fetch-data.param-admin-request";
 
 dotenv.config();
 
-const LoginComponent = dynamic(() => import("./component/login-page/page"), {
+const LoginComponent = dynamic(() => import("./component/account/login-page/page"), {
   ssr: false,
 });
 const ConfirmEmail = dynamic(
@@ -36,7 +36,7 @@ const ChangePassword = dynamic(
   }
 );
 const RegisterComponent = dynamic(
-  () => import("./component/register-page/page"),
+  () => import("./component/account/register-page/page"),
   {
     ssr: false,
   }

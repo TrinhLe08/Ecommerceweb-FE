@@ -143,7 +143,7 @@ const RegisterComponent = () => {
             <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
               <form>
                 <div className="grid justify-center text-2xl font-bold mb-5 text-amber-900">
-                  CREATE YOUR ACCOUT
+                  CREATE YOUR ACCOUNT
                 </div>
 
                 <div className="grid mb-4">
