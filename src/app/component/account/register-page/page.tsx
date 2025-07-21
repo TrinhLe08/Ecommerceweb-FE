@@ -1,9 +1,6 @@
 "use client";
 import React, { useRef, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useRecoilState } from "recoil";
-import { AtomSidebaCheckUnderline } from "@/app/recoil/sidebar-check-provider";
 import { notification } from "antd";
 import { Popover, Space } from "antd";
 import { MoveLeft } from "lucide-react";
@@ -18,7 +15,6 @@ const RegisterComponent = () => {
   const checkBoxValue = useRef<HTMLInputElement>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [rightnessOfInforMation, setRightness] = useState(true);
-  const [_, setCheckSidebar] = useRecoilState(AtomSidebaCheckUnderline);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const openNotificationSuccess = () => {
@@ -117,17 +113,7 @@ const RegisterComponent = () => {
   };
   return (
     <div className="font-serif italic grid justify-center">
-      <Link href="/" onClick={() => setCheckSidebar(0)}>
-        <div className="grid justify-center my-8">
-          <img
-            src="https://www.leifshop.com/cdn/shop/t/49/assets/logo_leif.png?v=22488871944701774831698078109"
-            alt=""
-            className="w-[180px]"
-          />
-        </div>
-      </Link>
-
-      <button className="my-3 ml-10" onClick={() => window.history.back()}>
+      <button className="my-3 ml-[10px]" onClick={() => window.history.back()}>
         <MoveLeft />
       </button>
 

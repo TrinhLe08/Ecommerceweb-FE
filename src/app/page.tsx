@@ -14,9 +14,14 @@ import FecthDataParamsAdmin from "./global/fetch-data.param-admin-request";
 
 dotenv.config();
 
+const AccountComponent = dynamic(() => import("./component/account/page"), {
+  ssr: false,
+});
+
 const LoginComponent = dynamic(() => import("./component/account/login-page/page"), {
   ssr: false,
 });
+
 const ConfirmEmail = dynamic(
   () => import("./component/forgor-password/confirm-email/page"),
   {
@@ -137,9 +142,9 @@ export default function App() {
   return (
     <RootLayout>
       {searchParams.has("register-page") ? (
-        <RegisterComponent />
+        <AccountComponent Component={RegisterComponent} />
       ) : searchParams.has("login-page") ? (
-        <LoginComponent />
+        <AccountComponent Component={LoginComponent} />
       ) : searchParams.has("confirm-email-page") ? (
         <ConfirmEmail />
       ) : searchParams.has("confirm-code-page") ? (
