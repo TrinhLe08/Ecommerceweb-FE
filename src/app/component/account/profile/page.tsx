@@ -16,7 +16,6 @@ import { userApis } from "@/app/apis/user-apis";
 import { AtomSidebaCheckUnderline } from "@/app/recoil/sidebar-check-provider";
 import { orderApis } from "@/app/apis/order-apis";
 import {
-  OrderDetailType,
   ShoppingListType,
 } from "@/app/util/shopping-list.type";
 

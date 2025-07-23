@@ -23,19 +23,19 @@ const LoginComponent = dynamic(() => import("./component/account/login-page/page
 });
 
 const ConfirmEmail = dynamic(
-  () => import("./component/forgor-password/confirm-email/page"),
+  () => import("./component/account/forgot-password/confirm-email/page"),
   {
     ssr: false,
   }
 );
 const ConfirmCode = dynamic(
-  () => import("./component/forgor-password/confirm-code/page"),
+  () => import("./component/account/forgot-password/confirm-code/page"),
   {
     ssr: false,
   }
 );
 const ChangePassword = dynamic(
-  () => import("./component/forgor-password/change-password/page"),
+  () => import("./component/account/forgot-password/change-password/page"),
   {
     ssr: false,
   }
@@ -46,19 +46,19 @@ const RegisterComponent = dynamic(
     ssr: false,
   }
 );
-const ProfilePage = dynamic(() => import("./component/profile/page"), {
+const ProfilePage = dynamic(() => import("./component/account/profile/page"), {
   ssr: false,
 });
-const ProductList = dynamic(() => import("./component/product-list/page"), {
+const ProductList = dynamic(() => import("./component/product/product-list/page"), {
   ssr: false,
 });
-const DetailProduct = dynamic(() => import("./component/detail-product/page"), {
+const DetailProduct = dynamic(() => import("./component/product/detail-product/page"), {
   ssr: false,
 });
-const ShoppingCart = dynamic(() => import("./component/shopping-cart/page"), {
+const ShoppingCart = dynamic(() => import("./component/shopping/shopping-cart/page"), {
   ssr: false,
 });
-const PagementPage = dynamic(() => import("./component/payment-page/page"), {
+const PagementPage = dynamic(() => import("./component/shopping/payment-page/page"), {
   ssr: false,
 });
 const AllUserPage = dynamic(() => import("./component/admin/user/page"), {
