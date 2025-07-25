@@ -139,6 +139,7 @@ export default function App() {
     };
     FecthData();
   }, [searchParams]);
+
   return (
     <RootLayout>
       {searchParams.has("register-page") ? (
