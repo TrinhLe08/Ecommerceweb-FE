@@ -1,11 +1,29 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
 import { AtomSidebaCheckUnderline } from "@/app/recoil/sidebar-check-provider";
+import { AtomReturnInformationWhenLogin } from "@/app/recoil/information-user-provider";
 
 const HomePage = () => {
   const [_, setCheckSidebar] = useRecoilState(AtomSidebaCheckUnderline);
+  const [__, setReturnInformation] = useRecoilState(
+    AtomReturnInformationWhenLogin
+  );
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const dataString = urlParams.get('token');
+
+    if (dataString) {
+      const responseData = JSON.parse(decodeURIComponent(dataString));
+
+      setReturnInformation(responseData);
+      localStorage.setItem("accessToken", responseData.token);
+
+      window.history.replaceState({}, '', '/');
+    }
+  }, []);
 
   const firstMenu = [
     {
@@ -50,76 +68,76 @@ const HomePage = () => {
   return (
     <div className="home-page grid gap-5 h-fit w-[70%] border-t border-gray-300 p-4">
       <div className="w-full h-full first-menu lg:flex grid gap-5 justify-around">
-      {
-         firstMenu.map((menu) => (
-    <div
-      key={menu.title}
-      className="grid relative group"
-    >
-      <div className=" xl:w-[500px] xl:h-[700px] lg:w-[500px] lg:h-[700px] md:w-[500px] md:h-[600px] w-[300px] h-[400px]">
-      <img
-        src={menu.url1}
-        alt=""
-        className="xl:ml-0 xl:w-[500px] xl:h-[700px] lg:ml-0 lg:w-[500px] lg:h-[700px] md:ml-0 md:w-[500px] md:h-[600px] ml-[-50px] w-[300px] h-[400px] absolute top-0 left-0 transition-opacity duration-500 group-hover:opacity-0"
-      />
-      <img
-        src={menu.url2}
-        alt=""
-        className="xl:ml-0 xl:w-[500px] xl:h-[700px] lg:ml-0 lg:w-[500px] lg:h-[700px] md:ml-0 md:w-[500px] md:h-[600px] ml-[-50px] w-[300px] h-[400px] absolute top-0 left-0 transition-opacity duration-500 opacity-0 group-hover:opacity-100"
-      />
-      </div>
-      <Link
-        href={menu.link}
-        onClick={() => setCheckSidebar(menu.checkSidebar)}
-        className="flex w-full text-xl justify-center mt-1 underline"
-      >
-        {menu.title}
-      </Link>
-    </div>
-  ))
-}
+        {
+          firstMenu.map((menu) => (
+            <div
+              key={menu.title}
+              className="grid relative group"
+            >
+              <div className=" xl:w-[500px] xl:h-[700px] lg:w-[500px] lg:h-[700px] md:w-[500px] md:h-[600px] w-[300px] h-[400px]">
+                <img
+                  src={menu.url1}
+                  alt=""
+                  className="xl:ml-0 xl:w-[500px] xl:h-[700px] lg:ml-0 lg:w-[500px] lg:h-[700px] md:ml-0 md:w-[500px] md:h-[600px] ml-[-50px] w-[300px] h-[400px] absolute top-0 left-0 transition-opacity duration-500 group-hover:opacity-0"
+                />
+                <img
+                  src={menu.url2}
+                  alt=""
+                  className="xl:ml-0 xl:w-[500px] xl:h-[700px] lg:ml-0 lg:w-[500px] lg:h-[700px] md:ml-0 md:w-[500px] md:h-[600px] ml-[-50px] w-[300px] h-[400px] absolute top-0 left-0 transition-opacity duration-500 opacity-0 group-hover:opacity-100"
+                />
+              </div>
+              <Link
+                href={menu.link}
+                onClick={() => setCheckSidebar(menu.checkSidebar)}
+                className="flex w-full text-xl justify-center mt-1 underline"
+              >
+                {menu.title}
+              </Link>
+            </div>
+          ))
+        }
       </div>
       <div className="second-menu lg:flex grid justify-around">
         {
-  secondMenu.map((menu) => (
-    <div
-      key={menu.title}
-      className="grid relative group" 
-    >
-      <div className="w-[330px] h-[450px]">
-        <img
-          src={menu.url1}
-          alt={`Hình ảnh ${menu.title}`}
-          className="w-[330px] h-[450px] absolute top-0 left-0 transition-opacity duration-500 group-hover:opacity-0"
-        />
-        <img
-          src={menu.url2}
-          alt={`Hình ảnh hover ${menu.title}`}
-          className="w-[330px] h-[450px] absolute top-0 left-0 transition-opacity duration-500 opacity-0 group-hover:opacity-100"
-        />
-      </div>
-      <Link
-        href={menu.link}
-        onClick={() => setCheckSidebar(menu.checkSidebar)}
-        className="flex w-full text-xl justify-center mt-1 underline z-10 relative" // Thêm z-10 và relative để tránh bị đè lên
-      >
-        {menu.title}
-      </Link>
-    </div>
-  ))
-}
+          secondMenu.map((menu) => (
+            <div
+              key={menu.title}
+              className="grid relative group"
+            >
+              <div className="w-[330px] h-[450px]">
+                <img
+                  src={menu.url1}
+                  alt={`Hình ảnh ${menu.title}`}
+                  className="w-[330px] h-[450px] absolute top-0 left-0 transition-opacity duration-500 group-hover:opacity-0"
+                />
+                <img
+                  src={menu.url2}
+                  alt={`Hình ảnh hover ${menu.title}`}
+                  className="w-[330px] h-[450px] absolute top-0 left-0 transition-opacity duration-500 opacity-0 group-hover:opacity-100"
+                />
+              </div>
+              <Link
+                href={menu.link}
+                onClick={() => setCheckSidebar(menu.checkSidebar)}
+                className="flex w-full text-xl justify-center mt-1 underline z-10 relative" // Thêm z-10 và relative để tránh bị đè lên
+              >
+                {menu.title}
+              </Link>
+            </div>
+          ))
+        }
       </div>
       <div className="w-full grid justify-center">
-      <div className="h-fit grid gap-5 italic font-serif lg:w-[800px] w[30%] text-center my-10">
-        <div className="text-xl font-semibold">THE LEIF LIFESTYLE.</div>
-        <p>
-          LEIF is a Brooklyn-based, women-owned and operated lifestyle shop full
-          of beautiful things for everyday living — we carry an edited
-          assortment of home goods, artwork, apothecary, stationery and more,
-          all with the intention of bringing beauty to the everyday. We think
-          that's what it's all about, and we're so happy you're here.
-        </p>
-      </div>
+        <div className="h-fit grid gap-5 italic font-serif lg:w-[800px] w[30%] text-center my-10">
+          <div className="text-xl font-semibold">THE LEIF LIFESTYLE.</div>
+          <p>
+            LEIF is a Brooklyn-based, women-owned and operated lifestyle shop full
+            of beautiful things for everyday living — we carry an edited
+            assortment of home goods, artwork, apothecary, stationery and more,
+            all with the intention of bringing beauty to the everyday. We think
+            that's what it's all about, and we're so happy you're here.
+          </p>
+        </div>
       </div>
     </div>
   );

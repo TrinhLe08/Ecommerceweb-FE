@@ -1,17 +1,8 @@
 "use client";
 import React, { useRef, useState } from "react";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import { useRecoilState } from "recoil";
 import { AtomSidebaCheckUnderline } from "@/app/recoil/sidebar-check-provider";
-
-const LoginComponent = dynamic(() => import("./login-page/page"), {
-    ssr: false,
-});
-
-const RegisterComponent = dynamic(() => import("./register-page/page"), {
-    ssr: false,
-});
 
 interface accountPlayoutProps {
     Component: React.ComponentType<any>;
@@ -43,7 +34,6 @@ const AccountComponent: React.FC<accountPlayoutProps> = ({ Component }) => {
                 <div
                     className="font-serif italic h-full grid justify-center bg-cover bg-center bg-no-repeat border-amber-800 border-l-2"
                 >
-                    {/* <RegisterComponent /> */}
                     <Component />
                 </div>
             </div>

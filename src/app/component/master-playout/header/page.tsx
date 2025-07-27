@@ -169,7 +169,7 @@ const Header = () => {
             </div>
 
             <div className="flex gap-2 h-fit lg:w-fit w-[80px] ">
-              <Search strokeWidth={1} /> 
+              <Search strokeWidth={1} />
               <input
                 type="text"
                 placeholder="Search"

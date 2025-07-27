@@ -32,20 +32,20 @@ const ProfilePage = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [checkUploadFile, setCheckUpload] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [inputName, setInputName] = useState(dataUser.name);
+  const [inputName, setInputName] = useState(dataUser?.name);
   const [inputPhoneNumber, setInputPhoneNumber] = useState(
-    dataUser.phoneNumber
+    dataUser?.phoneNumber
   );
-  const [inputCountry, setInputCountry] = useState(dataUser.country);
+  const [inputCountry, setInputCountry] = useState(dataUser?.country);
   const [dataAllOrder, setDataAllOrder] = useState([]);
-  const [inputCity, setInputCity] = useState(dataUser.city);
-  const [inputAddress, setInputAddress] = useState(dataUser.address);
+  const [inputCity, setInputCity] = useState(dataUser?.city);
+  const [inputAddress, setInputAddress] = useState(dataUser?.address);
   setCheckSidebar(0);
 
   useEffect(() => {
     const fecthDataAllOrder = async () => {
       try {
-        const dataAllOrder = await orderApis.getAllUserOrder(dataUser.email);
+        const dataAllOrder = await orderApis.getAllUserOrder(dataUser?.email);
         setDataAllOrder(dataAllOrder.data);
         return;
       } catch (err) {
@@ -154,8 +154,8 @@ const ProfilePage = () => {
         <div className="grid xl:justify-start justify-center border-r-2 border-red-300 p-2 ">
           <img
             src={
-              dataUser.urlAvatar !== ""
-                ? dataUser.urlAvatar
+              dataUser?.urlAvatar !== ""
+                ? dataUser?.urlAvatar
                 : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSixWENwTZdvqJbo7WMo7JJX4yBrk5Mif_bxg&s"
             }
             alt=""
@@ -185,10 +185,10 @@ const ProfilePage = () => {
         </div>
 
         <p className="border-r-2 border-red-300 p-2">
-          Amount spent: {(dataUser.spent / 100).toFixed(2)}$
+          Amount spent: {(dataUser?.spent / 100).toFixed(2)}$
         </p>
         <p className="flex  sm:justify-start justify-center border-r-2 border-red-300 p-2">
-          Accumulated points: {dataUser.point}{" "}
+          Accumulated points: {dataUser?.point}{" "}
           <Sparkles strokeWidth={1} color="red" />
         </p>
         <div className="flex justify-center">
@@ -215,7 +215,7 @@ const ProfilePage = () => {
           <p>Name : {inputName}.</p>
         )}
 
-        <p>Email : {dataUser.email}.</p>
+        <p>Email : {dataUser?.email}.</p>
         {changeInfor ? (
           <div className="flex">
             <label htmlFor="">Phone Number : </label>

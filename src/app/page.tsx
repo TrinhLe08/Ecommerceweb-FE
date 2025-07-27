@@ -17,11 +17,9 @@ dotenv.config();
 const AccountComponent = dynamic(() => import("./component/account/page"), {
   ssr: false,
 });
-
 const LoginComponent = dynamic(() => import("./component/account/login-page/page"), {
   ssr: false,
 });
-
 const ConfirmEmail = dynamic(
   () => import("./component/account/forgot-password/confirm-email/page"),
   {
