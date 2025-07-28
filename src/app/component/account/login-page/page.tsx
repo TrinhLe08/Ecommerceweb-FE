@@ -3,7 +3,6 @@ import React, { useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRecoilState } from "recoil";
-import { AtomSidebaCheckUnderline } from "@/app/recoil/sidebar-check-provider";
 import { notification } from "antd";
 import { userApis } from "@/app/apis/user-apis";
 import { AtomReturnInformationWhenLogin } from "@/app/recoil/information-user-provider";
@@ -16,7 +15,6 @@ const LoginComponent = () => {
   const checkBoxValue = useRef<HTMLInputElement>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [rightnessOfInforMation, setRightness] = useState(true);
-  const [_, setCheckSidebar] = useRecoilState(AtomSidebaCheckUnderline);
   const [__, setReturnInformation] = useRecoilState(
     AtomReturnInformationWhenLogin
   );
@@ -79,14 +77,13 @@ const LoginComponent = () => {
     }
   };
 
-  const GetInformationFacabook = async () => {
+  const FacabookLogin = async () => {
     window.open('http://localhost:10000/api/v1/auth/facebook', '_system');
-    // window.location.href = 'http://localhost:10000/api/v1/auth/facebook';
     return
   }
 
-  const GetInformationGoogle = async () => {
-    console.log(13);
+  const GoogleLogin = async () => {
+    window.open('http://localhost:10000/api/v1/auth/google', '_system');
     return
   }
 
@@ -186,12 +183,12 @@ const LoginComponent = () => {
                 <span className="px-3 text-gray-500">Or login with</span>
               </div>
               <div className="flex justify-center gap-4 w-full py-4">
-                <a className="p-3 bg-blue-500 rounded-full" onClick={GetInformationFacabook}>
+                <a className="p-3 bg-blue-500 rounded-full" onClick={FacabookLogin}>
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z" />
                   </svg>
                 </a>
-                <a className="p-3 bg-white border border-gray-300 rounded-full" onClick={GetInformationGoogle}>
+                <a className="p-3 bg-white border border-gray-300 rounded-full" onClick={GoogleLogin}>
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 48 48">
                     <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z" />
                     <path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z" />
