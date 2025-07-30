@@ -12,7 +12,7 @@ const AccountComponent: React.FC<accountPlayoutProps> = ({ Component }) => {
     const [_, setCheckSidebar] = useRecoilState(AtomSidebaCheckUnderline);
 
     return (
-        <div className="h-screen grid justify-center items-center bg-cover bg-center bg-no-repeat">
+        <div className="h-screen grid justify-center items-center bg-cover bg-center bg-no-repeat mt-[-20px]">
             <div className="border-amber-700 border-b-2">
                 <Link href="/" onClick={() => setCheckSidebar(0)}>
                     <div className="grid justify-center my-">

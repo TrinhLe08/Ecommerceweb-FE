@@ -218,7 +218,7 @@ const Header = () => {
         </Link>
 
         <div className="grid justify-center gap-2 font-serif font-thin">
-          <div className="text-yellow-600 border-b border-black-600 p-3">
+          <div className="text-yellow-600 grid justify-center border-b border-black-600 p-3">
             {informationUserWhenLogin?.hasOwnProperty("email") &&
               informationUserWhenLogin.hasOwnProperty("urlAvatar") ? (
               <button className="grid text-center" onClick={profileUser}>
@@ -234,9 +234,14 @@ const Header = () => {
                   />
                 </div>
                 <p>
-                  {informationUserWhenLogin.email.length > 20
-                    ? informationUserWhenLogin.email.substring(0, 20) + "..."
-                    : informationUserWhenLogin.email}
+                  {informationUserWhenLogin.name
+                    ? (informationUserWhenLogin.name.length > 20
+                      ? informationUserWhenLogin.name.substring(0, 20) + "..."
+                      : informationUserWhenLogin.name)
+                    : (informationUserWhenLogin.email.length > 20
+                      ? informationUserWhenLogin.email.substring(0, 20) + "..."
+                      : informationUserWhenLogin.email)
+                  }
                 </p>
               </button>
             ) : (
