@@ -131,7 +131,7 @@ const CorfirmEmail = () => {
                   />
                   {rightnessOfInforMation ? null : (
                     <p className="text-red-700 text-sm">
-                      Email or password is incorrect
+                      Email is incorrect
                     </p>
                   )}
                 </div>

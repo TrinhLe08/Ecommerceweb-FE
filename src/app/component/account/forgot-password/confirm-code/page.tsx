@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRecoilState } from "recoil";
@@ -12,6 +12,36 @@ const CorfirmCode = () => {
   const code = useRef<HTMLInputElement>(null);
   const [_, setCheckSidebar] = useRecoilState(AtomSidebaCheckUnderline);
   const [rightnessOfInforMation, setRightness] = useState(true);
+  const [timeLeft, setTimeLeft] = useState({
+    hours: 1,
+    minutes: 0,
+    seconds: 0,
+  });
+
+  useEffect(() => {
+    // Đặt thời gian ban đầu: 1 giờ (hoặc 1 phút để test)
+    let totalSeconds = 1 * 60 * 60; // 1 giờ = 3600 giây
+    // Để test nhanh, dùng 1 phút:
+    // let totalSeconds = 1 * 60; // 1 phút = 60 giây
+
+    const interval = setInterval(() => {
+      if (totalSeconds <= 0) {
+        clearInterval(interval);
+        return;
+      }
+
+      totalSeconds--;
+
+      // Tính toán giờ, phút, giây còn lại
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      setTimeLeft({ hours, minutes, seconds });
+    }, 1000); // Cập nhật mỗi giây
+
+    return () => clearInterval(interval); // Dọn dẹp khi component unmount
+  }, []);
 
   const Move = async () => {
     try {
@@ -71,8 +101,11 @@ const CorfirmCode = () => {
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
               <form>
-                <div className="grid justify-center text-2xl font-bold mb-5 text-red-400">
+                <div className="grid justify-center item-center text-center text-2xl font-bold mb-5 text-red-400">
                   CONFIRM CODE
+                  <p className="text-black text-sm">
+                    ( Code will expire after : 0{timeLeft.hours} : {timeLeft.minutes} : {timeLeft.seconds} )
+                  </p>
                 </div>
 
                 <div className="grid  mb-4">
