@@ -106,7 +106,7 @@ const ProfilePage = () => {
         address: inputAddress ? inputAddress : "",
         city: inputCity ? inputCity : "",
       };
-      openNotification("Please wait a second .", 3);
+      openNotification("Please wait a second .", 3, "info");
       const update = await userApis.updateUser(dataToUpdate);
       if (update.data) {
         setDataUserUpdate(update.data);
@@ -118,10 +118,10 @@ const ProfilePage = () => {
         });
         setChangeDone(true);
         setCheckUpload(false);
-        openNotification("The information update is complete .", 2);
+        openNotification("The information update is complete .", 2, "success");
       }
     } catch (err) {
-      openNotification("Something went wrong, please try again !", 3);
+      openNotification("Something went wrong, please try again !", 3, "error");
       return;
     }
   };

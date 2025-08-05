@@ -38,7 +38,7 @@ const ChangePassword = () => {
         const newPassword = passwordValue.current.value;
         const change = await userApis.changePassword(emailUser, newPassword);
         if (change.data) {
-          openNotification("Change password is success .", 2);
+          openNotification("Change password is success .", 2, "success");
           router.push("/?login-page=true");
           return;
         }

@@ -12,7 +12,6 @@ import { AtomShoppingCart } from "@/app/recoil/shopping-cart-provider";
 import { ProductType } from "@/app/util/product.type";
 import { OrderDetailType } from "@/app/util/shopping-list.type";
 import StarRatings from "react-star-ratings";
-import { notification } from "antd";
 import FecthDataDetailProduct from "@/app/global/fecth-data-param/detail-product-request";
 import { AtomReturnInformationWhenLogin } from "@/app/recoil/information-user-provider";
 import { productApis } from "@/app/apis/product-apis";
@@ -82,7 +81,7 @@ const DetailProduct = () => {
       return cart;
     }, []);
     setShoppingCart(mergedItems);
-    openNotification('"Added to cart .', 2);
+    openNotification('"Added to cart .', 2, "success");
   };
   const commentProduct = async () => {
     try {

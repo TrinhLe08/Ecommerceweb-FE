@@ -92,7 +92,7 @@ const AdminDetailProduct = () => {
           );
           setDetailProduct(updateProduct.data);
           setSpin(false);
-          openNotification("The product has been updated .", 2);
+          openNotification("The product has been updated .", 2, "success");
           return;
         }
         const dataToUpdateProduct: ProductType = {
@@ -116,7 +116,7 @@ const AdminDetailProduct = () => {
         return;
       } catch (err) {
         console.log(err);
-        openNotification("Failure has occurred !", 3);
+        openNotification("Failure has occurred !", 3, "error");
         return;
       }
     },

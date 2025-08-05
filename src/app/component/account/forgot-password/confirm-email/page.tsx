@@ -29,15 +29,15 @@ const CorfirmEmail = () => {
         }
         setRightness(true);
         const email = emailValue.current.value;
-        openNotification("We are checking and sending you a confirmation code ! Please wait a minute .", 4);
+        openNotification("We are checking and sending you a confirmation code ! Please wait a minute .", 4, "success");
         const confirm = await userApis.confirmMail(email);
         if (confirm.data) {
-          openNotification("The confirmation code has been sent to your email .", 3);
+          openNotification("The confirmation code has been sent to your email .", 3, "success");
           setSavaMail(email);
           router.push("/?confirm-code-page=true");
           return;
         }
-        openNotification("Email not valid !", 3);
+        openNotification("Email not valid !", 3, "error");
         setRightness(false);
         return;
       } else {

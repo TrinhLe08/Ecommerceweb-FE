@@ -6,7 +6,6 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { LoadingOutlined } from "@ant-design/icons";
-import { notification } from "antd";
 import { AtomShoppingCart } from "@/app/recoil/shopping-cart-provider";
 import {
   OrderDetailType,
@@ -77,7 +76,7 @@ const Paymentpage = () => {
       ),
     }),
     onSubmit: async (values: any) => {
-      openNotification("Please wait a moment .", 2);
+      openNotification("Please wait a moment .", 2, "info");
       const today = new Date();
       const date = today.getDate();
       const month = today.getMonth() + 1;
@@ -100,13 +99,13 @@ const Paymentpage = () => {
         const createOrder = await orderApis.createOrder(dataTocreateOrder);
 
         if (createOrder.data && localStorage.getItem("accessToken")) {
-          openNotification("Thank you for your purchase. Your order is being processedxxx .", 3);
+          openNotification("Thank you for your purchase. Your order is being processed .", 3, "success");
           setShoppingCartValue([]);
           router.push("/");
-          setTimeout(() => openNotification("You have just received 5 cumulative points .", 2), 1000);
+          setTimeout(() => openNotification("You have just received 5 cumulative points .", 2, "success"), 1000);
           return;
         }
-        openNotification("Thank you for your purchase. Your order is being processed .", 3);
+        openNotification("Thank you for your purchase. Your order is being processed .", 3, "success");
         setShoppingCartValue([]);
         router.push("/");
         return;
@@ -278,7 +277,7 @@ const Paymentpage = () => {
                     onClick={() => {
                       setPoint(10);
                       setHiddenInformationPoint(false);
-                      openNotification("Used 10 accumulated points .", 2);
+                      openNotification("Used 10 accumulated points .", 2, "success");
                     }}
                   >
                     {" "}

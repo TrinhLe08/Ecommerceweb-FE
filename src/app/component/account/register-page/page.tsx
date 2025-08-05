@@ -30,7 +30,7 @@ const RegisterComponent = () => {
   );
 
   const GetInformation = async () => {
-    openNotification("Please wait a second moment.", 2);
+    openNotification("Please wait a second moment.", 2, "info");
     try {
       if (
         nameValue.current !== null &&
@@ -65,12 +65,12 @@ const RegisterComponent = () => {
         };
         const createUser: any = await userApis.registerUser(value);
         if (createUser.statusCode === 200) {
-          openNotification("The information update is complete .", 2);
+          openNotification("The information update is complete .", 2, "success");
           setTimeout(() => {
             router.push("/?login-page=true");
           }, 500);
         } else {
-          openNotification('Your email already exists .', 3);
+          openNotification('Your email already exists .', 3, "error");
           return;
         }
       } else {

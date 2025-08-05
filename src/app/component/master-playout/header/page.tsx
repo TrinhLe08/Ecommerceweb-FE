@@ -104,7 +104,7 @@ const Header = () => {
     const automaticLogout = () => {
       localStorage.clear();
       setValueReturnLogin({});
-      openNotification('Login session expired, please log in again .', 4);
+      openNotification('Login session expired, please log in again .', 4, "error");
       router.push("/?login-page=true");
     };
     const timeout = setTimeout(automaticLogout, 24 * 60 * 60 * 1000);

@@ -58,7 +58,7 @@ const LoginComponent = () => {
           setReturnInformation(login.data);
           localStorage.setItem("accessToken", login.data.token);
           router.push("/");
-          openNotification("Welcome back .", 2);
+          openNotification("Welcome back .", 2, "success");
         } else {
           setRightness(false);
         }
