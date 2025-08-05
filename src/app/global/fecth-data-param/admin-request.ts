@@ -1,5 +1,5 @@
-import { userApis } from "../apis/user-apis";
-import { orderApis } from "../apis/order-apis";
+import { userApis } from "../../apis/user-apis";
+import { orderApis } from "../../apis/order-apis";
 
 const FecthDataParamsAdmin = async (valueParams: string) => {
   try {

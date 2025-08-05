@@ -1,4 +1,4 @@
-import { productApis } from "../apis/product-apis";
+import { productApis } from "../../apis/product-apis";
 
 const FecthDataParams = async (valueParams: string) => {
   try {

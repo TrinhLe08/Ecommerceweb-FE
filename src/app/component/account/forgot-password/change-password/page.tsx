@@ -4,10 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { AtomSidebaCheckUnderline } from "@/app/recoil/sidebar-check-provider";
-import { notification } from "antd";
 import { MoveLeft } from "lucide-react";
 import { AtomSaveMail } from "@/app/recoil/save-mail-provider";
 import { userApis } from "@/app/apis/user-apis";
+import { openNotification } from "@/app/global/notification/noitification";
 
 const ChangePassword = () => {
   const router = useRouter();
@@ -18,15 +18,6 @@ const ChangePassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [_, setCheckSidebar] = useRecoilState(AtomSidebaCheckUnderline);
   const [rightnessOfInforMation, setRightness] = useState(true);
-
-  const openNotificationChangeSuccess = () => {
-    notification.open({
-      message: "Change password is success .",
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
-    });
-  };
 
   const Change = async () => {
     try {
@@ -47,7 +38,7 @@ const ChangePassword = () => {
         const newPassword = passwordValue.current.value;
         const change = await userApis.changePassword(emailUser, newPassword);
         if (change.data) {
-          openNotificationChangeSuccess();
+          openNotification("Change password is success .", 2);
           router.push("/?login-page=true");
           return;
         }

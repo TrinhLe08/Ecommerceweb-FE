@@ -5,12 +5,12 @@ import RootLayout from "./layout";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { useSearchParams } from "next/navigation";
-import FecthDataDetailProduct from "./global/fecth-data-param-detail-product-request";
+import FecthDataDetailProduct from "./global/fecth-data-param/detail-product-request";
 import HomePage from "./component/home-page/page";
 import { AtomDetailProduct } from "./recoil/detail-product-provider";
 import { AtomAllUser } from "./recoil/admin-request-all-user-provider";
 import { AtomAllOrder } from "./recoil/admin-request-all-order-provider";
-import FecthDataParamsAdmin from "./global/fetch-data.param-admin-request";
+import FecthDataParamsAdmin from "./global/fecth-data-param/admin-request";
 
 dotenv.config();
 

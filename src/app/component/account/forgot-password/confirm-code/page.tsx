@@ -19,28 +19,21 @@ const CorfirmCode = () => {
   });
 
   useEffect(() => {
-    // Đặt thời gian ban đầu: 1 giờ (hoặc 1 phút để test)
-    let totalSeconds = 1 * 60 * 60; // 1 giờ = 3600 giây
-    // Để test nhanh, dùng 1 phút:
-    // let totalSeconds = 1 * 60; // 1 phút = 60 giây
-
+    let totalSeconds = 1 * 60 * 60;
     const interval = setInterval(() => {
       if (totalSeconds <= 0) {
         clearInterval(interval);
         return;
       }
-
       totalSeconds--;
-
-      // Tính toán giờ, phút, giây còn lại
       const hours = Math.floor(totalSeconds / 3600);
       const minutes = Math.floor((totalSeconds % 3600) / 60);
       const seconds = totalSeconds % 60;
 
       setTimeLeft({ hours, minutes, seconds });
-    }, 1000); // Cập nhật mỗi giây
+    }, 1000);
 
-    return () => clearInterval(interval); // Dọn dẹp khi component unmount
+    return () => clearInterval(interval);
   }, []);
 
   const Move = async () => {

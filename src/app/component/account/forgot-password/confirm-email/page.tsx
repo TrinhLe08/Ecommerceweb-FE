@@ -4,10 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRecoilState } from "recoil";
 import { AtomSidebaCheckUnderline } from "@/app/recoil/sidebar-check-provider";
-import { notification } from "antd";
 import { MoveLeft, Send } from "lucide-react";
 import { userApis } from "@/app/apis/user-apis";
 import { AtomSaveMail } from "@/app/recoil/save-mail-provider";
+import { openNotification } from "@/app/global/notification/noitification";
 
 const CorfirmEmail = () => {
   const router = useRouter();
@@ -16,34 +16,6 @@ const CorfirmEmail = () => {
   const [_, setCheckSidebar] = useRecoilState(AtomSidebaCheckUnderline);
   const [__, setSavaMail] = useRecoilState(AtomSaveMail);
   const [rightnessOfInforMation, setRightness] = useState(true);
-
-  const openNotificationWait = () => {
-    notification.open({
-      message:
-        "We are checking and sending you a confirmation code ! Please wait a minute .",
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
-    });
-  };
-
-  const openNotificationEmailNotValid = () => {
-    notification.open({
-      message: "Email not valid !",
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
-    });
-  };
-
-  const openNotificationConfirm = () => {
-    notification.open({
-      message: "The confirmation code has been sent to your email .",
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
-    });
-  };
 
   const SendCode = async () => {
     try {
@@ -57,15 +29,15 @@ const CorfirmEmail = () => {
         }
         setRightness(true);
         const email = emailValue.current.value;
-        openNotificationWait();
+        openNotification("We are checking and sending you a confirmation code ! Please wait a minute .", 4);
         const confirm = await userApis.confirmMail(email);
         if (confirm.data) {
-          openNotificationConfirm();
+          openNotification("The confirmation code has been sent to your email .", 3);
           setSavaMail(email);
           router.push("/?confirm-code-page=true");
           return;
         }
-        openNotificationEmailNotValid();
+        openNotification("Email not valid !", 3);
         setRightness(false);
         return;
       } else {

@@ -9,7 +9,7 @@ import { ChevronLeft } from "lucide-react";
 import { AtomProductListContext } from "@/app/recoil/product-list-provider";
 import { ProductType } from "@/app/util/product.type";
 import { AtomResetLimitProductListPage } from "@/app/recoil/reset-limit-product-list-page-provider";
-import FecthDataParams from "@/app/global/fecth-data-param-product-list-request";
+import FecthDataParams from "@/app/global/fecth-data-param/product-list-request";
 import StarRatings from "react-star-ratings";
 
 const ProductList = () => {

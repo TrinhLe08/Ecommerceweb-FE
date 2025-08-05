@@ -34,6 +34,7 @@ const AllUserPage = () => {
         <p className="w-[100px]">Phone Number</p>
         <p className="w-[100px]">Spent</p>
         <p className="w-[100px]">Point</p>
+        <p className="w-[100px]"></p>
       </div>
 
       <List
@@ -50,6 +51,12 @@ const AllUserPage = () => {
                 {value.spent ? (value.spent / 100).toFixed(2) : "N/A"} $
               </p>
               <p className="w-[100px]">{value.point}</p>
+              {/* <button
+                className="w-[100px]"
+                onClick={() => DeleteUser(value.id)}
+              >
+                Delete
+              </button> */}
             </div>
           </div>
         )}

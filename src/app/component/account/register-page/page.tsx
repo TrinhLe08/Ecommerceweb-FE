@@ -7,6 +7,7 @@ import { Popover, Space } from "antd";
 import { MoveLeft } from "lucide-react";
 import { userApis } from "@/app/apis/user-apis";
 import { UserType } from "@/app/util/user.type";
+import { openNotification } from "@/app/global/notification/noitification";
 dotenv.config();
 
 const RegisterComponent = () => {
@@ -19,33 +20,6 @@ const RegisterComponent = () => {
   const [rightnessOfInforMation, setRightness] = useState(true);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  const openNotificationSuccess = () => {
-    notification.open({
-      message: "Registered successfully .",
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
-    });
-  };
-
-  const openNotificationFail = () => {
-    notification.open({
-      message: "Your email already exists .",
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
-    });
-  };
-
-  const openNotificationWaiting = () => {
-    notification.open({
-      message: "Please wait a second moment.",
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
-    });
-  };
-
   const content = (
     <div>
       <p>
@@ -56,7 +30,7 @@ const RegisterComponent = () => {
   );
 
   const GetInformation = async () => {
-    openNotificationWaiting();
+    openNotification("Please wait a second moment.", 2);
     try {
       if (
         nameValue.current !== null &&
@@ -91,12 +65,12 @@ const RegisterComponent = () => {
         };
         const createUser: any = await userApis.registerUser(value);
         if (createUser.statusCode === 200) {
-          openNotificationSuccess();
+          openNotification("The information update is complete .", 2);
           setTimeout(() => {
             router.push("/?login-page=true");
           }, 500);
         } else {
-          openNotificationFail();
+          openNotification('Your email already exists .', 3);
           return;
         }
       } else {

@@ -4,14 +4,14 @@ import { useSearchParams } from "next/navigation";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
-import { notification } from "antd";
+import { openNotification } from "@/app/global/notification/noitification";
 import * as Yup from "yup";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
 import { AtomDetailProduct } from "@/app/recoil/detail-product-provider";
 import { ProductType } from "@/app/util/product.type";
 import { productApis } from "@/app/apis/product-apis";
-import FecthDataDetailProduct from "@/app/global/fecth-data-param-detail-product-request";
+import FecthDataDetailProduct from "@/app/global/fecth-data-param/detail-product-request";
 
 const AdminDetailProduct = () => {
   const searchParams = useSearchParams();
@@ -20,22 +20,6 @@ const AdminDetailProduct = () => {
   const [_, setDetailProduct] = useRecoilState(AtomDetailProduct);
   const detailProductValue: ProductType = useRecoilValue(AtomDetailProduct);
 
-  const openNotification = () => {
-    notification.open({
-      message: "The product has been updated .",
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
-    });
-  };
-  const openNotificationFalse = () => {
-    notification.open({
-      message: "Failure has occurred !",
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
-    });
-  };
   useEffect(() => {
     const FecthData = async () => {
       const idProduct: number | null = parseInt(
@@ -90,7 +74,7 @@ const AdminDetailProduct = () => {
     onSubmit: async (values: any) => {
       setSpin(true);
       try {
-        if (values.urlProduct === null) {  
+        if (values.urlProduct === null) {
           const dataToUpdateProduct: ProductType = {
             id: detailProductValue.id,
             urlProduct: detailProductValue.urlProduct,
@@ -103,13 +87,12 @@ const AdminDetailProduct = () => {
             origin: values.origin,
             item: detailProductValue.item,
           };
-                  console.log(dataToUpdateProduct, 126);
           const updateProduct = await productApis.updateProduct(
             dataToUpdateProduct
           );
           setDetailProduct(updateProduct.data);
           setSpin(false);
-          openNotification();
+          openNotification("The product has been updated .", 2);
           return;
         }
         const dataToUpdateProduct: ProductType = {
@@ -125,7 +108,6 @@ const AdminDetailProduct = () => {
           item: detailProductValue.item,
         };
 
-        
         const updateProduct = await productApis.updateProduct(
           dataToUpdateProduct
         );
@@ -134,7 +116,7 @@ const AdminDetailProduct = () => {
         return;
       } catch (err) {
         console.log(err);
-        openNotificationFalse();
+        openNotification("Failure has occurred !", 3);
         return;
       }
     },
@@ -233,17 +215,17 @@ const AdminDetailProduct = () => {
           </p>
           <p className="flex w-fit gap-5">
             <span className="font-semibold">Sale</span> :
-           <input
+            <input
               type="checkbox"
-              checked={formik.values.status || false} 
+              checked={formik.values.status || false}
               onChange={() => {
-              formik.setFieldValue("status", !formik.values.status); 
-              console.log(formik.values.status);
-              
-            }}
+                formik.setFieldValue("status", !formik.values.status);
+                console.log(formik.values.status);
+
+              }}
               name="status"
               className="w-full"
-             />
+            />
           </p>
         </div>
       </div>

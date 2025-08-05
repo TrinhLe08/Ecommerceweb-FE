@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 import { ShoppingCart } from "lucide-react";
-import { notification } from "antd";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { AtomSidebaCheckUnderline } from "@/app/recoil/sidebar-check-provider";
 import { AtomShoppingCart } from "@/app/recoil/shopping-cart-provider";
@@ -15,6 +14,7 @@ import {
   AtomReturnInformationWhenLogin,
 } from "@/app/recoil/information-user-provider";
 import { userApis } from "@/app/apis/user-apis";
+import { openNotification } from "@/app/global/notification/noitification";
 
 const DarkModeToggle = () => {
   const [isDark, setIsDark] = useState(false);
@@ -81,21 +81,11 @@ const Header = () => {
     AtomReturnInformationWhenLogin
   );
   const [___, setInfor] = useRecoilState(AtomInformationUser);
-
   const informationUserWhenLogin = useRecoilValue(
     AtomReturnInformationWhenLogin
   );
   const shoppingCartValue = useRecoilValue(AtomShoppingCart);
-  const openNotificationAutomaticLogout = () => {
-    notification.open({
-      message: "Login session expired, please log in again .",
-      description: "Your order is being processed .",
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
-      duration: null,
-    });
-  };
+
   useEffect(() => {
     const getAllProduct = async () => {
       try {
@@ -114,12 +104,13 @@ const Header = () => {
     const automaticLogout = () => {
       localStorage.clear();
       setValueReturnLogin({});
-      openNotificationAutomaticLogout();
+      openNotification('Login session expired, please log in again .', 4);
       router.push("/?login-page=true");
     };
     const timeout = setTimeout(automaticLogout, 24 * 60 * 60 * 1000);
     return () => clearTimeout(timeout);
   }, []);
+
   const SearchProduct = (value: string) => {
     const convertValueInput = value.toUpperCase();
     const searchValue: any = allProduct.filter((v: any) =>

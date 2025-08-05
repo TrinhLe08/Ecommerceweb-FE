@@ -13,9 +13,10 @@ import { ProductType } from "@/app/util/product.type";
 import { OrderDetailType } from "@/app/util/shopping-list.type";
 import StarRatings from "react-star-ratings";
 import { notification } from "antd";
-import FecthDataDetailProduct from "@/app/global/fecth-data-param-detail-product-request";
+import FecthDataDetailProduct from "@/app/global/fecth-data-param/detail-product-request";
 import { AtomReturnInformationWhenLogin } from "@/app/recoil/information-user-provider";
 import { productApis } from "@/app/apis/product-apis";
+import { openNotification } from "@/app/global/notification/noitification";
 
 const DetailProduct = () => {
   const router = useRouter();
@@ -55,14 +56,7 @@ const DetailProduct = () => {
   const changeRating = (newRating: number) => {
     setRating(newRating);
   };
-  const openNotification = () => {
-    notification.open({
-      message: "Added to cart .",
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
-    });
-  };
+
   const handleAddToCart = () => {
     const updatedCart = [
       ...shoppingCart,
@@ -88,7 +82,7 @@ const DetailProduct = () => {
       return cart;
     }, []);
     setShoppingCart(mergedItems);
-    openNotification();
+    openNotification('"Added to cart .', 2);
   };
   const commentProduct = async () => {
     try {
@@ -207,7 +201,7 @@ const DetailProduct = () => {
       <div className="sm:ml-0 ml-10 mt-5 h-fit">
         <h1 className="text-lg font-semibold">Evaluate :</h1>
         {localStorage.getItem("accessToken") &&
-        informationUser?.bought?.includes(detailProductValue.id) ? (
+          informationUser?.bought?.includes(detailProductValue.id) ? (
           <div>
             <div>
               <StarRatings
@@ -255,7 +249,7 @@ const DetailProduct = () => {
         )}
         <div>
           {detailProductValue.comment &&
-          detailProductValue.comment.length > 0 ? (
+            detailProductValue.comment.length > 0 ? (
             detailProductValue.comment.map((comment, index) => (
               <div className="w-[80%] border-b-2 border-red" key={index}>
                 <div className="flex items-center gap-2">

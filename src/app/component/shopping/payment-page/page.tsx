@@ -15,8 +15,8 @@ import {
 import { orderApis } from "@/app/apis/order-apis";
 import {
   AtomInformationUser,
-  AtomReturnInformationWhenLogin,
 } from "@/app/recoil/information-user-provider";
+import { openNotification } from "@/app/global/notification/noitification";
 
 const Paymentpage = () => {
   const router = useRouter();
@@ -41,39 +41,6 @@ const Paymentpage = () => {
       router.push("/");
     }
   }, []);
-  const openNotificationLoading = () => {
-    notification.open({
-      message: "Please wait a moment .",
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
-    });
-  };
-  const openNotification = () => {
-    notification.open({
-      message: "Thank you for your purchase .",
-      description: "Your order is being processed .",
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
-    });
-  };
-  const openNotificationAccumulatedPoint = () => {
-    notification.open({
-      message: "Used 10 accumulated points .",
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
-    });
-  };
-  const openNotificationAddPoint = () => {
-    notification.open({
-      message: "You have just received 5 cumulative points .",
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
-    });
-  };
   const subtotal = shoppingCartValue.reduce(
     (total: number, cart: OrderDetailType) =>
       total + cart.priceOrder * cart.quantity,
@@ -110,7 +77,7 @@ const Paymentpage = () => {
       ),
     }),
     onSubmit: async (values: any) => {
-      openNotificationLoading();
+      openNotification("Please wait a moment .", 2);
       const today = new Date();
       const date = today.getDate();
       const month = today.getMonth() + 1;
@@ -133,13 +100,13 @@ const Paymentpage = () => {
         const createOrder = await orderApis.createOrder(dataTocreateOrder);
 
         if (createOrder.data && localStorage.getItem("accessToken")) {
-          openNotification();
+          openNotification("Thank you for your purchase. Your order is being processedxxx .", 3);
           setShoppingCartValue([]);
           router.push("/");
-          setTimeout(openNotificationAddPoint, 1000);
+          setTimeout(() => openNotification("You have just received 5 cumulative points .", 2), 1000);
           return;
         }
-        openNotification();
+        openNotification("Thank you for your purchase. Your order is being processed .", 3);
         setShoppingCartValue([]);
         router.push("/");
         return;
@@ -311,7 +278,7 @@ const Paymentpage = () => {
                     onClick={() => {
                       setPoint(10);
                       setHiddenInformationPoint(false);
-                      openNotificationAccumulatedPoint();
+                      openNotification("Used 10 accumulated points .", 2);
                     }}
                   >
                     {" "}

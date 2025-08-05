@@ -8,6 +8,7 @@ import { PencilLine } from "lucide-react";
 import { X } from "lucide-react";
 import { LogOut } from "lucide-react";
 import { notification } from "antd";
+import { Button, Popover } from 'antd';
 import {
   AtomInformationUser,
   AtomReturnInformationWhenLogin,
@@ -18,6 +19,7 @@ import { orderApis } from "@/app/apis/order-apis";
 import {
   ShoppingListType,
 } from "@/app/util/shopping-list.type";
+import { openNotification } from "@/app/global/notification/noitification";
 
 const ProfilePage = () => {
   const router = useRouter();
@@ -56,30 +58,12 @@ const ProfilePage = () => {
     fecthDataAllOrder();
   }, []);
 
-  const openNotificationWait = () => {
-    notification.open({
-      message: "Please wait a second .",
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
-    });
-  };
-  const openNotificationSuccess = () => {
-    notification.open({
-      message: "The information update is complete .",
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
-    });
-  };
-  const openNotificationError = () => {
-    notification.open({
-      message: "Something went wrong, please try again !",
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
-    });
-  };
+  const contentOfInstructionsForAccumulatedPoints = (
+    <div>
+      <p>You will get this point after every purchase.</p>
+      <p>You can use these points for future purchases.</p>
+    </div>
+  );
   const handlePencilClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -122,7 +106,7 @@ const ProfilePage = () => {
         address: inputAddress ? inputAddress : "",
         city: inputCity ? inputCity : "",
       };
-      openNotificationWait();
+      openNotification("Please wait a second .", 3);
       const update = await userApis.updateUser(dataToUpdate);
       if (update.data) {
         setDataUserUpdate(update.data);
@@ -134,10 +118,10 @@ const ProfilePage = () => {
         });
         setChangeDone(true);
         setCheckUpload(false);
-        openNotificationSuccess();
+        openNotification("The information update is complete .", 2);
       }
     } catch (err) {
-      openNotificationError();
+      openNotification("Something went wrong, please try again !", 3);
       return;
     }
   };
@@ -187,10 +171,12 @@ const ProfilePage = () => {
         <p className="border-r-2 border-red-300 p-2">
           Amount spent: {(dataUser?.spent / 100).toFixed(2)}$
         </p>
-        <p className="flex  sm:justify-start justify-center border-r-2 border-red-300 p-2">
-          Accumulated points: {dataUser?.point}{" "}
-          <Sparkles strokeWidth={1} color="red" />
-        </p>
+        <Popover content={contentOfInstructionsForAccumulatedPoints} title="Accumulated Points">
+          <button className="flex  sm:justify-start justify-center border-r-2 border-red-300 p-2">
+            Accumulated points: {dataUser?.point}{" "}
+            <Sparkles strokeWidth={1} color="red" />
+          </button>
+        </Popover>
         <div className="flex justify-center">
           <button
             className="flex border-red-600 border-b-2"

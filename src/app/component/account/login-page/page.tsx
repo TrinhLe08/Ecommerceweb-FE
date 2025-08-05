@@ -4,10 +4,10 @@ import Link from "next/link";
 import dotenv from "dotenv";
 import { useRouter } from "next/navigation";
 import { useRecoilState } from "recoil";
-import { notification } from "antd";
 import { userApis } from "@/app/apis/user-apis";
 import { AtomReturnInformationWhenLogin } from "@/app/recoil/information-user-provider";
 import { adminApis } from "@/app/apis/admin-apis";
+import { openNotification } from "@/app/global/notification/noitification";
 dotenv.config();
 
 const LoginComponent = () => {
@@ -21,19 +21,11 @@ const LoginComponent = () => {
     AtomReturnInformationWhenLogin
   );
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const openNotificationWelcome = () => {
-    notification.open({
-      message: "Welcome back .",
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
-    });
-  };
 
   const GetInformation = async () => {
     try {
       if (emailValue.current !== null && passwordValue.current !== null) {
-        if (emailValue.current.value === "admin@gmail.com") {
+        if (emailValue.current.value === process.env.NEXT_PUBLIC_EMAIL_ADMIN) {
           const value = {
             email: emailValue.current.value,
             password: passwordValue.current.value,
@@ -66,7 +58,7 @@ const LoginComponent = () => {
           setReturnInformation(login.data);
           localStorage.setItem("accessToken", login.data.token);
           router.push("/");
-          openNotificationWelcome();
+          openNotification("Welcome back .", 2);
         } else {
           setRightness(false);
         }
