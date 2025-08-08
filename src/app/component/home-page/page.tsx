@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRecoilState } from "recoil";
 import { AtomSidebaCheckUnderline } from "@/app/recoil/sidebar-check-provider";
 import { AtomReturnInformationWhenLogin } from "@/app/recoil/information-user-provider";
+import { openNotification } from "@/app/global/notification/noitification";
 
 const HomePage = () => {
   const [_, setCheckSidebar] = useRecoilState(AtomSidebaCheckUnderline);
@@ -17,11 +18,10 @@ const HomePage = () => {
 
     if (dataString) {
       const responseData = JSON.parse(decodeURIComponent(dataString));
-
-      setReturnInformation(responseData);
       localStorage.setItem("accessToken", responseData.token);
-
+      setReturnInformation(responseData);
       window.history.replaceState({}, '', '/');
+      openNotification("Welcome back .", 2, "success");
     }
   }, []);
 

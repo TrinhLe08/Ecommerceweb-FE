@@ -19,13 +19,26 @@ const CorfirmCode = () => {
   });
 
   useEffect(() => {
-    let totalSeconds = 1 * 60 * 60;
+    const savedEndTime = localStorage.getItem('countdownEndTime');
+    let endTime;
+
+    if (savedEndTime) {
+      endTime = parseInt(savedEndTime);
+    } else {
+      endTime = Date.now() + 1 * 60 * 60 * 1000; // 1 giờ từ bây giờ
+      localStorage.setItem('countdownEndTime', endTime.toString());
+    }
+
     const interval = setInterval(() => {
+      const now = Date.now();
+      const totalSeconds = Math.max(0, Math.floor((endTime - now) / 1000));
+
       if (totalSeconds <= 0) {
         clearInterval(interval);
+        localStorage.removeItem('countdownEndTime');
         return;
       }
-      totalSeconds--;
+
       const hours = Math.floor(totalSeconds / 3600);
       const minutes = Math.floor((totalSeconds % 3600) / 60);
       const seconds = totalSeconds % 60;
