@@ -2,11 +2,11 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
-import { notification } from "antd";
 import * as Yup from "yup";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
 import { productApis } from "@/app/apis/product-apis";
+import { openNotification } from "@/app/global/notification/noitification";
 
 const CreateProduct = () => {
   const [spin, setSpin] = useState(false);
@@ -22,22 +22,6 @@ const CreateProduct = () => {
   );
   const style = {
     input: "focus:outline-none bg-blue-100 p-1",
-  };
-  const openNotification = () => {
-    notification.open({
-      message: "Create successful new products .",
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
-    });
-  };
-  const openNotificationFalse = () => {
-    notification.open({
-      message: "Failure has occurred !",
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
-    });
   };
   const formik = useFormik({
     initialValues: {
@@ -68,10 +52,10 @@ const CreateProduct = () => {
         await productApis.createProduct(values);
         router.push("/?page-admin=product-list");
         setSpin(false);
-        openNotification();
+        openNotification("Create successful new products .", 2, "success");
         return;
       } catch (err) {
-        openNotificationFalse();
+        openNotification("Failure has occurred !", 3, "error");
         localStorage.clear();
         router.push("/?login-page=true");
         return;
@@ -105,11 +89,11 @@ const CreateProduct = () => {
           }}
           className="mb-2"
         />
-         <p className="w-fit text-red-500 text-xs">
-                {formik.errors.urlProduct && formik.touched.urlProduct ? (
-                  <>{formik.errors.urlProduct as string}</>
-                ) : null}
-         </p>
+        <p className="w-fit text-red-500 text-xs">
+          {formik.errors.urlProduct && formik.touched.urlProduct ? (
+            <>{formik.errors.urlProduct as string}</>
+          ) : null}
+        </p>
         <label htmlFor="name">Name Product : </label>
         <input
           type="name"
@@ -120,10 +104,10 @@ const CreateProduct = () => {
           className={style.input}
         />
         <p className="w-fit text-red-500 text-xs">
-                {formik.errors.name && formik.touched.name ? (
-                  <>{formik.errors.name as string}</>
-                ) : null}
-         </p>
+          {formik.errors.name && formik.touched.name ? (
+            <>{formik.errors.name as string}</>
+          ) : null}
+        </p>
         <label htmlFor="price">Price Product : </label>
         <input
           type="number"
@@ -134,10 +118,10 @@ const CreateProduct = () => {
           className={style.input}
         />
         <p className="w-fit text-red-500 text-xs">
-                {formik.errors.price && formik.touched.price ? (
-                  <>{formik.errors.price as string}</>
-                ) : null}
-         </p>
+          {formik.errors.price && formik.touched.price ? (
+            <>{formik.errors.price as string}</>
+          ) : null}
+        </p>
         <label htmlFor="price">Status Sale Product : </label>
         <input
           type="checkbox"
@@ -149,10 +133,10 @@ const CreateProduct = () => {
           className={style.input}
         />
         <p className="w-fit text-red-500 text-xs">
-                {formik.errors.status && formik.touched.status ? (
-                  <>{formik.errors.status as string}</>
-                ) : null}
-         </p>
+          {formik.errors.status && formik.touched.status ? (
+            <>{formik.errors.status as string}</>
+          ) : null}
+        </p>
         <label htmlFor="price">Material Product : </label>
         <input
           type="text"
@@ -163,10 +147,10 @@ const CreateProduct = () => {
           className={style.input}
         />
         <p className="w-fit text-red-500 text-xs">
-                {formik.errors.material && formik.touched.material ? (
-                  <>{formik.errors.material as string}</>
-                ) : null}
-         </p>
+          {formik.errors.material && formik.touched.material ? (
+            <>{formik.errors.material as string}</>
+          ) : null}
+        </p>
         <label htmlFor="size">Size Product : </label>
         <input
           type="text"
@@ -177,10 +161,10 @@ const CreateProduct = () => {
           className={style.input}
         />
         <p className="w-fit text-red-500 text-xs">
-                {formik.errors.size && formik.touched.size ? (
-                  <>{formik.errors.size as string}</>
-                ) : null}
-         </p>
+          {formik.errors.size && formik.touched.size ? (
+            <>{formik.errors.size as string}</>
+          ) : null}
+        </p>
         <label htmlFor="detail">Detail Product : </label>
         <input
           type="text"
@@ -191,10 +175,10 @@ const CreateProduct = () => {
           className={style.input}
         />
         <p className="w-fit text-red-500 text-xs">
-                {formik.errors.detail && formik.touched.detail ? (
-                  <>{formik.errors.detail as string}</>
-                ) : null}
-         </p>
+          {formik.errors.detail && formik.touched.detail ? (
+            <>{formik.errors.detail as string}</>
+          ) : null}
+        </p>
         <label htmlFor="origin">Origin Product : </label>
         <input
           type="text"
@@ -205,10 +189,10 @@ const CreateProduct = () => {
           className={style.input}
         />
         <p className="w-fit text-red-500 text-xs">
-                {formik.errors.origin && formik.touched.origin ? (
-                  <>{formik.errors.origin as string}</>
-                ) : null}
-         </p>
+          {formik.errors.origin && formik.touched.origin ? (
+            <>{formik.errors.origin as string}</>
+          ) : null}
+        </p>
         <label htmlFor="item">Item : </label>
         <select
           id="item"
