@@ -66,7 +66,7 @@ const OrderList = dynamic(() => import("./component/admin/order/page"), {
   ssr: false,
 });
 const ProductListAdmin = dynamic(
-  () => import("./component/admin/product/page"),
+  () => import("./component/admin/product-list/page"),
   {
     ssr: false,
   }
