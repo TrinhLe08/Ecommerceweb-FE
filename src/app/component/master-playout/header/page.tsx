@@ -100,6 +100,7 @@ const Header = () => {
     };
     getAllProduct();
   }, []);
+
   useEffect(() => {
     const automaticLogout = () => {
       localStorage.clear();

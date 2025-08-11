@@ -81,7 +81,7 @@ const DetailProduct = () => {
       return cart;
     }, []);
     setShoppingCart(mergedItems);
-    openNotification('"Added to cart .', 2, "success");
+    openNotification('Added to cart .', 2, "success");
   };
   const commentProduct = async () => {
     try {

@@ -21,7 +21,6 @@ const ProductList = () => {
   );
   const pageSize: number = 9;
   const totalItems: number = valueProductList.length;
-  const limitPage: number = Math.ceil(totalItems / pageSize);
   const startItemIndex = (currentPage - 1) * pageSize;
   const endItemIndex = startItemIndex + pageSize;
   const currentItems = valueProductList.slice(startItemIndex, endItemIndex);
@@ -29,6 +28,9 @@ const ProductList = () => {
   const valueParams: string | null = searchParams.get("product-page");
 
   useEffect(() => {
+    if (valueParams) {
+      setCurrentPage(1);
+    }
     const FecthData = async () => {
       try {
         if (valueParams) {
@@ -43,6 +45,13 @@ const ProductList = () => {
     };
     FecthData();
   }, [searchParams]);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, [currentPage]);
 
   const changeRating = (newRating: number) => {
     setRating(newRating);
@@ -111,7 +120,7 @@ const ProductList = () => {
               }}
               disabled={currentPage >= Math.ceil(totalItems / pageSize)}
             >
-              <ChevronRight strokeWidth={1.5} className="w-4 h-4" />
+              <ChevronRight strokeWidth={1.5} className="w-6 h-6" />
             </button>
           </div>
         </div>
@@ -200,10 +209,11 @@ const ProductList = () => {
             onClick={() => {
               if (currentPage >= Math.ceil(totalItems / pageSize)) return;
               setCurrentPage(currentPage + 1);
+
             }}
             disabled={currentPage >= Math.ceil(totalItems / pageSize)}
           >
-            <ChevronRight strokeWidth={1.5} className="w-4 h-4" />
+            <ChevronRight strokeWidth={1.5} className="w-6 h-6" />
           </button>
         </div>
       </div>

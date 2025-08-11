@@ -109,6 +109,7 @@ export default function App() {
   const [____, setAllOrder] = useRecoilState(AtomAllOrder);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const FecthData = async () => {
       const idProductAdmin: number | null = parseInt(
         searchParams.get("page-admin-detail-product") || "0",

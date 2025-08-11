@@ -22,10 +22,14 @@ const ProductListAdmin = () => {
   const startItemIndex = (currentPage - 1) * pageSize;
   const endItemIndex = startItemIndex + pageSize;
   const currentItems = productList.slice(startItemIndex, endItemIndex);
+  const valueParams: string | null = searchParams.get("product-page");
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
   useEffect(() => {
+    // if (valueParams) {
+    //   setCurrentPage(1);
+    // }
     const FecthDataAllProduct = async () => {
       const valueParams: string | null = searchParams.get("page-admin");
       try {
@@ -82,31 +86,49 @@ const ProductListAdmin = () => {
       <div className="flex justify-between border-b-[1px] border-red-100 pb-2">
         <div className="flex gap-10">
           <button
-            onClick={() => FecthDataProductList("home-decord")}
+            onClick={() => {
+              FecthDataProductList("home-decord")
+              setCurrentPage(1);
+            }}
             className={underline === 1 ? "underline" : ""}
           >
             Interior
           </button>
           <button
-            onClick={() => FecthDataProductList("artwork")}
+            onClick={() => {
+              FecthDataProductList("artwork")
+              setCurrentPage(1);
+            }}
             className={underline === 2 ? "underline" : ""}
           >
             Artwork
           </button>
           <button
-            onClick={() => FecthDataProductList("kitchen")}
+            onClick={() => {
+              FecthDataProductList("kitchen")
+              setCurrentPage(1);
+            }
+            }
             className={underline === 3 ? "underline" : ""}
           >
             Kitchen
           </button>
           <button
-            onClick={() => FecthDataProductList("holiday")}
+            onClick={() => {
+              FecthDataProductList("holiday")
+              setCurrentPage(1);
+            }
+            }
             className={underline === 4 ? "underline" : ""}
           >
             Holiday
           </button>
-           <button
-            onClick={() => FecthDataProductList("sale")}
+          <button
+            onClick={() => {
+              FecthDataProductList("sale")
+              setCurrentPage(1);
+            }
+            }
             className={underline === 5 ? "underline" : ""}
           >
             Sale
@@ -126,21 +148,21 @@ const ProductListAdmin = () => {
               <div className=" grid justify-center text-center">
                 <img src={product.urlProduct} alt="" className="w-[200px]" />
                 <p className="font-semibold">{product.name}</p>
-               {product.price ? (
-                    <div>
-                      <p className="line-through">
-                        {product.status
-                          ? `${(product.price / 0.7 / 100).toFixed(2)} $`
-                          : null}
-                      </p>
-                      <p>
-                        {product.price
-                          ? (product.price / 100).toFixed(2)
-                          : null}{" "}
-                        ${product.status ? "(-30%)" : null}
-                      </p>
-                    </div>
-                  ) : null}
+                {product.price ? (
+                  <div>
+                    <p className="line-through">
+                      {product.status
+                        ? `${(product.price / 0.7 / 100).toFixed(2)} $`
+                        : null}
+                    </p>
+                    <p>
+                      {product.price
+                        ? (product.price / 100).toFixed(2)
+                        : null}{" "}
+                      ${product.status ? "(-30%)" : null}
+                    </p>
+                  </div>
+                ) : null}
               </div>
               <div className="flex justify-around">
                 <Link

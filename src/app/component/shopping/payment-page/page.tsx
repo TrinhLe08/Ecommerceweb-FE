@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { LoadingOutlined } from "@ant-design/icons";
 import { AtomShoppingCart } from "@/app/recoil/shopping-cart-provider";
 import {
   OrderDetailType,
@@ -25,16 +24,10 @@ const Paymentpage = () => {
   const informationUser = user || {};
   const [point, setPoint] = useState(0);
   const [hiddenInformationPoint, setHiddenInformationPoint] = useState(true);
+  const isDarkMode = localStorage.getItem("theme") === "dark";
+  console.log(isDarkMode);
 
-  const antIcon: JSX.Element = (
-    <LoadingOutlined
-      style={{
-        fontSize: 54,
-        color: "black",
-      }}
-      spin
-    />
-  );
+
   useEffect(() => {
     if (shoppingCartValue.length <= 0) {
       router.push("/");
@@ -117,23 +110,26 @@ const Paymentpage = () => {
     },
   });
   return (
-    <div className="w-full h-[100%] dark:bg-gray-900 dark:text-white">
+    <div className={`w-full  ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
       <div className="payment-page italic font-serif font-thin ">
         <Link
           href="/"
-          className="w-full h-full flex justify-center my-5 pb-5 border-b-2 border-red-100"
+          className="w-full flex justify-center my-5 pb-5 border-b-2 border-red-100"
         >
+          {/* Logo cho light mode */}
           <img
             src="https://www.leifshop.com/cdn/shop/t/49/assets/logo_leif.png?v=22488871944701774831698078109"
             alt="Leifshop Logo"
-            className="w-[150px] dark:hidden filter brightness-0"
+            className={`w-[150px] ${isDarkMode ? 'hidden' : 'block'} brightness-0`}
           />
+          {/* Logo cho dark mode */}
           <img
             src="https://www.leifshop.com/cdn/shop/t/49/assets/logo_leif.png?v=22488871944701774831698078109"
             alt="Leifshop Logo"
-            className="w-[150px] hidden dark:block filter invert"
+            className={`w-[150px] ${isDarkMode ? 'block' : 'hidden'} invert`}
           />
         </Link>
+        <div className="text-center font-semibold mb-5">ORDER PAGE</div>
         <div className="lg:flex xl:gap-0 grid justify-center gap-10 w-full">
           <form
             onSubmit={formik.handleSubmit}
@@ -259,7 +255,7 @@ const Paymentpage = () => {
                   <div className="xl:w-40 lg:w-30 w-20">
                     {!cart.statusProduct ? `${(cart.priceOrder / 100).toFixed(2)} $` : (<span className="line-through mr-1">{(cart.priceOrder / 0.7 / 100).toFixed(2)}</span>)}
                     {cart.statusProduct ? <span className="text-red-700">(-30%)</span> : null}
-                    {cart.statusProduct ? <p>{(cart.priceOrder / 100).toFixed(2)}</p> : null}
+                    {cart.statusProduct ? <p>{(cart.priceOrder / 100).toFixed(2)} ( x {cart.quantity})</p> : null}
                   </div>
                 </div>
               ))}
