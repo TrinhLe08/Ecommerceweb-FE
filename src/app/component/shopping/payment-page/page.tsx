@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { Collapse, Button } from 'antd';
+import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import { AtomShoppingCart } from "@/app/recoil/shopping-cart-provider";
 import {
   OrderDetailType,
@@ -16,6 +18,8 @@ import {
 } from "@/app/recoil/information-user-provider";
 import { openNotification } from "@/app/global/notification/noitification";
 
+const { Panel } = Collapse;
+
 const Paymentpage = () => {
   const router = useRouter();
   const shoppingCartValue = useRecoilValue(AtomShoppingCart);
@@ -25,7 +29,8 @@ const Paymentpage = () => {
   const [point, setPoint] = useState(0);
   const [hiddenInformationPoint, setHiddenInformationPoint] = useState(true);
   const isDarkMode = localStorage.getItem("theme") === "dark";
-  console.log(isDarkMode);
+  const [showAll, setShowAll] = useState(false);
+  const displayedItems = showAll ? shoppingCartValue : shoppingCartValue.slice(0, 3);
 
 
   useEffect(() => {
@@ -243,7 +248,8 @@ const Paymentpage = () => {
             </div>
           </form>
           <div className="lg:order-2 order-1 ml-10 min-h-[700px]">
-            <div className="grid gap-2">
+            <div className="text-center font-semibold mb-5 border-white-600 border-b-2 p-2">List of orders</div>
+            {/* <div className="grid gap-2">
               {shoppingCartValue.map((cart: OrderDetailType, index: number) => (
                 <div className="flex w-fit gap-10" key={index}>
                   <img
@@ -259,6 +265,79 @@ const Paymentpage = () => {
                   </div>
                 </div>
               ))}
+            </div> */}
+            <div className="order-list">
+              <Collapse
+                ghost
+                defaultActiveKey={['1']}
+                className={`
+                        ${isDarkMode ? '!bg-gray-900 !text-white' : '!bg-white !text-black'}
+                        italic font-serif font-thin
+                        [&_.ant-collapse-header]:italic 
+                        [&_.ant-collapse-header]:font-serif 
+                        [&_.ant-collapse-header]:font-thin
+                        [&_.ant-collapse-header]:!text-inherit
+                        [&_.ant-collapse-content]:!text-inherit
+          `}
+              >
+                <Panel
+                  header={`Order (${shoppingCartValue.length} products)`}
+                  key="1"
+                  extra={
+                    shoppingCartValue.length > 3 && (
+                      <Button
+                        type="link"
+                        size="small"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setShowAll(!showAll);
+                        }}
+                        className="italic font-serif font-thin [&_.ant-collapse-header]:italic [&_.ant-collapse-header]:font-serif [&_.ant-collapse-header]:font-thin"
+                      >
+                        {showAll ? 'Show less' : `Show more ${shoppingCartValue.length - 3}`}
+                      </Button>
+                    )
+                  }
+                >
+                  <div className="grid gap-2">
+                    {displayedItems.map((cart: OrderDetailType, index: number) => (
+                      <div className="flex w-fit gap-10" key={index}>
+                        <img
+                          src={cart.urlOrder}
+                          alt={cart.nameOrder}
+                          className="w-[100px] h-[150px] object-cover"
+                        />
+                        <p className="w-[200px] font-semibold">{cart.nameOrder}</p>
+                        <div className="xl:w-40 lg:w-30 w-20">
+                          {!cart.statusProduct
+                            ? `${(cart.priceOrder / 100).toFixed(2)} $`
+                            : (
+                              <>
+                                <span className="line-through mr-1">
+                                  ${(cart.priceOrder / 0.7 / 100).toFixed(2)}
+                                </span>
+                                <span className="text-red-700">(-30%)</span>
+                              </>
+                            )}
+                          {cart.statusProduct && (
+                            <p>${(cart.priceOrder / 100).toFixed(2)} (x {cart.quantity})</p>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </Panel>
+              </Collapse>
+              {shoppingCartValue.length > 3 && (
+                <div className="text-center">
+                  <Button
+                    type="link"
+                    onClick={() => setShowAll(!showAll)}
+                    className="mt-2 italic font-serif font-thin"
+                    icon={showAll ? <UpOutlined /> : <DownOutlined />}
+                  />
+                </div>
+              )}
             </div>
             <div className=" w-full text-right text-xl border-t-2 border-red-100 mt-5 pt-5">
               {hiddenInformationPoint && informationUser.point > 9 ? (
@@ -282,7 +361,7 @@ const Paymentpage = () => {
                 </div>
               ) : null}
 
-              <div className="sm:mr-0 mr-[100px]">
+              <div className="sm:mr-0 mr-[100px] p-[20px]">
                 Subtotal : {(subtotal / 100 - point).toFixed(2)} $
                 {!hiddenInformationPoint ? (
                   <span className="text-red-700 text-sm">
