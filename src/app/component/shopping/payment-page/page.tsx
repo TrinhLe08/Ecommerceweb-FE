@@ -51,7 +51,6 @@ const Paymentpage = () => {
     input:
       "focus:outline-none border-[1px] border-red-100 p-1 w-[170%] sm:ml-[100px] ml[0px] rounded-md bg-transparent dark:bg-gray-900",
   };
-
   const formik = useFormik({
     initialValues: {
       fullName: informationUser.name ? informationUser.name : "",
