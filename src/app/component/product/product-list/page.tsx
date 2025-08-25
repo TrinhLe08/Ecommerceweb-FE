@@ -6,11 +6,13 @@ import { useSearchParams } from "next/navigation";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { ChevronRight } from "lucide-react";
 import { ChevronLeft } from "lucide-react";
+import StarRatings from "react-star-ratings";
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import { AtomProductListContext } from "@/app/recoil/product-list-provider";
 import { ProductType } from "@/app/util/product.type";
 import { AtomResetLimitProductListPage } from "@/app/recoil/reset-limit-product-list-page-provider";
 import FecthDataParams from "@/app/global/fecth-data-param/product-list-request";
-import StarRatings from "react-star-ratings";
 
 const ProductList = () => {
   const searchParams = useSearchParams();
@@ -26,6 +28,7 @@ const ProductList = () => {
   const currentItems = valueProductList.slice(startItemIndex, endItemIndex);
   const [__, setRating] = useState(0);
   const valueParams: string | null = searchParams.get("product-page");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (valueParams) {
@@ -43,6 +46,7 @@ const ProductList = () => {
         return;
       }
     };
+    setLoading(false)
     FecthData();
   }, [searchParams]);
 
@@ -60,6 +64,23 @@ const ProductList = () => {
     1212
     setCurrentPage(page);
   };
+
+  if (loading) {
+    return (
+      <div className="text-red-500" style={{
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+        <Spin
+          size="large"
+          tip="Loading..."
+          indicator={<LoadingOutlined style={{ fontSize: 54, color: 'red' }} spin />}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="w-[80%] border-t border-gray-300 p-4">
@@ -221,4 +242,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default React.memo(ProductList);

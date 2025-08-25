@@ -16,6 +16,8 @@ import FecthDataDetailProduct from "@/app/global/fecth-data-param/detail-product
 import { AtomReturnInformationWhenLogin } from "@/app/recoil/information-user-provider";
 import { productApis } from "@/app/apis/product-apis";
 import { openNotification } from "@/app/global/notification/noitification";
+import { InputNumber } from 'antd';
+import { NumberField, Button, Input } from "react-aria-components";
 
 const DetailProduct = () => {
   const router = useRouter();
@@ -27,6 +29,9 @@ const DetailProduct = () => {
   const [content, setContent] = useState("");
   const [ratting, setRating] = useState(0);
   const [checkRatting, setCheckRatting] = useState(false);
+  const [valueInputQuantity, setvalueInputQuantity] = useState(1);
+  console.log(informationUser);
+
 
   useEffect(() => {
     const FecthData = async () => {
@@ -55,13 +60,15 @@ const DetailProduct = () => {
   const changeRating = (newRating: number) => {
     setRating(newRating);
   };
-
+  const handleChangeQuantity = (value: number) => {
+    setvalueInputQuantity(value);
+  };
   const handleAddToCart = () => {
     const updatedCart = [
       ...shoppingCart,
       {
         idOrder: detailProductValue.id,
-        quantity: 1,
+        quantity: valueInputQuantity,
         nameOrder: detailProductValue.name,
         urlOrder: detailProductValue.urlProduct,
         priceOrder: detailProductValue.price,
@@ -80,8 +87,9 @@ const DetailProduct = () => {
       }
       return cart;
     }, []);
-    setShoppingCart(mergedItems);
-    openNotification('Added to cart .', 2, "success");
+    setvalueInputQuantity(1)
+    setShoppingCart(mergedItems)
+    openNotification('Added to cart .', 2, "success")
   };
   const commentProduct = async () => {
     try {
@@ -114,7 +122,6 @@ const DetailProduct = () => {
       return;
     }
   };
-
   const handleKeyPress = (event: any) => {
     if (event.key === "Enter") {
       event.preventDefault();
@@ -145,7 +152,7 @@ const DetailProduct = () => {
               starSpacing="3px"
             />
             {detailProductValue.price ? (
-              <div className="flex gap-3">
+              <div className="flex gap-3 text-xl">
                 {(detailProductValue.price / 100).toFixed(2)} ${" "}
                 <p className="line-through">
                   {detailProductValue.status
@@ -155,13 +162,37 @@ const DetailProduct = () => {
               </div>
             ) : null}
 
-            <button
-              className="flex sm:justify-start justify-center font-serif italic hover:underline text-xl text-amber-900 "
-              onClick={() => handleAddToCart()}
+            <NumberField
+              value={valueInputQuantity}
+              onChange={handleChangeQuantity}
+              minValue={1}
+              maxValue={10}
             >
-              <ShoppingCart />
-              add to cart
-            </button>
+              <div className="flex justify-center border border-gray-300 rounded-md w-[150px] gap-3 text-xl">
+                <Button slot="decrement" className='w-[50px] '>-</Button>
+                <Input
+                  className="w-[50px] text-center border-x dark:text-white dark:bg-gray-900 outline-none focus:ring-0"
+                />
+                <Button slot="increment" className='w-[50px] '>+</Button>
+              </div>
+            </NumberField>
+
+            <div className="flex gap-3 text-amber-900 ">
+              <button
+                className="flex sm:justify-start justify-center font-serif italic hover:underline text-xl text-amber-900 "
+                onClick={() => handleAddToCart()}
+              >
+                add to cart
+              </button>
+              /
+              <button
+                className="flex gap-1 sm:justify-start justify-center font-serif italic hover:underline text-xl text-amber-900 "
+                onClick={() => handleAddToCart()}
+              >
+                buy now
+                <ShoppingCart />
+              </button>
+            </div>
           </div>
           <div className="grid gap-3 mt-5 border-b-2 border-red pb-10">
             <p>
@@ -221,7 +252,7 @@ const DetailProduct = () => {
                 <input
                   type="text"
                   onChange={handleInput}
-                  className="focus:outline-none border-red-400 border-b-2 md:w-[500px] w-[300px] "
+                  className="focus:outline-none border-red-400 border-b-2 md:w-[500px] w-[300px] pl-3 dark:text-black"
                   placeholder="Write a comment..."
                   onKeyPress={handleKeyPress}
                 />
@@ -256,7 +287,7 @@ const DetailProduct = () => {
                     src={
                       comment.urlAvatarUser !== ""
                         ? comment.urlAvatarUser
-                        : "https://nhadepso.com/wp-content/uploads/2023/03/cap-nhat-50-hinh-anh-dai-dien-facebook-mac-dinh-dep-doc-la_2.jpg"
+                        : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSixWENwTZdvqJbo7WMo7JJX4yBrk5Mif_bxg&s"
                     }
                     alt=""
                     className="w-10 h-10 r rounded-full"
@@ -272,7 +303,7 @@ const DetailProduct = () => {
                     starSpacing="3px"
                   />
                 </div>
-                <h1 className="ml-3">{comment.content}</h1>
+                <h1 className="ml-7 my-[6px]">{comment.content}</h1>
               </div>
             ))
           ) : (

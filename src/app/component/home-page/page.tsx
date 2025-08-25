@@ -34,7 +34,7 @@ const HomePage = () => {
 
 
   return (
-    <div className="home-page  font-serif  grid gap-5 h-fit w-[80%] border-t border-gray-300 p-4">
+    <div className="home-page font-serif grid gap-5 h-fit w-[80%] border-t border-gray-300 p-4">
       <div className="w-full h-full first-menu lg:grid grid gap-5 justify-around">
         <img
           className="w-screen"

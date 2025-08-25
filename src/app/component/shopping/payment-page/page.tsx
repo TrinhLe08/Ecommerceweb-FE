@@ -32,7 +32,6 @@ const Paymentpage = () => {
   const [showAll, setShowAll] = useState(false);
   const displayedItems = showAll ? shoppingCartValue : shoppingCartValue.slice(0, 3);
 
-
   useEffect(() => {
     if (shoppingCartValue.length <= 0) {
       router.push("/");
@@ -309,7 +308,7 @@ const Paymentpage = () => {
                         <p className="w-[200px] font-semibold">{cart.nameOrder}</p>
                         <div className="xl:w-40 lg:w-30 w-20">
                           {!cart.statusProduct
-                            ? `${(cart.priceOrder / 100).toFixed(2)} $`
+                            ? `${(cart.priceOrder / 100).toFixed(2)} $ (x ${cart.quantity}) `
                             : (
                               <>
                                 <span className="line-through mr-1">

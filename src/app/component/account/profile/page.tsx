@@ -7,8 +7,8 @@ import { Sparkles } from "lucide-react";
 import { PencilLine } from "lucide-react";
 import { X } from "lucide-react";
 import { LogOut } from "lucide-react";
-import { notification } from "antd";
-import { Button, Popover } from 'antd';
+import { Spin, Popover } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import {
   AtomInformationUser,
   AtomReturnInformationWhenLogin,
@@ -42,7 +42,9 @@ const ProfilePage = () => {
   const [dataAllOrder, setDataAllOrder] = useState([]);
   const [inputCity, setInputCity] = useState(dataUser?.city);
   const [inputAddress, setInputAddress] = useState(dataUser?.address);
+  const [loading, setLoading] = useState(true);
   setCheckSidebar(0);
+
 
   useEffect(() => {
     const fecthDataAllOrder = async () => {
@@ -56,6 +58,7 @@ const ProfilePage = () => {
       }
     };
     fecthDataAllOrder();
+    setLoading(false);
   }, []);
 
   const contentOfInstructionsForAccumulatedPoints = (
@@ -131,6 +134,23 @@ const ProfilePage = () => {
     router.push("/");
     return;
   };
+
+  if (loading) {
+    return (
+      <div className="text-red-500" style={{
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+        <Spin
+          size="large"
+          tip="Loading..."
+          indicator={<LoadingOutlined style={{ fontSize: 54, color: 'red' }} spin />}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="grid lg:text-left text-center italic font-serif w-[50%] border-t border-gray-300 p-4">
@@ -270,7 +290,7 @@ const ProfilePage = () => {
 
         <p>Role : {"client"}.</p>
       </div>
-      <div className="grid gap-4 justify-end mb-2 w-full font-bold lg:pr-[200px] pr-0 border-b border-red-500 pb-2">
+      <div className="grid gap-4 justify-end mb-2 w-full font-bold pr-0 border-b border-red-500 pb-2">
         <div className="flex gap-4">
           {changeInfor ? (
             <button
