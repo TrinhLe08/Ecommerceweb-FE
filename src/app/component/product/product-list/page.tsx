@@ -29,6 +29,7 @@ const ProductList = () => {
   const [__, setRating] = useState(0);
   const valueParams: string | null = searchParams.get("product-page");
   const [loading, setLoading] = useState(true);
+  const [showLoading, setShowLoading] = useState(true);
 
   useEffect(() => {
     if (valueParams) {
@@ -46,8 +47,11 @@ const ProductList = () => {
         return;
       }
     };
-    setLoading(false)
     FecthData();
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 500);
+    return () => clearTimeout(timer);
   }, [searchParams]);
 
   useEffect(() => {
@@ -60,12 +64,19 @@ const ProductList = () => {
   const changeRating = (newRating: number) => {
     setRating(newRating);
   };
+
   const handlePageChange = (page: number) => {
     1212
     setCurrentPage(page);
   };
 
-  if (loading) {
+  useEffect(() => {
+    if (!loading) {
+      setTimeout(() => setShowLoading(false), 300);
+    }
+  }, [loading]);
+
+  if (showLoading) {
     return (
       <div className="text-red-500" style={{
         height: '100vh',

@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Collapse, Button } from 'antd';
-import { DownOutlined, UpOutlined } from '@ant-design/icons';
+import { Collapse, Button, Spin } from 'antd';
+import { DownOutlined, UpOutlined, LoadingOutlined } from '@ant-design/icons';
 import { AtomShoppingCart } from "@/app/recoil/shopping-cart-provider";
 import {
   OrderDetailType,
@@ -31,12 +31,15 @@ const Paymentpage = () => {
   const isDarkMode = localStorage.getItem("theme") === "dark";
   const [showAll, setShowAll] = useState(false);
   const displayedItems = showAll ? shoppingCartValue : shoppingCartValue.slice(0, 3);
+  const [loading, setLoading] = useState(true);
+  const [showLoading, setShowLoading] = useState(true);
 
   useEffect(() => {
     if (shoppingCartValue.length <= 0) {
       router.push("/");
     }
   }, []);
+
   const subtotal = shoppingCartValue.reduce(
     (total: number, cart: OrderDetailType) =>
       total + cart.priceOrder * cart.quantity,
@@ -112,6 +115,40 @@ const Paymentpage = () => {
       }
     },
   });
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // ✅ useEffect 3: Xử lý showLoading
+  useEffect(() => {
+    if (!loading) {
+      const timer = setTimeout(() => {
+        setShowLoading(false);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [loading]);
+
+  if (showLoading) {
+    return (
+      <div className={`text-red-500  ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`} style={{
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+        <Spin
+          size="large"
+          tip="Loading..."
+          indicator={<LoadingOutlined style={{ fontSize: 54, color: 'red' }} spin />}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className={`w-full  ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
       <div className="payment-page italic font-serif font-thin ">
@@ -247,23 +284,6 @@ const Paymentpage = () => {
           </form>
           <div className="lg:order-2 order-1 ml-10 min-h-[700px]">
             <div className="text-center font-semibold mb-5 border-white-600 border-b-2 p-2">List of orders</div>
-            {/* <div className="grid gap-2">
-              {shoppingCartValue.map((cart: OrderDetailType, index: number) => (
-                <div className="flex w-fit gap-10" key={index}>
-                  <img
-                    src={cart.urlOrder}
-                    alt=""
-                    className="w-[100px] h-[150px]"
-                  />
-                  <p className="w-[200px] font-semibold">{cart.nameOrder}</p>
-                  <div className="xl:w-40 lg:w-30 w-20">
-                    {!cart.statusProduct ? `${(cart.priceOrder / 100).toFixed(2)} $` : (<span className="line-through mr-1">{(cart.priceOrder / 0.7 / 100).toFixed(2)}</span>)}
-                    {cart.statusProduct ? <span className="text-red-700">(-30%)</span> : null}
-                    {cart.statusProduct ? <p>{(cart.priceOrder / 100).toFixed(2)} ( x {cart.quantity})</p> : null}
-                  </div>
-                </div>
-              ))}
-            </div> */}
             <div className="order-list">
               <Collapse
                 ghost

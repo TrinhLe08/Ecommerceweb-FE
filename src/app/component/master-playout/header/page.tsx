@@ -84,6 +84,7 @@ const Header = () => {
   const informationUserWhenLogin = useRecoilValue(
     AtomReturnInformationWhenLogin
   );
+
   const shoppingCartValue = useRecoilValue(AtomShoppingCart);
 
   useEffect(() => {

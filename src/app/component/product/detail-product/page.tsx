@@ -7,6 +7,8 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { ShoppingCart } from "lucide-react";
 import { Facebook } from "lucide-react";
 import { Mail } from "lucide-react";
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import { AtomDetailProduct } from "@/app/recoil/detail-product-provider";
 import { AtomShoppingCart } from "@/app/recoil/shopping-cart-provider";
 import { ProductType } from "@/app/util/product.type";
@@ -16,7 +18,6 @@ import FecthDataDetailProduct from "@/app/global/fecth-data-param/detail-product
 import { AtomReturnInformationWhenLogin } from "@/app/recoil/information-user-provider";
 import { productApis } from "@/app/apis/product-apis";
 import { openNotification } from "@/app/global/notification/noitification";
-import { InputNumber } from 'antd';
 import { NumberField, Button, Input } from "react-aria-components";
 
 const DetailProduct = () => {
@@ -30,8 +31,8 @@ const DetailProduct = () => {
   const [ratting, setRating] = useState(0);
   const [checkRatting, setCheckRatting] = useState(false);
   const [valueInputQuantity, setvalueInputQuantity] = useState(1);
-  console.log(informationUser);
-
+  const [loading, setLoading] = useState(true);
+  const [showLoading, setShowLoading] = useState(true);
 
   useEffect(() => {
     const FecthData = async () => {
@@ -52,6 +53,10 @@ const DetailProduct = () => {
       }
     };
     FecthData();
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 300);
+    return () => clearTimeout(timer);
   }, [searchParams]);
 
   const handleInput = (e: any) => {
@@ -113,8 +118,8 @@ const DetailProduct = () => {
       if (commentProduct) {
         setDetailProductValue(commentProduct.data);
         setRating(0);
-        setContent(" ");
       }
+      setContent("");
       return;
     } catch (err) {
       localStorage.clear();
@@ -128,6 +133,28 @@ const DetailProduct = () => {
       commentProduct();
     }
   };
+  useEffect(() => {
+    if (!loading) {
+      setTimeout(() => setShowLoading(false), 300);
+    }
+  }, [loading]);
+
+  if (showLoading) {
+    return (
+      <div className="text-red-500" style={{
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+        <Spin
+          size="large"
+          tip="Loading..."
+          indicator={<LoadingOutlined style={{ fontSize: 54, color: 'red' }} spin />}
+        />
+      </div>
+    );
+  }
   return (
     <div className="grid italic font-serif">
       <div className="detail-product sm:flex sm:text-left grid text-center gap-5 w-full italic font-serif">
@@ -228,7 +255,7 @@ const DetailProduct = () => {
           </div>
         </div>
       </div>
-      <div className="sm:ml-0 ml-10 mt-5 h-fit">
+      <div className="sm:ml-0 ml-10 mx-5 h-fit">
         <h1 className="text-lg font-semibold">Evaluate :</h1>
         {localStorage.getItem("accessToken") &&
           informationUser?.bought?.includes(detailProductValue.id) ? (
@@ -251,6 +278,7 @@ const DetailProduct = () => {
               <div className="flex gap-4 mb-4">
                 <input
                   type="text"
+                  value={content}
                   onChange={handleInput}
                   className="focus:outline-none border-red-400 border-b-2 md:w-[500px] w-[300px] pl-3 dark:text-black"
                   placeholder="Write a comment..."
@@ -281,7 +309,7 @@ const DetailProduct = () => {
           {detailProductValue.comment &&
             detailProductValue.comment.length > 0 ? (
             detailProductValue.comment.map((comment, index) => (
-              <div className="w-[80%] border-b-2 border-red" key={index}>
+              <div className="w-[80%] border-b-2 border-red mt-2" key={index}>
                 <div className="flex items-center gap-2">
                   <img
                     src={

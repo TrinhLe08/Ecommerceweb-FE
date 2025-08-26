@@ -43,8 +43,8 @@ const ProfilePage = () => {
   const [inputCity, setInputCity] = useState(dataUser?.city);
   const [inputAddress, setInputAddress] = useState(dataUser?.address);
   const [loading, setLoading] = useState(true);
+  const [showLoading, setShowLoading] = useState(true);
   setCheckSidebar(0);
-
 
   useEffect(() => {
     const fecthDataAllOrder = async () => {
@@ -58,7 +58,10 @@ const ProfilePage = () => {
       }
     };
     fecthDataAllOrder();
-    setLoading(false);
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 500);
+    return () => clearTimeout(timer);
   }, []);
 
   const contentOfInstructionsForAccumulatedPoints = (
@@ -116,6 +119,7 @@ const ProfilePage = () => {
         setValueReturnLogin({
           id: update.data.id,
           urlAvatar: update.data.urlAvatar,
+          name: update.data.name,
           email: update.data.email,
           bought: update.data.bought,
         });
@@ -135,7 +139,14 @@ const ProfilePage = () => {
     return;
   };
 
-  if (loading) {
+
+  useEffect(() => {
+    if (!loading) {
+      setTimeout(() => setShowLoading(false), 300);
+    }
+  }, [loading]);
+
+  if (showLoading) {
     return (
       <div className="text-red-500" style={{
         height: '100vh',
@@ -199,7 +210,7 @@ const ProfilePage = () => {
         </Popover>
         <div className="flex justify-center">
           <button
-            className="flex border-red-600 border-b-2"
+            className="flex border-red-600 border-b-2 text-red-600 font-bold"
             onClick={() => LogOutUser()}
           >
             Log Out <LogOut />
@@ -297,6 +308,7 @@ const ProfilePage = () => {
               className="flex bg-red-600 text-white w-fit p-4"
               onClick={() => {
                 setChangeInfor(false);
+                setChangeDone(true);
                 setCheckUpload(false);
               }}
             >
