@@ -35,13 +35,11 @@ const DarkModeToggle = () => {
       enableDarkMode();
     }
   };
-
   const enableDarkMode = () => {
     document.documentElement.classList.add('dark');
     localStorage.setItem('theme', 'dark');
     setIsDark(true);
   };
-
   const disableDarkMode = () => {
     document.documentElement.classList.remove('dark');
     localStorage.setItem('theme', 'light');
@@ -74,6 +72,7 @@ const DarkModeToggle = () => {
 
 const Header = () => {
   const router = useRouter();
+  const isDarkMode = localStorage.getItem("theme") === "dark";
   const [valueSearch, setValueSearch] = useState([]);
   const [allProduct, setValueAllProdcut] = useState([]);
   const [_, setCheckSidebar] = useRecoilState(AtomSidebaCheckUnderline);
@@ -84,7 +83,6 @@ const Header = () => {
   const informationUserWhenLogin = useRecoilValue(
     AtomReturnInformationWhenLogin
   );
-
   const shoppingCartValue = useRecoilValue(AtomShoppingCart);
 
   useEffect(() => {
@@ -180,7 +178,12 @@ const Header = () => {
           </div>
 
           {valueSearch.length > 0 ? (
-            <div className="fixed h-fit bg-white z-10 ml-5 p-5 grid gap-3 font-serif font-thin italic border-l-4 border-red-700">
+            <div
+              className={`fixed h-fit max-h-80 overflow-y-auto z-10 ml-5 p-5 grid gap-3 font-serif font-thin italic border-l-4 border-red-700 
+                          ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'}
+                          scrollbar-thin scrollbar-thumb-red-300 scrollbar-track-gray-100
+                          ${isDarkMode ? 'scrollbar-thumb-red-600 scrollbar-track-gray-800' : ''}`}
+            >
               {valueSearch.map((value: ProductType) => (
                 <Link
                   href={`/?product-detail=${value.id}`}

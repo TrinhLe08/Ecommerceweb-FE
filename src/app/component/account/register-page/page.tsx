@@ -91,8 +91,19 @@ const RegisterComponent = () => {
     return
   }
 
-
-  const handleKeyPress = (event: any) => {
+  const handleEmailKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      passwordValue.current?.focus();
+    }
+  };
+  const handleConfirmPasswordKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      confirmPasswordValue.current?.focus();
+    }
+  };
+  const handlePasswordKeyPress = (event: any) => {
     if (event.key === "Enter") {
       event.preventDefault();
       GetInformation();
@@ -140,13 +151,13 @@ const RegisterComponent = () => {
                           type="email"
                           className="focus:outline-none w-[300px] h-[40px] border-red-400 border-b-2 min-w-24 bg-transparent pl-2"
                           placeholder="Enter a valid email address"
-                          onKeyPress={handleKeyPress}
+                          onKeyPress={handleEmailKeyPress}
                         />
                       </Popover>
                     </Space>
                   </div>
                   {rightnessOfInforMation ? null : (
-                    <p className="text-red-700 text-sm">
+                    <p className="text-red-700 text-sm text-center">
                       Wrong format or email already exists
                     </p>
                   )}
@@ -165,11 +176,11 @@ const RegisterComponent = () => {
                       type={showPassword ? "text" : "password"}
                       className="focus:outline-none w-[300px] h-[40px] border-red-400 border-b-2 min-w-24 bg-transparent pl-2"
                       placeholder="Enter password"
-                      onKeyPress={handleKeyPress}
+                      onKeyPress={handleConfirmPasswordKeyPress}
                     />
                   </div>
                   {rightnessOfInforMation ? null : (
-                    <p className="text-red-700 text-sm">
+                    <p className="text-red-700 text-sm text-center">
                       Missing or incorrect password information (7-10 digits
                       required)
                     </p>
@@ -189,11 +200,11 @@ const RegisterComponent = () => {
                       type={showPassword ? "text" : "password"}
                       className="focus:outline-none w-[300px] h-[40px] border-red-400 border-b-2 min-w-24 bg-transparent pl-2"
                       placeholder="Enter confirm password"
-                      onKeyPress={handleKeyPress}
+                      onKeyPress={handlePasswordKeyPress}
                     />
                   </div>
                   {rightnessOfInforMation ? null : (
-                    <p className="text-red-700 text-sm">
+                    <p className="text-red-700 text-sm text-center">
                       Missing or incorrect password information (7-10 digits
                       required)
                     </p>

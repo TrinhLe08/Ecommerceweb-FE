@@ -133,6 +133,7 @@ const DetailProduct = () => {
       commentProduct();
     }
   };
+
   useEffect(() => {
     if (!loading) {
       setTimeout(() => setShowLoading(false), 300);
@@ -155,6 +156,9 @@ const DetailProduct = () => {
       </div>
     );
   }
+
+  console.log(informationUser);
+
   return (
     <div className="grid italic font-serif">
       <div className="detail-product sm:flex sm:text-left grid text-center gap-5 w-full italic font-serif">

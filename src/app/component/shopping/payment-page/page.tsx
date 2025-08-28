@@ -15,6 +15,7 @@ import {
 import { orderApis } from "@/app/apis/order-apis";
 import {
   AtomInformationUser,
+  AtomReturnInformationWhenLogin,
 } from "@/app/recoil/information-user-provider";
 import { openNotification } from "@/app/global/notification/noitification";
 
@@ -22,13 +23,14 @@ const { Panel } = Collapse;
 
 const Paymentpage = () => {
   const router = useRouter();
+  const isDarkMode = localStorage.getItem("theme") === "dark";
   const shoppingCartValue = useRecoilValue(AtomShoppingCart);
   const [_, setShoppingCartValue] = useRecoilState(AtomShoppingCart);
+  const [__, setInformationWhenLogin] = useRecoilState(AtomReturnInformationWhenLogin)
   const user: any = useRecoilValue(AtomInformationUser);
   const informationUser = user || {};
   const [point, setPoint] = useState(0);
   const [hiddenInformationPoint, setHiddenInformationPoint] = useState(true);
-  const isDarkMode = localStorage.getItem("theme") === "dark";
   const [showAll, setShowAll] = useState(false);
   const displayedItems = showAll ? shoppingCartValue : shoppingCartValue.slice(0, 3);
   const [loading, setLoading] = useState(true);
@@ -102,8 +104,18 @@ const Paymentpage = () => {
           setShoppingCartValue([]);
           router.push("/");
           setTimeout(() => openNotification("You have just received 5 cumulative points .", 2, "success"), 1000);
+          setInformationWhenLogin((prevInfo: any) => ({
+            ...prevInfo,
+            bought: Array.from(
+              new Set([
+                ...(prevInfo.bought || []),
+                ...shoppingCartValue.map((item: any) => item.idOrder)
+              ])
+            )
+          }));
           return;
         }
+
         openNotification("Thank you for your purchase. Your order is being processed .", 3, "success");
         setShoppingCartValue([]);
         router.push("/");
@@ -115,6 +127,7 @@ const Paymentpage = () => {
       }
     },
   });
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
@@ -122,7 +135,6 @@ const Paymentpage = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // ✅ useEffect 3: Xử lý showLoading
   useEffect(() => {
     if (!loading) {
       const timer = setTimeout(() => {

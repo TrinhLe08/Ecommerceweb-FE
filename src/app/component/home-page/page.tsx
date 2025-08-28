@@ -27,11 +27,9 @@ const HomePage = () => {
       localStorage.setItem("accessToken", responseData.token);
       setReturnInformation(responseData);
       window.history.replaceState({}, '', '/');
-      openNotification("Welcome back .", 2, "success");
+      openNotification("Welcome to Leif .", 2, "success");
     }
   }, []);
-
-
 
   return (
     <div className="home-page font-serif grid gap-5 h-fit w-[80%] border-t border-gray-300 p-4">

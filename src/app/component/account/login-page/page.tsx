@@ -70,18 +70,21 @@ const LoginComponent = () => {
       return;
     }
   };
-
   const FacabookLogin = async () => {
     window.open(`${process.env.NEXT_PUBLIC_URL_SERVER}/auth/facebook`, '_system');
     return
   }
-
   const GoogleLogin = async () => {
     window.open(`${process.env.NEXT_PUBLIC_URL_SERVER}/auth/google`, '_system');
     return
   }
-
-  const handleKeyPress = (event: any) => {
+  const handleEmailKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      passwordValue.current?.focus();
+    }
+  };
+  const handlePasswordKeyPress = (event: any) => {
     if (event.key === "Enter") {
       event.preventDefault();
       GetInformation();
@@ -108,19 +111,16 @@ const LoginComponent = () => {
                 type="email"
                 className="focus:outline-none w-[300px] h-[40px] border-red-400 border-b-2 min-w-24 bg-transparent pl-2"
                 placeholder="Enter a valid email address"
-                onKeyPress={handleKeyPress}
+                onKeyPress={handleEmailKeyPress}
               />
               {rightnessOfInforMation ? null : (
-                <p className="text-red-700 text-sm">
+                <p className="text-red-700 text-sm text-center">
                   Email or password is incorrect
                 </p>
               )}
             </div>
 
             <div className="grid mb-3">
-              <div>
-
-              </div>
               <label
                 className="form-label font-bold"
                 htmlFor="form3Example4"
@@ -132,10 +132,10 @@ const LoginComponent = () => {
                 type={showPassword ? "text" : "password"}
                 className="focus:outline-none w-[300px] h-[40px] border-red-400 border-b-2 min-w-24 bg-transparent pl-2"
                 placeholder="Enter password"
-                onKeyPress={handleKeyPress}
+                onKeyPress={handlePasswordKeyPress}
               />
               {rightnessOfInforMation ? null : (
-                <p className="text-red-700 text-sm">
+                <p className="text-red-700 text-sm text-center">
                   Email or password is incorrect
                 </p>
               )}
